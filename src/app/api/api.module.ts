@@ -5,6 +5,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { ChartsModule  } from 'ng2-charts';
+
+
 import { ApiCommonModule } from './cmp/api-common/api-common.module';
 import { MaterialModule } from './../material.module';
 import { AppInputAModule } from './cmp/app-input-a/app-input-a.module';
@@ -92,6 +95,6 @@ const declare = [
 @NgModule({
   declarations: declare,
   exports: [declare, ApiCommonModule, AppInputAModule],
-  imports: [CommonModule, ApiCommonModule, AppInputAModule, MaterialModule, ReactiveFormsModule],
+  imports: [CommonModule, ApiCommonModule, AppInputAModule, MaterialModule, ReactiveFormsModule, ChartsModule],
 })
 export class APIModule {}

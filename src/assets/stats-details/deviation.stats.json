@@ -15,7 +15,7 @@
 			"style": {
 			  "grid-template-columns": "1fr repeat(2, 250px)",
 			  "grid-template-rows": "repeat(2, 200px) 1fr",
-			  "grid-template-areas": "\"ch1  ch2  tbl1\" \"ch1  ch2  tbl2\"  \"tbl3 tbl3 tbl3\"",
+			  "grid-template-areas": "\"ch1  ch2  ch2\" \"ch1  tbl1  tbl2\"  \"tbl3 tbl3 tbl3\"",
 			  "gap":"4px"
 			}
 		},
