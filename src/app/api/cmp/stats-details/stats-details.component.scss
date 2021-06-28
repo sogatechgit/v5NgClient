@@ -62,11 +62,23 @@
     border:1px solid red;
 
     > div {
+        overflow: hidden;
         display: grid;
+        grid-template:1fr / 1fr;
         place-items: center;
         // border:2px dashed orange;
         border:1px solid #c0c0c0;
         box-sizing: border-box;
         overflow: hidden;
+
+        justify-items: stretch;
+        align-items: stretch;
+
+        app-bar-chart{
+            // background-color: lime;
+            grid-row:1 / span 1;
+            grid-column:1 / span 1;
+        }
+
     }
 }

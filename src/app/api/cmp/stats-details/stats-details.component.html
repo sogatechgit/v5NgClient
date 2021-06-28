@@ -18,17 +18,6 @@
                     <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" 
                     style="position: relative;"
                     [style.background-color]="tbl.bg">
-                        <!-- 
-                        <app-data-grid *ngIf="false" #grid [options]="options" [noBarMenu]="noBarMenu"
-                            [pageNumber]="reqInfo.pageNumber" [pageSize]="reqInfo.pageSize"
-                            [totalPages]="reqInfo.totalPages" [totalRecords]="reqInfo.totalRecords"
-                            [sourceRows]="sourceRows" [sourceTable]="sourceTable" [gridPortHeight]="1080"
-                            [fontFactor]="fontFactor" (pageClick)="PageClick($event)"
-                            (pageSizeChange)="PageSizeChange($event)" (rowClick)="RowClick($event)" [dataSet]="dataSet"
-                            (applyFilter)="ApplyFilter($event)" [pageSizes]="pageSizes" [allowSelect]="SelectMode"
-                            (onSelectChange)="OnSelectChange($event)" [activeFiltering]="activeFiltering">
-                        </app-data-grid>
-                        <app-data-grid [gridParams]="tbl.params"></app-data-grid> -->
 
                         <app-data-grid-b #grid style="top:0px;margin-top:-3px;padding:0px;border:none;" 
                             [dataSet]="ds"
