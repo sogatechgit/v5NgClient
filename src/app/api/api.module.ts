@@ -45,7 +45,11 @@ import { AttachmentsComponent } from './../cmp/reference/attachments.component';
 import { ReferenceDetailsComponent } from './../cmp/reference/reference-details.component';
 
 import { ChartsComponent } from './cmp/charts/charts.component'
+
 import { StatsDetailsComponent } from './cmp/stats-details/stats-details.component'
+import { BarChartComponent } from './cmp/stats-details/Charts/bar-chart.component'
+import { PieChartComponent } from './cmp/stats-details/Charts/pie-chart.component'
+import { LineChartComponent } from './cmp/stats-details/Charts/line-chart.component'
 
 
 const declare = [
@@ -79,7 +83,10 @@ const declare = [
 
   FileUploaderComponent,
   ChartsComponent,
-  StatsDetailsComponent
+  StatsDetailsComponent,
+  BarChartComponent,
+  PieChartComponent,
+  LineChartComponent
 ];
 
 @NgModule({

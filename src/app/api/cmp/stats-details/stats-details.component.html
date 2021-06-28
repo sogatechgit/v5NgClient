@@ -39,7 +39,7 @@
 
                     </div>
                     <div *ngFor="let ch of tab.charts" [style.grid-area]="ch.name" [style.background-color]="ch.bg">
-                        {{ch.name}}
+                        <app-bar-chart></app-bar-chart>
                     </div>
                 </div>
             </ng-container>
