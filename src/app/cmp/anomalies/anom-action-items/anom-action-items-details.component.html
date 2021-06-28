@@ -1,0 +1,41 @@
+<app-app-form-a [readOnly]="isViewMode" (beforePosting)="BeforeDataPosting($event)"
+  (afterFormCreate)="AfterFormCreate($event)">
+  <app-panel-a *ngIf="!isViewMode" [labelWidth]="LWD" P="8">
+    <app-panel-a [labelWidth]="LWD" horizontal="true">
+      <app-app-input-a readOnly="true" fieldName="AI_REF_NO" [width]="365-LWD-5" label="Anomaly Ref."></app-app-input-a>
+      <app-app-input-a fieldName="AI_ACT_PARTY1" label="Action Party 1" [LPL]="LPL"></app-app-input-a>
+      <app-app-input-a fieldName="AI_ACT_PARTY2" label="Action Party 2" [LPL]="LPL"></app-app-input-a>
+    </app-panel-a>
+    <app-app-input-a fieldName="AI_TITLE" label="Title"></app-app-input-a>
+    <app-panel-a [labelWidth]="LWD" horizontal="true">
+      <app-panel-a [labelWidth]="LWD" width="365">
+        <app-app-input-a fieldName="AI_STAT" label="Status"></app-app-input-a>
+        <app-app-input-a fieldName="AI_PRIORITY" label="Priority"></app-app-input-a>
+        <app-app-input-a readOnly="true" fieldName="AI_RAISED_BY" label="Raised By"></app-app-input-a>
+        <app-app-input-a readOnly="true" fieldName="AI_RAISED_DATE" label="Raised Date"></app-app-input-a>
+        <app-app-input-a fieldName="AI_NOTES" label="Notes" [rows]="3"></app-app-input-a>
+      </app-panel-a>
+      <app-panel-a [labelWidth]="LWD">
+        <app-panel-a [labelWidth]="LWD" horizontal="true">
+          <app-app-input-a fieldName="AI_ACT_START_DATE" [LPL]="LPL" label="Actual Start"></app-app-input-a>
+          <app-app-input-a fieldName="AI_ACT_END_DATE" [LPL]="LPL" label="Actual End"></app-app-input-a>
+        </app-panel-a>
+        <app-panel-a [labelWidth]="LWD" horizontal="true">
+          <app-app-input-a fieldName="AI_TARGET_DATE" [LPL]="LPL" label="Target Date"></app-app-input-a>
+          <app-app-input-a fieldName="AI_MHOURS" [LPL]="LPL" label="Manhours"></app-app-input-a>
+        </app-panel-a>
+        <app-panel-a [labelWidth]="LWD" horizontal="true">
+          <app-app-input-a readOnly="true" fieldName="AI_UPDATED_BY" [LPL]="LPL" label="Updated By"></app-app-input-a>
+          <app-app-input-a readOnly="true" fieldName="AI_UPDATED_DATE" [LPL]="LPL" label="Updated Date"></app-app-input-a>
+        </app-panel-a>
+        <app-panel-a [labelWidth]="LWD" horizontal="true"></app-panel-a>
+        <app-app-input-a fieldName="AI_DETAILS" label="Details" [LPL]="LPL" [rows]="4"></app-app-input-a>
+
+      </app-panel-a>
+    </app-panel-a>
+  </app-panel-a>
+  <!-- <div *ngIf="AccessMode!='view'" class="p-2">
+    Hello Details!
+</div> -->
+</app-app-form-a>
+<!-- <div>Hello Details!</div> -->

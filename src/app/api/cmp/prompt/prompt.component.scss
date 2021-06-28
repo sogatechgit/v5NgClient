@@ -1,0 +1,49 @@
+@import "./../.././../../appcssvars.scss";
+
+:host {
+  display: flex;
+  font-family: $message_body_font_family;
+  margin: auto auto;
+  // background-color: lime;
+  flex: 1 1 0;
+  align-items: stretch;
+  width: 100%;
+  padding:0px;
+  padding-left:1em;
+  padding-right:1em;
+  // flex-direction: column;
+  > div {
+    // background-color: cyan;
+    flex: 1 1 0;
+    display: flex;
+    // padding: auto auto;
+    > div {
+      display: flex;
+      flex: 1 1 0;
+      // background-color: lime;
+
+      > div {
+        display: flex;
+        // background-color: cyan;
+        margin: auto auto;
+        i {
+          // background-color: magenta;
+          font-size: $message_icon_font_size;
+          padding: 0px;
+          font-weight: bold;
+          padding-right: 0.3em;
+          text-shadow: 2px 2px 5px #c0c0c0;
+        }
+        p {
+          font-size: $message_body_font_size;
+          // background-color: yellow;
+          font-weight: bold;
+          margin: 0px;
+          margin: auto auto;
+          line-height: 1.2em;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<!-- <app-test-panel style="height:600px;border:1px solid red;flex:1 1 0;display:flex;flex-direction:column;"
+  Extra="ANTYPE_GROUP`NODE_DESC" ExtraSub=""
+  TableCode="an|-node,AN_ASSET_ID;`antype,AN_TYPE;"
+  tabHeight="270" TableCodeSub="ans" [parentKeyValue]="2896">
+</app-test-panel> -->
+<!-- <app-test-panel></app-test-panel> -->
+<div style="flex:1 1 0;display:flex;flex-direction:column;">
+  <div style="height:70px;background:#c5c5c5">
+    Banner
+  </div>
+  <div style="flex:1 1 0;display:flex;">
+    <div style="background:beige;overflow:hidden;"
+      [style.min-width.px]="navWidth"
+      [style.max-width.px]="navWidth">
+
+      <app-tree-view *ngIf="true" #mainTree [treeData]="ds.mainTreeData" [colorDefinitions]="ds.colorDefinitions"
+      [rootId]="ds.rootNodeId" [nodeHeight]="22" (nodeClick)="TreeClick($event)"
+      [rollupColorData]="ds.treeColorData" (searchTreeClick)="this.ds.SearchTree($event)"
+      (selectSearchedItem)="this.ds.SearchTreeDirectChildren($event)" (nodePMClick)="TreePMClick($event)">
+      <span class="text-center p-3">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw mr-1" [style.font-size.em]="1.6"></i>Loading. Please wait...
+      </span>
+    </app-tree-view>
+
+
+    </div>
+    <div style="flex:1 1 0;display:flex;flex-direction:column;overflow:hidden;">
+      <app-test-panel style="flex:1 1 0;"
+        TableCode="an"
+        [CurrentTreeNode]="CurrentTreeNode"></app-test-panel>
+
+      <!-- <app-test-panel style="flex:1 1 0;" TableCode="an|-node,AN_ASSET_ID;`antype,AN_TYPE;" TableCodeSub="ans"
+        Extra="ANTYPE_GROUP`NODE_DESC" [parentKeyValue]="87789"
+        [CurrentTreeNode]="CurrentTreeNode"></app-test-panel> -->
+    </div>
+  </div>
+  <div style="height:22px;background:#c0c0c0">Footer</div>
+
+  <!-- tabHeight="300" [parentKeyValue]="2896" -->
+
+  <!-- TableCode="an|-node,AN_ASSET_ID;`antype,AN_TYPE;" -->
+</div>

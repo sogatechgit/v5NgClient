@@ -1,0 +1,1716 @@
+<app-app-form-a [readOnly]="AccessMode=='view'" (beforePosting)="BeforeDataPosting($event)"
+    (afterFormCreate)="AfterFormCreate($event)">
+
+    <!-- TAB SECTION -->
+    <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[3,4,5,6]"
+        [tabLabels]="'Details,Position,Assessment'+(AccessMode=='view' ? ',Failure Threats, Attachments,Related Survey Events,Related Anomalies':'')">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)">
+            <!-- <app-panel-a [PR]="2">
+                <app-panel-a [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                    </app-panel-a>
+
+                </app-panel-a>
+            </app-panel-a> -->
+            <!-- 20210416 Multiple Panel for Campaign/Event Selector Filter-->
+            <app-panel-a [PR]="2">
+                <!-- General -->
+                <app-panel-a *ngIf="cmpEvtDd == 'All'" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 1 -->
+                <app-panel-a *ngIf="cmpEvtDd == 1" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Feature Desc:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Feature Type:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 2 -->
+                <app-panel-a *ngIf="cmpEvtDd == 2" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="2"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_A" label="Job Title:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Step No.:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Last Step for the Job:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_B" label="Action:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_C" label="Comments:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 3 -->
+                <app-panel-a *ngIf="cmpEvtDd == 3" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="70">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Anode:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Wastage:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Growth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Prod Bulk:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Active:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Secure:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 4 -->
+                <app-panel-a *ngIf="cmpEvtDd == 4" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="70">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Ref:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Status:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_A" label="Assessment:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 5 -->
+                <app-panel-a *ngIf="cmpEvtDd == 5" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="70">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Cradled:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Burial:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Covered:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Extent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Support:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Height:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 6 -->
+                <app-panel-a *ngIf="cmpEvtDd == 6" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="70">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="2"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Bolted Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Secure:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Intact:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Movement:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_D" label="Studs Seen:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="70">
+                        <app-app-input-a fieldName="SVY_YESNO_E" label="Protectors:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_F" label="Band:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_G" label="Strap:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_H" label="Stud Secure:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Studs:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Other Studs:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 7 -->
+                <app-panel-a *ngIf="cmpEvtDd == 7" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Left of Pipe:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Left Burial:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Right Burial:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Left Scour:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_D" label="Right Scour:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Pipe Covered:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 8 -->
+                <app-panel-a *ngIf="cmpEvtDd == 8" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Centre Link:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Link Depth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Angle Rehorizon:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Method:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Accuracy:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Pre Cleaned:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Environmental:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 9 -->
+                <app-panel-a *ngIf="cmpEvtDd == 9" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Item or Area:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Standard:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Purpose:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Method:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Approx Rate:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Euiq Spec:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 10 -->
+                <app-panel-a *ngIf="cmpEvtDd == 10" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="CMS Site:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Tool Orientation:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 11 -->
+                <app-panel-a *ngIf="cmpEvtDd == 11" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Typical:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Specific Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Coating Apparent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Top Colour:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Coating Intact:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Damage Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_D" label="Corrosion Apparent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Deteriorated:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_E" label="Pre-Cleaned:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Bare Metal:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_F" label="Anti Foul Coating:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 12 -->
+                <app-panel-a *ngIf="cmpEvtDd == 12" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Insp Item Area:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Method:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_A" label="Comment:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Drawing Ref:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Defect Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Defect Length:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Defect Width:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Defect Depth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Defect Pos:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Con CatA Flaws:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Con CatB Flaws:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Con Other:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="CP Taken:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 13 -->
+                <app-panel-a *ngIf="cmpEvtDd == 13" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Attached:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Att Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Strap Type:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Condition:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Buried:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Anode Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Att to Anode:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 14 -->
+                <app-panel-a *ngIf="cmpEvtDd == 14" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="CP Taken:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Pitting:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Area or Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Corrosion:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Pit Depth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Pit Dia:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 15 -->
+                <app-panel-a *ngIf="cmpEvtDd == 15" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Anode 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Anode 2:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Anode 3:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Anode 4:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_E" label="Anode 5:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_F" label="Anode 6:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_G" label="Anode 7:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_H" label="Anode 8:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_I" label="Anode 9:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_SINGLE_J" label="Anode 10:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_K" label="Anode 11:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_L" label="Anode 12:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_M" label="FG Reading:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_N" label="Prox Reading:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 16 -->
+                <app-panel-a *ngIf="cmpEvtDd == 16" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Method:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Min Clearance:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="In Bet Lines:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Prev Year:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Upper Line:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Lower Line:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 17 -->
+                <app-panel-a *ngIf="cmpEvtDd == 17" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Coating Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Clock Pos:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Dimension:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Score:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Damage Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Extent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_G" label="Penetration:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="CP Taken:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Length:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 18 -->
+                <app-panel-a *ngIf="cmpEvtDd == 18" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Position:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Max Dimension:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Code:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="In Contact:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Caused:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Recent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_D" label="Removed:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Length:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Width:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Height:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Prox:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 19 -->
+                <app-panel-a *ngIf="cmpEvtDd == 19" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Extend:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Evidence:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Measurement:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Displaced Item:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 20 -->
+                <app-panel-a *ngIf="cmpEvtDd == 20" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Observation:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Tide Height:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Swell Height:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Wind Speed:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Curr Speed:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Wind Speed:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Swell Direction:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Curr Direction:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Wind Direction:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 21 -->
+                <app-panel-a *ngIf="cmpEvtDd == 21" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Subtance:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Position:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Aprox:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Sample:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Bubble Size:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 22 -->
+                <app-panel-a *ngIf="cmpEvtDd == 22" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="S Growth Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="S Growth Covered:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="S Max Thickness:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="S Avg Thickness:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="H Growth Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="H Growth Covered:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="H Max Thickness:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="H Avg Thickness:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 23 -->
+                <app-panel-a *ngIf="cmpEvtDd == 23" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 24 -->
+                <app-panel-a *ngIf="cmpEvtDd == 24" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Operator:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Technique:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Inspector:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Defect:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_G" label="Report:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="DefectE:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_H" label="Other Ref:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_I" label="Equipment:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 25 -->
+                <app-panel-a *ngIf="cmpEvtDd == 25" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Soil Type(S):"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Soil Type(E):"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="107">
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Soil Type(I):"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="History:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Span Length:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="DVL Length:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Max Span Height:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Max Span Automated:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 26 -->
+                <app-panel-a *ngIf="cmpEvtDd == 26" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Confguration:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="110">
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Good Cond:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Supports:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Prot Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Orientation:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Prot in Good Cond:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Dist from Pipe:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 27 -->
+                <app-panel-a *ngIf="cmpEvtDd == 27" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Inst Req:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Found Specified:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 28 -->
+                <app-panel-a *ngIf="cmpEvtDd == 28" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="No Sour:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_A" label="Extent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_B" label="Clearance:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Method:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Max Scour:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 29 -->
+                <app-panel-a *ngIf="cmpEvtDd == 29" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Section:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Measurement 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Measurement 2:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Accuracy:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Method:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 30 -->
+                <app-panel-a *ngIf="cmpEvtDd == 30" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Defect:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Marked:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Inspector:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Report:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_G" label="Other Ref:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_DATETIME_A" label="Insp Date:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 31 -->
+                <app-panel-a *ngIf="cmpEvtDd == 31" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="2"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="PreCleaned:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Site Dtl:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Mapping:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Mea 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Mea 2:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="100">
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Mea 3:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Calib Check:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_E" label="Calib Actual:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Equip:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Loc 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Loc 2:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Loc 3:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 32 -->
+                <app-panel-a *ngIf="cmpEvtDd == 32" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 33 -->
+                <app-panel-a *ngIf="cmpEvtDd == 33" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_DATETIME_A" label="Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_DATETIME_B" label="Time:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Operator:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Zinc Voltage:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Steel Voltage:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Display Voltage:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Cal Pt:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 34 -->
+                <app-panel-a *ngIf="cmpEvtDd == 34" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Steel 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Steel 2:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Steel 3:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Steel 4:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_E" label="Steel 5:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_F" label="Steel 6:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_G" label="Steel 7:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_H" label="Steel 8:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_I" label="Steel 9:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_J" label="Steel 10:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_SINGLE_K" label="Steel 11:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_L" label="Steel 12:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_M" label="FG Reading:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_N" label="Prox Reading:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 35 -->
+                <app-panel-a *ngIf="cmpEvtDd == 35" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Good Condition:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 36 -->
+                <app-panel-a *ngIf="cmpEvtDd == 36" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Pipeline:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Left of Pipe:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Left Scour:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Left Well Formed:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Left Scour Extents:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_D" label="Right Scour:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_E" label="Right Well Formed:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Right Scour Extents:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 37 -->
+                <app-panel-a *ngIf="cmpEvtDd == 37" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Good Condition:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 38 -->
+                <app-panel-a *ngIf="cmpEvtDd == 38" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Damage CP Taken:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Coating Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Clock Pos:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Dimensions:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Scour Orient Depth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Damage Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Extent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_G" label="Penetration:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 39 -->
+                <app-panel-a *ngIf="cmpEvtDd == 39" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Northings:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Eastings:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Depth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_D" label="Altitude:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 40 -->
+                <app-panel-a *ngIf="cmpEvtDd == 40" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Max Height:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Avg Height:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 41 -->
+                <app-panel-a *ngIf="cmpEvtDd == 41" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Seabed Type:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 42 -->
+                <app-panel-a *ngIf="cmpEvtDd == 42" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Category:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MEMO_A" label="Notes:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 43 -->
+                <app-panel-a *ngIf="cmpEvtDd == 43" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Anode Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Secure:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="InTact:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Marine Growth:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 44 -->
+                <app-panel-a *ngIf="cmpEvtDd == 44" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Anode Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Secure:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="InTact:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Movement:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 45 -->
+                <app-panel-a *ngIf="cmpEvtDd == 45" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Max Burial Depth:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Extent:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 46 -->
+                <app-panel-a *ngIf="cmpEvtDd == 46" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="65">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Method:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Loc 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Mea 1:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="60">
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Loc 2:"></app-app-input-a>                       
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Loc 3:"></app-app-input-a>                       
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="Loc 4:"></app-app-input-a>                        
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Loc 5:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_G" label="Loc 6:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_H" label="Loc 7:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_I" label="Loc 8:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="60">
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Mea 2:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Mea 3:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Mea 4:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_E" label="Mea 5:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_F" label="Mea 6:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_G" label="Mea 7:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_H" label="Mea 8:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 47 -->
+                <app-panel-a *ngIf="cmpEvtDd == 47" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Item:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Secure:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="InTact:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Movement:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_D" label="Cont Cable Seen:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 48 -->
+                <app-panel-a *ngIf="cmpEvtDd == 48" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="7">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Damage Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Extent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Penetration To:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Length:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Width:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Height:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="CP Taken:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 49 -->
+                <app-panel-a *ngIf="cmpEvtDd == 49" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="60">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Debris Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Description:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="85">
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Prox:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Length:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Width:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Height:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Damage Caused:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Debris Recent:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_C" label="Debris Removed:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 50 -->
+                <app-panel-a *ngIf="cmpEvtDd == 50" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 51 -->
+                <app-panel-a *ngIf="cmpEvtDd == 51" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Protection:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Orientation:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Good Condition:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Displace From Line:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 52 -->
+                <app-panel-a *ngIf="cmpEvtDd == 52" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Measurement:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 53 -->
+                <app-panel-a *ngIf="cmpEvtDd == 53" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="2">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Location:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_DATETIME_A" label="Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_DATETIME_B" label="Time:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Exp Val 1:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Actual Val 1:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Exp Val 2:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_D" label="Actual Val 2:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_E" label="Exp Val 3:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_F" label="Actual Val 3:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_G" label="Exp Val 4:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_H" label="Actual Val 4:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Cal Point:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 54 -->
+                <app-panel-a *ngIf="cmpEvtDd == 54" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="As Found Status:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Torque Tool:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_DATETIME_A" label="Cal Date:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_C" label="Co Witness:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_D" label="Cal Witness:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Breakout Torque:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_B" label="Running Torque:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_C" label="Closing Torque:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_E" label="No Of Turns:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_DATETIME_B" label="Func Start Time:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Func Duration:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_F" label="Direction:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_G" label="Oper Witness:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_H" label="Task Plan Name:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_I" label="Task Plan Step:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_J" label="As Left Status:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 55 -->
+                <app-panel-a *ngIf="cmpEvtDd == 55" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Type:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 56 -->
+                <app-panel-a *ngIf="cmpEvtDd == 56" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="5">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Type:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_SINGLE_A" label="Marking Plate Rdg:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 57 -->
+                <app-panel-a *ngIf="cmpEvtDd == 57" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="75">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Mea Loc:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Pitch:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Roll:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Heading:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 58 -->
+                <app-panel-a *ngIf="cmpEvtDd == 58" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="6">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="From Hub:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="To Hub:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Slant Range:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Hor Distance:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Depth Diff:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_D" label="Bearing:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_E" label="Alpha:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_F" label="Beta:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 59 -->
+                <app-panel-a *ngIf="cmpEvtDd == 59" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="2">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Sli Pos:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Easting:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Northing:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Datum:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_D" label="Distance:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 60 -->
+                <app-panel-a *ngIf="cmpEvtDd == 60" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Mea Loc:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_B" label="Datum:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Distance:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 61 -->
+                <app-panel-a *ngIf="cmpEvtDd == 61" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Typical:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="Description:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_A" label="Length:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_B" label="Width:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_INTEGER_C" label="Height:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="PreCleaned:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 62 -->
+                <app-panel-a *ngIf="cmpEvtDd == 62" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 63 -->
+                <app-panel-a *ngIf="cmpEvtDd == 63" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="4">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_A" label="Open:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_YESNO_B" label="Retainer:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_TEXT_A" label="X:"></app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+                <!-- CmpEvtId 64 -->
+                <app-panel-a *ngIf="cmpEvtDd == 64" [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_NOD_ID" [LPL]="0"
+                            [actionIcon]="isViewMode ? null : 'fa-sitemap' " label="Asset"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_MAIN_TITLE" label="Campaign:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_EVT_DESC" label="Event:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_EVT_NUM" label="Event #:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_RECORDER" label="Recorder:"></app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_BY" label="Updated By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_UPDATE_DATE" label="Updated Date:">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COMMENT" label="Comments:" [rows]="3">
+                        </app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+
+
+            </app-panel-a>
+        </app-panel-a>
+
+        <!-- 20210416 Multiple Panel for Campaign/Event Selector Filter End-->
+
+        <app-panel-a *ngIf="toggleDisplay && t.a(1)">
+            <app-panel-a [PR]="2">
+                <app-panel-a [horizontal]="true">
+                    <app-panel-a [PR]="2">
+                        Start Position Details
+                        <app-panel-a [horizontal]="true">
+                            <app-panel-a [PR]="2" [labelWidth]="60">
+                                <!-- <app-panel-a [useSubSource]="true"></app-panel-a> -->
+                                <app-app-input-a fieldName="SVY_POS_DATE_TIME" label="Date Time:">
+                                </app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_KP" label="KP:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_EASTING" label="Easting:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_NORTHING" label="Northing:">
+                                </app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_LONGITUDE" label="Longitude:">
+                                </app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_LATITUDE" label="Latitude:">
+                                </app-app-input-a>
+
+                            </app-panel-a>
+                            &nbsp;
+                            <app-panel-a [PR]="2" [labelWidth]="70">
+                                <app-app-input-a fieldName="SVY_POS_TEMPERATURE" label="Temperature:">
+                                </app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_ALTITUDE" label="Altitude:">
+                                </app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_HEADING" label="Heading:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_PITCH" label="Pitch:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_ROLL" label="Roll:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_VIDEO_CTR" label="Video Ctr:">
+                                </app-app-input-a>
+                            </app-panel-a>
+                            &nbsp;
+                            <app-panel-a [PR]="2" [labelWidth]="50">
+                                <app-app-input-a fieldName="SVY_POS_OFFSET" label="Offset:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_XCOORD" label="X Coord:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_YCOORD" label="Y Coord:"></app-app-input-a>
+                                <app-app-input-a fieldName="SVY_POS_ZCOORD" label="Z Coord:"></app-app-input-a>
+                            </app-panel-a>
+
+                        </app-panel-a>
+                    </app-panel-a>
+                    &nbsp; &nbsp;
+                    <app-panel-a [PR]="2">
+                        End Position Details
+                        <app-panel-a [horizontal]="true">
+                            <app-panel-a [PR]="2" [labelWidth]="60">
+                                <app-app-input-a fieldName="E_date" label="Date Time:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_kp" label="KP:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_east" label="Easting:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_north" label="Northing:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_long" label="Longitude:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_lat" label="Latitude:"></app-app-input-a>
+                            </app-panel-a>
+                            &nbsp;
+                            <app-panel-a [PR]="2" [labelWidth]="70">
+                                <app-app-input-a fieldName="E_temp" label="Temperature:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_alt" label="Altitude:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_heading" label="Heading:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_pitch" label="Pitch:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_roll" label="Roll:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_ctr" label="Video Ctr:"></app-app-input-a>
+                            </app-panel-a>
+                            &nbsp;
+                            <app-panel-a [PR]="2" [labelWidth]="50">
+                                <app-app-input-a fieldName="E_offset" label="Offset:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_Xcrd" label="X Coord:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_Ycrd" label="Y Coord:"></app-app-input-a>
+                                <app-app-input-a fieldName="E_Zcrd" label="Z Coord:"></app-app-input-a>
+                            </app-panel-a>
+                        </app-panel-a>
+                    </app-panel-a>
+                </app-panel-a>
+            </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="toggleDisplay && t.a(2)">
+            <app-panel-a [PR]="2">
+                <app-panel-a [horizontal]="true">
+                    <app-panel-a [PR]="2" [labelWidth]="80">
+                        <app-app-input-a fieldName="SVY_HDR_ANOM_CODE" label="Anomay Code:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_ANOM_ID" label="Anomaly ID:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_COLOUR" label="Colour:" BgColor="true">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_ANOM_COMMENT" label="Comments:" [rows]="4">
+                        </app-app-input-a>
+                    </app-panel-a>
+                    <app-panel-a [PL]="2" [labelWidth]="90">
+                        <app-app-input-a fieldName="SVY_HDR_ASS_DATE" label="Assessment Date:">
+                        </app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_ASS_BY" label="Assessment By:"></app-app-input-a>
+                        <app-app-input-a fieldName="SVY_HDR_ASS_DETAILS" label="Assessment:" [rows]="5">
+                        </app-app-input-a>
+                    </app-panel-a>
+                </app-panel-a>
+            </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="AccessMode=='view' && t.a(3)">
+            <!-- failure threats -->
+            <app-data-grid-b #ftGrid [parentTableCode]="TableCode" [dataSet]="DataSet" noExtras="true" tableCode="ft"
+                forwardLink="true" noMaskOnInit="true" [title]="'Linked = {RECS}'" [gridManagementData]="dataManageFT"
+                [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+                [noInitFocus]="true" [rights]="{allowManage:true}" customGrid="gridColumnsInSurvey" noFooter="true">
+            </app-data-grid-b>
+        </app-panel-a>
+        <app-panel-a *ngIf="AccessMode=='view' && t.a(4)">
+            <!-- Attachments -->
+            <app-attachments [pathKeyParam]="16003" [parentGrid]="moduleExchangeInfo.gridObject"
+                [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue">
+            </app-attachments>
+
+        </app-panel-a>
+        <app-panel-a *ngIf="AccessMode=='view' && t.a(5)">
+            <!-- related Survey Events! -->
+            <app-data-grid-b #svyEvtGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="svyhdr"
+                linkChildType="" forwardLink="true" noExtras="true" noFooter="true" customGrid="gridRelatedEvents"
+                noMaskOnInit="true" [title]="'Linked = {RECS}'" manageTitle="Manage Survey Events"
+                [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+                [gridManagementData]="dataManageSvyEvt" [noInitFocus]="true" [rights]="{allowManage:true}">
+            </app-data-grid-b>
+            <!--Grid using Query-->
+            <!-- <app-data-grid-b #svyEvtGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="svyqrelev" linkChildType=""
+                forwardLink="true" noExtras="true" noFooter="true" customGrid="gridRelatedEvents"
+                noMaskOnInit="true" [title]="'Linked = {RECS}'" manageTitle="Manage Survey Events"
+                [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+                [gridManagementData]="dataManageSvyEvt" [noInitFocus]="true" [rights]="{allowManage:true}">
+            </app-data-grid-b> -->
+        </app-panel-a>
+        <app-panel-a *ngIf="AccessMode=='view' && t.a(6)">
+            <!-- related anomalies! -->
+            <app-data-grid-b #anGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="an" linkChildType=""
+                forwardLink="true" noExtras="true" noFooter="true" customGrid="gridRelatedAnomalies" noMaskOnInit="true"
+                [title]="'Linked = {RECS}'" manageTitle="Manage Related Anomalies"
+                [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+                [gridManagementData]="dataManageAN" [noInitFocus]="true" [rights]="{allowManage:true}">
+            </app-data-grid-b>
+        </app-panel-a>
+
+    </app-data-tabs>
+</app-app-form-a>

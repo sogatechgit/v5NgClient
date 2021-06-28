@@ -1,0 +1,50 @@
+<app-app-form-a [readOnly]="AccessMode=='view'" (beforePosting)="BeforeDataPosting($event)"
+  (afterFormCreate)="AfterFormCreate($event)">
+
+  <!-- TAB SECTION -->
+  <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[1,2,3]"
+    [tabLabels]="'General Information,KP Based Data,Attachments, History'">
+    <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+      <app-panel-a [PR]="2">
+        <app-panel-a [horizontal]="true">
+          <app-panel-a [PR]="2">
+            <app-app-input-a fieldName="DD_ASSET" [LPL]="0" [actionIcon]="isViewMode ? null : 'fa-sitemap' "
+              label="Asset"></app-app-input-a>
+            <app-app-input-a fieldName="DD_PARAM_NAME" label="Parameter Name"></app-app-input-a>
+            <app-app-input-a fieldName="DD_PARAM_REF" label="Reference"></app-app-input-a>
+            <app-app-input-a fieldName="DD_PARAM_VALUE" label="Parameter Value"></app-app-input-a>
+            <app-app-input-a fieldName="DD_PARAM_UNIT" label="Parameter Unit"></app-app-input-a>
+            <app-app-input-a fieldName="DD_UPDATE_DATE" label="Update Date"></app-app-input-a>
+          </app-panel-a>
+          <app-panel-a [PL]="2" [labelWidth]="120">
+            <app-app-input-a fieldName="DD_PARAM_NOTES" label="Notes" [rows]="6"></app-app-input-a>
+          </app-panel-a>
+
+        </app-panel-a>
+      </app-panel-a>
+    </app-panel-a>
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(1)">
+      <!-- KP Based Data -->
+      <app-des-dat-kp [parentGrid]="moduleExchangeInfo.gridObject"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue">
+      </app-des-dat-kp>
+
+    </app-panel-a>
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(2)">
+      <!-- Attachments -->
+      <app-attachments [pathKeyParam]="16002" [parentGrid]="moduleExchangeInfo.gridObject" [parentTableCode]="TableCode"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue">
+      </app-attachments>
+      
+    </app-panel-a>
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(3)">
+      <!-- Design Data History -->
+      <app-data-grid-b [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="deshis" noExtras="true"
+        noFooter="true" [autoGrid]="true" [parentKeyValue]="DataSet.mainTreeCurrentNode.did" noMaskOnInit="true"
+        [noInitFocus]="true">
+      </app-data-grid-b>
+
+    </app-panel-a>
+
+  </app-data-tabs>
+</app-app-form-a>

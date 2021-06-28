@@ -1,0 +1,12 @@
+<div class="container pt-2" id="wrapper">
+  <div class="form-group" [formGroup]="form">
+    <label>{{data.label ? data.label : 'Select new record type:'}}<small *ngIf="errorMessage" class="pl-2 text-danger">( {{errorMessage}} )</small></label>
+    <select (change)="SelectChange()" class="form-control form-control-sm py-0 my-0" formControlName="recordType">
+      <!-- <option *ngFor="let item of fieldLookup" [value]="item.key">{{item.text}}</option> -->
+
+      <option  value="-1">{{data.placeholder ? data.placeholder : ''}}</option>
+      <option  *ngFor="let item of options" [value]="item.key">{{item.name}}</option>
+    </select>
+
+  </div>
+</div>

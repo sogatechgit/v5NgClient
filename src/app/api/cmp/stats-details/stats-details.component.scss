@@ -1,0 +1,72 @@
+:host {
+    background-color: lime;
+    width: 100%;
+}
+
+// #tab_wrapper,
+// #wrapper_no_data {
+//     display: grid;
+
+//     height: 100%;
+//     width: 100%;
+//     background-color: olive;
+
+//     > div {
+//         display: grid;
+//         place-items: center;
+//     }
+// }
+#wrapper {
+    display: grid;
+
+    height: 100%;
+    width: 100%;
+
+    background-color: orange;
+
+    place-items: center;
+    background-color: white;
+    grid-template: 100px 1fr / 1fr;
+    position: relative; // needed to make data tab width responsive when width is changed
+    place-items: stretch;
+    div#header{
+        display: grid;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        background-color: lime;
+    }
+    div#details{
+        display: grid;
+        grid-template:1fr / 1fr;
+        // border:2px solid cyan;
+        overflow: hidden;
+        position:relative;
+        app-data-tabs {
+            grid-column: 1 / -1;
+            grid-row: 1 / -1;
+            position: absolute; // needed to fit container and become responsive when container height is changed
+            width: 100%;
+            height: 100%;
+            // align-self: stretch;
+            justify-self: stretch;
+        }
+    }
+}
+
+.tab_details{
+    display: grid;
+
+    height: 100%;
+    width: 100%;
+    background-color: beige;
+    border:1px solid red;
+
+    > div {
+        display: grid;
+        place-items: center;
+        // border:2px dashed orange;
+        border:1px solid #c0c0c0;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+}

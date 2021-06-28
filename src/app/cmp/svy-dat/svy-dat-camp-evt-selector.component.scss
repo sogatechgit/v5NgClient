@@ -1,0 +1,26 @@
+
+:host{
+  display:flex;
+  flex: 1 1 0;
+  flex-direction: row;
+  height: 500px; // put 500px instead of 100% to show below buttons in popup
+
+}
+  
+  #grid_content {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(250px, 100vh));
+    grid-gap:10px;
+}
+
+.grid {
+    position: relative;
+    display:grid;//display: block;
+    float: left;
+    border: none;
+    height: 100%;
+
+}

@@ -1,0 +1,81 @@
+<app-app-form-a [progress]="progress" [fileUploader]="fileUploader"
+  [readOnly]="AccessMode=='view'" #detailForm
+  [labelWidth]="80" (afterFormCreate)="AfterFormCreate($event)">
+
+  <app-data-tabs *ngIf="AccessMode=='view' && !isNoDetailView" #t [height]="tabHeight" activeBackground="white"
+    [fluidIds]="[1]" [tabLabels]="'General Information,Links'">
+    <app-panel-a *ngIf="t.a(0)">
+      <ng-container *ngIf="false;else genInfo">
+        <p>no details</p>
+      </ng-container>
+    </app-panel-a>
+    <app-panel-a *ngIf="t.a(1)">
+      <app-data-grid-b #lnkGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="vwrfl"
+        [title]="'Linked Module Records...'" noExtras="false" noFooter="true" [autoGrid]='true' noMaskOnInit="true"
+        [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+        [noInitFocus]="true"></app-data-grid-b>
+
+
+    </app-panel-a>
+  </app-data-tabs>
+  <app-panel-a *ngIf="AccessMode!='view'" [P]="8" style="font-size:.85em;">
+    <ng-container *ngIf="false;else genInfo"></ng-container>
+  </app-panel-a>
+
+  <ng-template #genInfo>
+
+    <app-panel-a [horizontal]="true">
+      <app-panel-a [PR]="2">
+
+        <app-app-input-a #type [fieldName]="'RF_TYPE'" [label]="'Type'" (valueChanged)="TypeChanged($event)">
+        </app-app-input-a>
+
+        <app-app-input-a [fieldName]="'RF_DESC'" [label]="'Description'" [rows]="3"></app-app-input-a>
+
+        <app-app-input-a [title]="previewUrl" #path [fieldName]="'RF_PATH'"
+          [style.visibility]="isURLType || !typeItem ? 'hidden' : 'visible'" [readOnly]="roPATH" 
+          [label]="'Path'"
+          (valueChanged)="PathChanged($event)"></app-app-input-a>
+
+        <!-- <app-app-input-a [fieldName]="'RF_FILENAME'" [label]="'Filename'" (fileSelected)="FileSelected($event)"
+          [multiSelectFile]="AccessMode!='view' ? false : undefined" [rows]="2"></app-app-input-a>         -->
+
+        <app-app-input-a #filename [fieldName]="'RF_FILENAME'" [readOnly]="roFILENAME && typeItem"
+          [label]="isURLType ? 'URL' : 'Filename'" [rows]="2"></app-app-input-a>
+
+        <app-file-uploader *ngIf="AccessMode!='view' && !isURLType && isValidPath && typeItem" [LinkedInput]="filename"
+          style="top:140px;left:0px;width:80px;" #fileUploader [Hidden]="false" [ProgressOnly]="true"
+          [SubFolder]="currentPath"></app-file-uploader>
+
+        <app-app-input-a [fieldName]="'RF_NOTES'" [label]="'Notes'" [rows]="3"></app-app-input-a>
+
+      </app-panel-a>
+
+      <app-panel-a [PL]="2" [width]="350" [labelWidth]="80">
+        <app-app-input-a [fieldName]="'RF_ASSET'" [label]="'Asset'"
+          [actionIcon]="this.AccessMode != 'view' ? 'fa-sitemap' : null"></app-app-input-a>
+
+        <app-app-input-a [fieldName]="'RF_LLID'" [label]="'Document Id'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'RF_REVNO'" [label]="'Revision No.'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'RF_REVDATE'" [label]="'Revision Date'"></app-app-input-a>
+
+
+        <app-app-input-a [fieldName]="'RF_CLASS'" [label]="'Classification'"></app-app-input-a>
+
+        <app-app-input-a [fieldName]="'RF_CONTRACTOR'" [label]="'Contractor'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'RF_REFNOX'" [label]="'Contractor Ref'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'RF_REF_NO'" [label]="'Reference no.'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'RF_UPDBY'" readOnly="true" [label]="'Updated By'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'RF_UPDDATE'" readOnly="true" [label]="'Upload date'"></app-app-input-a>
+      </app-panel-a>
+      <app-panel-a *ngIf="AccessMode == 'view'" [width]="tabHeight-10" [PL]="2" 
+      [style.min-height.px]="tabHeight-30"
+        [style.max-height.px]="tabHeight-30">
+        <app-attachment-preview   [url]="previewUrl" [rootUrl]="null"
+          [rootUrl]="null">
+        </app-attachment-preview>
+      </app-panel-a>
+
+    </app-panel-a>
+  </ng-template>
+</app-app-form-a>

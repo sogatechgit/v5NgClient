@@ -1,0 +1,31 @@
+<div id="wrapper" class="container-fluid bg-white d-flex">
+  <div id="form" class="card bg-light">
+    <div class="card-header bg-warning text-secondary y-0">
+      <h2 class="m-0"><i class="fa fa-sign-in-alt m-0 mr-2" style="font-size:1.2em;"></i>&nbsp;Login to your account!</h2>
+    </div>
+    <div class="card-detail p-3" [formGroup]="form">
+      <div class="form-group">
+        <label for="" class="form-label"><i class="fa fa-user text-secondary"></i>&nbsp;User ID</label>
+        <input id="user" #USER_NAME type="text" (keyup)="onKeyUp($event)" #USER
+          [attr.disabled]="loggingIn ? true : null" (change)="OnChange(USER)" class="form-control"
+          placeholder="Enter login id" formControlName="USER_NAME">
+        <span *ngIf="!validUser">{{msgInvalidUser}}</span>
+      </div>
+      <div class="form-group mb-0 mt-2">
+        <label for="" class="form-label"><i class="fa fa-key text-secondary pr-2"></i>&nbsp;Password</label>
+        <input id="pwd" type="password" #PWD (keyup)="onKeyUp($event)" [attr.disabled]="loggingIn ? true : null"
+          (change)="OnChange(PWD)" class="form-control" placeholder="Enter password" formControlName="USER_PASSWORD">
+        <span *ngIf="!validPassword">{{msgInvalidPassword}}</span>
+      </div>
+    </div>
+    <button #LOGIN class="btn btn-warning mt-0 mb-3 mx-3 d-flex" style="justify-content:space-between;"
+      [attr.disabled]="loggingIn ? true : null" (click)="Login()">
+      <div style="width:25px">&nbsp;</div>{{msgLogin}}<i *ngIf="loggingIn" style="width:25px"
+        class="fa fa-spinner fa-spin fa-1x fa-fw mt-1 mr-2"></i>
+      <div style="width:25px" *ngIf="!loggingIn">&nbsp;</div>
+    </button>
+    <p class="pl-3 text-secondary noselect" (click)="ForgotPassword($event)">Forgot password?</p>
+    <p class="pl-3 text-secondary noselect" (click)="Register($event)">Register</p>
+    <!-- <div class="card-footer"></div> -->
+  </div>
+</div>

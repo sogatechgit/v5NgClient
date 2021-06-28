@@ -1,0 +1,79 @@
+@import "../../../../appcssvars.scss";
+:host{
+  // background-color: red;
+  flex:1 1 0;
+}
+.form-group {
+  box-sizing: border-box;
+  padding: 0px;
+  label {
+    font-family: $form_label_font-family;
+    font-size: 1em;
+    white-space: nowrap;
+    margin-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    i#fileSelect{
+      cursor: pointer;
+      margin-top:5px;
+      margin-right:5px;
+      color:$bs_primary;
+    }
+    i#fileSelect:hover{
+      color:$bs_danger;
+    }
+  }
+  div.form-control{
+    padding:0px;
+    padding-top:2px;
+    font-size:1em;
+    // background-color: white;
+  }
+  .form-control[type="text"],
+  textarea.form-control,
+  select,
+  .form-control option {
+    font-size: 0.95em;
+    font-family: $form_input_font-family;
+
+  }
+
+  .form-control[type="text"]:focus, select:focus,textarea.form-control:focus{
+    outline:2px solid $bs_warning !important;
+    border:1px solid transparent !important;
+    // outline-offset: 1px;
+  }
+
+  select.form-control{
+    padding-left: 3px;
+  }
+  select,
+  .form-control option {
+    padding-top: 3px;
+  }
+
+  // remove dropdown button
+  .xselect {
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+    /* For IE10 */
+    ::-ms-expand{
+      display: none;
+    }
+  }
+
+}
+
+textarea{
+  resize: none;
+}
+
+
+// mat-calendar-body-selected
+
+.mat-calendar-body-selected{
+  background:red !important;
+}

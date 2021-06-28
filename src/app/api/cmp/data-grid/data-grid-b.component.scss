@@ -1,0 +1,152 @@
+@import "../../../../appcssvars.scss";
+// ::ng-deep snack-bar-container.custom-class {
+//   // background: yellow;
+//   // color: yellow;
+// }
+::ng-deep .custom-class .mat-simple-snackbar {
+  font-family: $message_body_font_family;
+  color: white;
+}
+
+:host {
+  display: flex;
+  flex: 1 1 0;
+  height: 100%;
+  overflow: hidden;
+  
+
+  position: absolute;width:100%;
+  // width:100%;
+  // background-color: magenta;
+
+  // border: 3px dashed red;
+
+}
+.toolbar {
+  // background-color: $back_color_very_light_blue;
+  background-color: white;
+  // background-color: $grid_bg_header;
+  height: $form_subgrid_header_height;
+  // margin-top:3px;
+  padding: 0px;
+  padding-top:2px;
+  display: flex;
+  > div.spacer {
+    flex: 1 1 0;
+  }
+  >span#title{
+    margin-left:10px;
+    font-style: italic;
+    font-size:1em;
+    // font-weight:bold;
+  }
+  // button {
+  //   font-size: 0.9em;
+  //   margin: 0px;
+  //   // padding: 0px;
+  //   span {
+  //     // background-color: magenta;
+  //     padding:0px;
+  //     i {
+  //       font-size: 1.1em;
+  //       margin-right: 0px;
+  //       // margin-top: -3px;
+  //     }
+  //   }
+  // }
+}
+#main_wrapper {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  font-family:$form_body_font-family;
+  overflow: hidden;
+}
+#grid_container {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $form_tab_pane_border_color;
+  background-color: white;
+  // #grid_mask {
+  //   position: absolute;
+  //   background: none;
+  //   z-index: 1;
+  //   width: 100%;
+  //   height: 100%;
+  //   display: flex;
+
+  //   #grid_mask_panel {
+  //     position: absolute;
+  //     opacity: 0.25;
+  //     background-color: white;
+  //     width: 100%;
+  //     height: 100%;
+  //   }
+  //   #grid_mask_progress {
+  //     font-size: 1.1em;
+  //     font-family: $grid_header_font-family;
+  //     // position: absolute;
+  //     z-index: 2;
+  //     color: $bs_secondary;
+  //     margin: auto auto;
+  //     padding: 10px;
+  //   }
+  // }
+}
+// #details_container {
+//   #detail_mask {
+//     position: absolute;
+//     background: none;
+//     // opacity: 0.5;
+//     z-index: 1;
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     #mask_panel {
+//       position: absolute;
+//       opacity: 0.25;
+//       background-color: white;
+//       width: 100%;
+//       height: 100%;
+//     }
+//     #mask_progress {
+//       font-size: 1.1em;
+//       font-family: $grid_header_font-family;
+//       // position: absolute;
+//       z-index: 2;
+//       color: $bs_secondary;
+//       margin: auto auto;
+//       padding: 10px;
+//     }
+//   }
+// }
+
+#grid_container,
+#details_container {
+  overflow: hidden;
+  position: relative;
+  // background-color: green;
+  z-index: 2;
+  .mask {
+    z-index: 3;
+    position: absolute;
+    // background-color: lime;
+    .panel {
+      position: absolute;
+      opacity: 0.25;
+      background-color: white;
+      width: 100%;
+      height: 100%;
+    }
+    .progress {
+      font-size: 1.1em;
+      font-family: $grid_header_font-family;
+      // position: absolute;
+      z-index: 2;
+      color: $bs_secondary;
+      margin: auto auto;
+      padding: 10px;
+    }
+  }
+}

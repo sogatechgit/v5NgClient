@@ -1,0 +1,35 @@
+<div [class]="'wrapper' + (data.buttons ? '' : ' no-action')">
+  <h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle class="noselect p-0 m-0"
+    style="display:flex;">
+    <i *ngIf="data.icon" [class]="'ml-2 ' + [icon]"></i>
+    <span class="ml-2" style="flex:1 1 0;">{{ DetailsTitle ? DetailsTitle : (data.title
+      ? data.title : 'No Title')
+      }}
+      <span *ngIf="locked" style="font-size:0.7em;margin-left:10px;">[<i class="fa fa-user-lock"
+          style="margin-left:3px;margin-right:5px;"></i>{{lockInfo}} ]</span></span>
+
+
+    <i *ngIf="(data ? data.closeControl : false) || locked" class="fa fa-times"
+      style="margin-left:auto;margin-right:10px;cursor:pointer;" matTooltip="Close"
+      (click)="ButtonClick({value:'cancel'})"></i>
+  </h3>
+
+  <div id="content">
+    <ng-template detailsHost></ng-template>
+  </div>
+
+  <div id="actions" *ngIf="data.buttons">
+    <ng-container *ngIf="!locked && !isLoading">
+      <button *ngFor="let btn of this.data.buttons" [class]="(btn.style ? btn.style : 'btn btn-primary') "
+        (click)="ButtonClick(btn)" [disabled]="processing"><i *ngIf="btn.icon && !btn.btnIconRight"
+          [class]="(btn.icon ? ' ' + btn.icon : '')"></i>
+        {{ btn.label }}<i *ngIf="btn.icon && btn.btnIconRight" [class]="btn.icon ? ' ' + btn.icon : ''"></i>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="locked || isLoading">
+      <button class="btn btn-secondary pt-1" (click)="ButtonClick({value:'cancel'})">Close<i
+          class="fa fa-sign-out-alt"></i></button>
+    </ng-container>
+  </div>
+
+</div>

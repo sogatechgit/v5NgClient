@@ -1,0 +1,20 @@
+<div id="bar_top" *ngIf="isStrake" [style.width.px]="pxSpanLengthFinal" [title]="title">
+    <i *ngIf="isLeftOverflow" class="fa fa-play"></i>
+    <i *ngIf="isRightOverflow" class="fa fa-play right"></i>
+    <!-- <span style="font-size:9px;">{{pxSpanLeftFinal}}</span> -->
+</div>
+<div id="bar_bottom" *ngIf="isSpan && isVisible" [style.background]="spanBack" [style.width.px]="pxSpanLengthFinal" 
+    [title]="title">
+    <i *ngIf="isLeftOverflow" class="fa fa-play"></i>
+    <i *ngIf="isRightOverflow" class="fa fa-play right"></i>
+</div>
+
+<!-- <svg width="400" height="180" *ngIf="isSpan">
+    <rect x="0" y="0" [attr.width]="pxSpanLengthFinal" height="5"
+        style="fill:red;stroke:black;stroke-width:0;opacity:0.5" />
+</svg> -->
+
+<i id="stab" [title]="title" class="fa fa-play" *ngIf="isStabilization"></i>
+<i id="seab" [title]="title" class="fa fa-square" *ngIf="isSeabed"></i>
+<i id="berm" [title]="title" class="fa fa-square" [style.color]="pipe.spanComponent.clrGreen" *ngIf="isBerm"></i>
+<div id="bar_label" *ngIf="isSpan">{{spanLabel}}</div>

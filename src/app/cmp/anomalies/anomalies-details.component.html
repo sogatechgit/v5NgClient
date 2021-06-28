@@ -1,0 +1,202 @@
+<app-app-form-a #frm [readOnly]="AccessMode=='view' || frm.locked" (beforePosting)="BeforeDataPosting($event)"
+  (afterFormCreate)="AfterFormCreate($event)">
+  <div *ngIf="AccessMode!='view'" class="p-2">
+
+    <app-panel-a [horizontal]="true" [labelWidth]="75" [LPL]="8">
+      <app-app-input-a [readOnly]="true" [fieldName]="'AN_REF'" [label]="'Ref.No.'" [LPL]="0"></app-app-input-a>
+      <app-app-input-a [fieldName]="'ANTYPE_GROUP'" label="Group" lookupGroup="149">
+      </app-app-input-a>
+      <app-app-input-a [fieldName]="'AN_ORIG_CLASS'" [label]="'Orig.Action'">
+      </app-app-input-a>
+      <app-app-input-a [fieldName]="'AN_CURR_CLASS'" [label]="'Curr.Action'">
+      </app-app-input-a>
+    </app-panel-a>
+    <app-panel-a [horizontal]="true" [labelWidth]="75" [LPL]="8">
+      <app-app-input-a [readOnly]="true" [fieldName]="'AN_REVNO'" [label]="'Rev.No.'" [LPL]="0"></app-app-input-a>
+      <app-app-input-a [fieldName]="'AN_TYPE'" [label]="'Type'" lookupTableCode="antype"
+        lookupGroupField="ANTYPE_GROUP">
+      </app-app-input-a>
+
+      <app-app-input-a [fieldName]="'AN_ORIG_AVAIL_CLASS'" [label]="'Orig.Avail'"></app-app-input-a>
+      <app-app-input-a [fieldName]="'AN_CURR_AVAIL_CLASS'" [label]="'Curr.Avail'"></app-app-input-a>
+    </app-panel-a>
+    <app-panel-a [horizontal]="true" [labelWidth]="75" [LPL]="8">
+      <app-app-input-a [fieldName]="'AN_ASSET_ID'" [label]="'Asset'" [LPL]="0" [width]="362"
+        [actionIcon]="frm.readOnly ? null : 'fa-sitemap'">
+      </app-app-input-a>
+      <app-app-input-a [fieldName]="'AN_DATE_IDENT'" [label]="'Identified'">
+      </app-app-input-a>
+      <app-app-input-a [fieldName]="'AN_STATUS'" [label]="'Acn.Status'">
+      </app-app-input-a>
+    </app-panel-a>
+
+
+
+
+
+    <!--
+    <app-panel-a horizontal="true" labelWidth="75" LPL="8" PB="4">
+      <app-app-input-a readOnly="true" fieldName="AN_REVNO" label="Rev.No." LPL="0"></app-app-input-a>
+      <app-app-input-a fieldName="AN_TYPE" label="Type"></app-app-input-a>
+      <app-app-input-a fieldName="AN_ORIG_AVAIL_CLASS" label="Orig.Avail"></app-app-input-a>
+      <app-app-input-a fieldName="AN_CURR_AVAIL_CLASS" label="Curr.Avail"></app-app-input-a>
+    </app-panel-a> -->
+
+
+
+
+
+  </div>
+  <!-- TAB SECTION -->
+  <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[4,5,6,7]"
+    [tabLabels]="'General Information,Assessment,Recommendations,Risk Ranking'+(AccessMode=='view' ? ',Failure Threats,Attachments,Actions,Related Anomalies': '')">
+    <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+      <app-panel-a [PR]="2">
+        <app-app-input-a #AN_TITLE fieldName="AN_TITLE" label="Title"></app-app-input-a>
+        <app-app-input-a fieldName="AN_DESC" label="Description" [rows]="6"></app-app-input-a>
+        <app-panel-a [horizontal]="true">
+          <app-panel-a [PR]="2">
+            <app-app-input-a fieldName="AN_ASIS" label="Include in OTR1">
+            </app-app-input-a>
+            <app-app-input-a fieldName="AN_START_NORTH" label="Start Northing"></app-app-input-a>
+            <app-app-input-a fieldName="AN_END_NORTH" label="End Northing"></app-app-input-a>
+
+          </app-panel-a>
+          <app-panel-a [PL]="2" labelWidth="120">
+            <app-app-input-a fieldName="AN_MAINT_REQ" label="Maintenance Required">
+            </app-app-input-a>
+            <app-app-input-a fieldName="AN_START_EAST" label="Start Easting"></app-app-input-a>
+            <app-app-input-a fieldName="AN_END_EAST" label="End Easting"></app-app-input-a>
+
+          </app-panel-a>
+
+        </app-panel-a>
+      </app-panel-a>
+      <app-panel-a [PL]="2" width="250" labelWidth="100">
+        <app-app-input-a fieldName="AN_FNCR_REQUIRED" label="FNCR Required">
+        </app-app-input-a>
+        <app-app-input-a fieldName="AN_FNCR" label="FNCR Reference"></app-app-input-a>
+        <app-app-input-a fieldName="AN_ACT_BY_DATE" label="Action Date">
+        </app-app-input-a>
+        <app-app-input-a fieldName="AN_LIFE_TERM" label="Life Term">
+        </app-app-input-a>
+        <app-app-input-a fieldName="AN_ACT_PARTY" label="Action Party"></app-app-input-a>
+        <app-app-input-a fieldName="AN_WO_REF" label="SAP WO No."></app-app-input-a>
+        <app-app-input-a fieldName="AN_WO_STATUS" label="SAP Status">
+        </app-app-input-a>
+        <app-app-input-a fieldName="AN_PT_SUPPORT" label="P&T Support">
+        </app-app-input-a>
+        <app-app-input-a fieldName="AN_PORTFOLIO_APPL" label="Port Application">
+        </app-app-input-a>
+        <app-app-input-a fieldName="AN_EQ_FAILURE" label="Equipment Failure">
+        </app-app-input-a>
+      </app-panel-a>
+    </app-panel-a>
+    <app-panel-a *ngIf="t.a(1)">
+      <app-panel-a [horizontal]="true">
+        <app-panel-a [PR]="2">
+          <app-app-input-a fieldName="AN_ASSMNT" label="Details" [rows]="10"></app-app-input-a>
+        </app-panel-a>
+        <app-panel-a [PL]="2" width="300" labelWidth="100" readOnly="true">
+          <app-app-input-a *ngIf="AccessMode=='view'" [fieldName]="'AN_DATE_IDENT'" [label]="'Identified'">
+          </app-app-input-a>
+
+          <app-app-input-a fieldName="AN_RAISED_BY" label="Raised By"></app-app-input-a>
+          <app-app-input-a fieldName="AN_RAISED_DATE" label="Raised Date"></app-app-input-a>
+          <app-app-input-a fieldName="AN_ASS_BY" label="Assessed By"></app-app-input-a>
+          <app-app-input-a fieldName="AN_ASS_DATE" label="Assessed Date"></app-app-input-a>
+          <app-app-input-a fieldName="AN_UPD_BY" label="Updated By"></app-app-input-a>
+          <app-app-input-a fieldName="AN_UPD_DATE" label="Update Date"></app-app-input-a>
+        </app-panel-a>
+      </app-panel-a>
+    </app-panel-a>
+    <app-panel-a *ngIf="t.a(2)">
+      <app-panel-a [horizontal]="true">
+        <app-panel-a [PR]="2">
+          <app-app-input-a fieldName="AN_RECCMD" label="Details" [rows]="10"></app-app-input-a>
+        </app-panel-a>
+        <app-panel-a [PL]="2" width="300" labelWidth="100">
+          <app-app-input-a fieldName="AN_TA_APPROVED" label="TA Approved">
+          </app-app-input-a>
+          <app-app-input-a fieldName="AN_TA_NAME" label="TA Name"></app-app-input-a>
+          <app-app-input-a fieldName="AN_TA_APPR_DATE" label="Ta Approved Date"></app-app-input-a>
+
+        </app-panel-a>
+      </app-panel-a>
+    </app-panel-a>
+    <app-panel-a *ngIf="t.a(3)" horizontal="true">
+
+
+      <app-panel-a [PR]="2">
+        <app-app-input-a [fieldName]="'AN_RISK_RANK_COMMENTS'" [label]="'Comments'" [rows]="10"></app-app-input-a>
+        <!-- <app-app-input-a [fieldName]="'AN_RISK_RANK_SEVERITY'" [label]="'Severity'"></app-app-input-a>
+        <app-app-input-a [fieldName]="'AN_RISK_RANK_LIKELIHOOD'" [label]="'Likelihood'"></app-app-input-a> -->
+      </app-panel-a>
+      <app-panel-a *ngIf="matrixData" [PL]="2" [PT]="4" [horizontal]="true" [width]="280"
+        style="display:flex;align-items: stretch;">
+        <app-risk-matrix [riskMatrixData]="matrixData" [readOnly]="AccessMode=='view' || locked"
+          [severityField]="'AN_RISK_RANK_SEVERITY'" [likelihoodField]="'AN_RISK_RANK_LIKELIHOOD'"></app-risk-matrix>
+      </app-panel-a>
+
+
+      <!-- <app-panel-a [useSubSource]="true" width="300">
+      <app-app-input-a fieldName="ANS_FIELD_1" label="Field 1"></app-app-input-a>
+      <app-app-input-a fieldName="ANS_FIELD_2" label="Field 2"></app-app-input-a>
+      <app-app-input-a fieldName="ANS_FIELD_3" label="Field 3"></app-app-input-a>
+
+    </app-panel-a>
+    <app-panel-a LPL="8" >
+      <app-app-input-a fieldName="AN_ASSET_ID" label="Asset"></app-app-input-a>
+    </app-panel-a> -->
+
+    </app-panel-a>
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(4)">
+      <!-- failure threats -->
+      <div style="width:80%;height:200px;overflow: hidden;background:yellow;">
+      <app-data-grid-b #ftGrid [parentTableCode]="TableCode" [dataSet]="DataSet" noExtras="true" tableCode="ft"
+        forwardLink="true" noMaskOnInit="true" [title]="'Linked = {RECS}'" [gridManagementData]="dataManageFT"
+        [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+        [noInitFocus]="true" [rights]="{allowManage:true}" customGrid="gridColumnsInAnomalies" noFooter="true">
+      </app-data-grid-b>
+    </div>
+    </app-panel-a>
+
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(5)">
+      <!-- attachments (manageClick)="ManageGridRF($event)" -->
+
+      <!-- <app-data-grid-b #rfGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="rf" forwardLink="true"
+        noExtras="true" noFooter="true" customGrid="gridColumnsInAnomalies" noMaskOnInit="true"
+        [title]="'Linked = {RECS}'" [parentGrid]="moduleExchangeInfo.gridObject"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue" [gridManagementData]="dataManageRF"
+        [noInitFocus]="true" [rights]="{allowManage:true,allowDelete:true,allowAdd:true,allowSelect:true}"
+        labelDelete="Remove">
+      </app-data-grid-b> -->
+
+      <!-- <app-attachments [parentTableCode]="TableCode"
+        [gridParentKeyValue]="moduleExchangeInfo.state.dataKeyValue" [parentGrid]="moduleExchangeInfo.gridObject">
+      </app-attachments> -->
+
+      <app-attachments [pathKeyParam]="16000"
+      [parentGrid]="moduleExchangeInfo.gridObject"
+      [parentTableCode]="TableCode"
+      [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments >
+
+    </app-panel-a>
+
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(6)">
+      <!-- action items -->
+      <app-anom-action-items [parentGrid]="moduleExchangeInfo.gridObject"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-anom-action-items>
+    </app-panel-a>
+
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(7)">
+      <!-- related anomalies! -->
+      <app-data-grid-b #anGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="an" linkChildType=""
+        forwardLink="true" noExtras="true" noFooter="true" customGrid="gridRelatedAnomalies" noMaskOnInit="true"
+        [title]="'Linked = {RECS}'" manageTitle="Manage Related Anomalies" [parentGrid]="moduleExchangeInfo.gridObject"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue" [gridManagementData]="dataManageAN"
+        [noInitFocus]="true" [rights]="{allowManage:true}"></app-data-grid-b>
+
+    </app-panel-a>
+  </app-data-tabs>
+</app-app-form-a>

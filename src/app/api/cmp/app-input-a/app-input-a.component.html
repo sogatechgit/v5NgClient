@@ -1,0 +1,198 @@
+<!--
+   [formGroup]="this.form.formObject" must exist as attribute to the
+   immediate wrapper container of the control in order to work!!!
+   !!! declaration of this attibute is not required at the top level form element
+-->
+<div *ngIf="this.formObject" [formGroup]="this.formObject"
+  class="form-group d-flex flex-grow-1 mb-0 has-feedback has-clear" [style.margin-top.px]="panel.RowSpacing">
+
+  <label for="" [style.min-width.px]="LabelWidth" [style.max-width.px]="LabelWidth"
+    [style.padding-left.px]="labelPaddingLeft" [style.padding-right.px]="labelPaddingRight"
+    [style.margin-top.px]="panel.MarginTop" [style.margin-bottom.px]="panel.MarginBottom"
+    [style.margin-left.px]="panel.MarginLeft" [style.margin-right.px]="panel.MarginRight"
+    style="display: flex;flex:1 1 0;justify-content:space-between;" class="noselect">{{labelText}}
+    <i *ngIf="isFile && fileSelected.observers.length!=0"  (click)="multiSelectFile==undefined ? null : (multiSelectFile ? fileInputM.click() : fileInput.click())" id="fileSelect" class="fa fa-paperclip"></i>
+  </label>
+
+    <input  style="display:none;" type="file" (change)="onFileSelected($event)" #fileInput>
+    <input style="display:none;" type="file" (change)="onFileSelected($event)" #fileInputM multiple>
+
+  <div class="input-group" *ngIf="isInput &&  !isDataLoading" style="white-space: nowrap;display:flex;"
+    [style.width.px]="inputWidth">
+
+    <input #input type="text" [style.height.px]="controlHeight" sytle="flex:1 1 0;" [placeholder]="placeHolder"
+      [style.background]="background" [formControlName]="formControlNameFinal" [readonly]="isReadOnly || actionIcon"
+      class="form-control flex-grow-1 form-control-sm py-0 my-0">
+    <div *ngIf="actionIcon" class="input-group-append">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <i [class]="'fa ' + actionIcon" style="font-size:.8em;cursor:pointer;margin:auto;" matTooltipPosition="below"
+          (click)="ActionClick($event)" [matTooltip]="actionTip"></i>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <app-text-input *ngIf="isInput" [fieldName]="fieldName" [labelWidth]="labelWidth"
+  [LPR]="LPR" [LPL]="LPL" [label]="label"
+    [style.height.px]="controlHeight" [actionTip]="actionTip" [actionIcon]="actionIcon" [placeHolder]="placeHolder"
+    [data]="{form:this.form,panel:this.panel}"></app-text-input> -->
+
+
+
+  <!-- <div class="input-group" *ngIf="isDate && !isDataLoading" style="white-space: nowrap;display:flex;"
+    [style.width.px]="inputWidth">
+    <input #input type="text" [style.height.px]="controlHeight" sytle="flex:1 1 0;" [placeholder]="placeHolder"
+      [style.background]="background" [formControlName]="fieldName" [readonly]="true"
+      class="form-control flex-grow-1 form-control-sm py-0 my-0">
+    <div *ngIf="!isReadOnly" class="input-group-append">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <i class="fa fa-calendar-alt" style="font-size:.8em;cursor:pointer;margin:auto;" matTooltipPosition="below"
+          (click)="ActionClick($event)" [matTooltip]="actionTip ? actionTip : 'Click to select date/time...'"></i>
+      </div>
+    </div>
+  </div> -->
+
+
+  <!-- isDate   -->
+  <div class="input-group" *ngIf="isDate && !isDataLoading" style="white-space: nowrap;display:flex;position:relative;"
+    [style.width.px]="inputWidth">
+
+    <input type="text" #dateText [style.height.px]="controlHeight" sytle="flex:1 1 0;" [placeholder]="placeHolder"
+      [style.background]="background" (focus)="onFocus($event)" [readonly]="true" [value]="displayDate"
+      [style.border-right]="isReadOnly ? null : 'none'" class="form-control flex-grow-1 form-control-sm py-0 my-0">
+    <span *ngIf="!isReadOnly" class="input-group-text p-0 px-1" (click)="clearDate(dateText)"
+      [style.background]="background"
+      style="font-size:0.8em;border-radius:0px;border-left:none;border-right: none;cursor:pointer;">
+      <i class="fa fa-times"></i>
+    </span>
+    <!--make actual date field as hidden but also make it's origin the same as the display field so that the date picker will appear at the bottom of the display field-->
+    <input #input type="text" style="visibility:hidden;position:absolute;background:yellow;z-index:-1"
+      [formControlName]="formControlNameFinal" [matDatepicker]="picker">
+    <div *ngIf="!isReadOnly" class="input-group-append">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <i class="fa fa-calendar-alt" style="font-size:.8em;cursor:pointer;margin:auto;" matTooltipPosition="below"
+          (click)="picker.open()" [matTooltip]="actionTip ? actionTip : 'Click to select date/time...'"></i>
+      </div>
+    </div>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>
+
+  <!--
+  <input class="form-control form-control-sm" [matDatepicker]="picker">
+  <div class="input-group-append">
+    <div class="input-group-text p-0 d-flex">
+      <i [class]="'fa fa-calendar px-2'"
+      (click)="picker.open();"
+      style="font-size:.8em;cursor:pointer;margin:auto;" matTooltipPosition="below"></i>
+    </div>
+  </div>
+  <mat-datepicker #picker></mat-datepicker>
+   -->
+
+  <!-- START: Select input, not readonly -->
+  <div class="input-group" *ngIf="isSelect && !isReadOnly && !isDataLoading" style="white-space: nowrap;display:flex;"
+    [style.width.px]="inputWidth">
+
+    <!-- Select control is only available if actionClick is not defined. actionClick event is used to allow selection from a custom list -->
+    <select #input *ngIf="actionClick.observers.length==0" [formControlName]="formControlNameFinal"
+      [style.height.px]="controlHeight" [style.width.px]="inputWidth" (change)="ValueChanged($event)"
+      class="form-control form-control-sm py-0 my-0 select">
+      <option *ngFor="let item of fieldLookup" [value]="useLookupText ? item.text : item.key">{{item.text}}</option>
+    </select>
+
+    <!-- if actionClick is defined and is readonly, set value of an input box to the display value property -->
+    <input #input type="text" *ngIf="actionClick.observers.length!=0" [style.height.px]="controlHeight"
+      [placeholder]="placeHolder" [style.background]="background" [value]="displayValue" [readonly]="true"
+      class="form-control flex-grow-1 form-control-sm py-0 my-0">
+
+    <div *ngIf="actionClick.observers.length!=0" class="input-group-append">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <i [class]="'fa ' + (actionIcon ? actionIcon : 'fa-hand-pointer')"
+          style="font-size:.8em;cursor:pointer;margin:auto;" matTooltipPosition="below" (click)="ActionClick($event)"
+          [matTooltip]="actionTip ? actionTip : 'Click to select date/time...'"></i>
+      </div>
+    </div>
+
+  </div>
+  <!--END: Select input, not readonly -->
+
+  <div class="input-group" *ngIf="isToggle && !isReadOnly">
+    <!-- <div *ngFor="let tgl of toggleDisplay;let idx=index;">
+      <div class="input-group-prepend">
+        <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+          <input [formControlName]="fieldName" [attr.id]="fieldName+'_'+idx" type="radio" [value]="tgl.value"
+            style="margin:auto;">
+        </div>
+      </div>
+      <div class="form-control px-1" [style.height.px]="controlHeight">
+        <label [attr.for]="fieldName + '_'+idx">{{tgl.display}}</label>
+      </div>
+    </div> -->
+
+    <!-- <div *ngFor="let tgl of toggleDisplay;let idx=index;">
+      <div class="input-group-prepend">
+        <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+          <input [formControlName]="fieldName" [attr.id]="fieldName+'_'+(toggleDisplay.length - idx -1)" type="radio" [value]="+tgl.value"
+            style="margin:auto;">
+        </div>
+      </div>
+      <div class="form-control px-1" [style.height.px]="controlHeight">
+        <label [attr.for]="fieldName + '_'+(toggleDisplay.length - idx -1)">{{tgl.display}}</label>
+      </div>
+    </div> -->
+
+    <div class="input-group-prepend">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <input [formControlName]="formControlNameFinal" [attr.id]="fieldName+'_0'" type="radio"
+          [value]="toggleDisplay[0].value" style="margin:auto;">
+      </div>
+    </div>
+    <div class="form-control px-1" [style.height.px]="controlHeight">
+      <label [attr.for]="fieldName + '_0'">{{toggleDisplay[0].display}}</label>
+    </div>
+
+    <div class="input-group-prepend">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <input [formControlName]="formControlNameFinal" [attr.id]="fieldName+'_1'" type="radio"
+          [value]="toggleDisplay[1].value" style="margin:auto;">
+      </div>
+    </div>
+    <div class="form-control px-1" [style.height.px]="controlHeight">
+      <label [attr.for]="fieldName + '_1'">{{toggleDisplay[1].display}}</label>
+    </div>
+
+    <div *ngIf="toggleDisplay.length>=3" class="input-group-prepend">
+      <div class="input-group-text p-0 d-flex" [style.width.px]="controlHeight">
+        <input [formControlName]="formControlNameFinal" [attr.id]="fieldName+'_2'" type="radio"
+          [value]="toggleDisplay[2].value" style="margin:auto;">
+      </div>
+    </div>
+    <div *ngIf="toggleDisplay.length>=3" class="form-control px-1" [style.height.px]="controlHeight">
+      <label [attr.for]="fieldName + '_2'">{{toggleDisplay[2].display}}</label>
+    </div>
+
+    <!-- <input type="text" class="form-control px-1" onfocus="this.blur()" [readonly]="true" [style.background]="'white'" [value]="toggleDisplay[1]" [style.height.px]="controlHeight" aria-label="Text input with radio button"> -->
+  </div>
+  <!-- <input #input *ngIf="isToggle" class="form-control form-control-sm" type="radio" [formControlName]="fieldName" [value]="-1">
+  <input #input *ngIf="isToggle" class="form-control form-control-sm" type="radio" [formControlName]="fieldName" [value]="0"> -->
+
+  <!-- display data only -->
+  <div class="input-group" *ngIf="(isSelect || isToggle ) && isReadOnly && !isDataLoading">
+    <input #input type="text" [style.height.px]="controlHeight" [placeholder]="placeHolder"
+      [style.width.px]="inputWidth" [style.background]="background" [value]="displayValue" [readonly]="true"
+      class="form-control flex-grow-1 form-control-sm py-0 my-0">
+  </div>
+
+  <!-- <app-ph-box1 *ngIf="(isSelect || isInput || isToggle || isDate) && isDataLoading" [stripHeight]="controlHeight"
+    [backSize]="phBackSizeSelf" [duration]="phDurationSelf"></app-ph-box1> -->
+  <app-ph-box1 *ngIf="(isSelect || isInput || isToggle || isDate) && isDataLoading" [stripHeight]="controlHeight"
+    [backSize]="phBackSizeSelf" [duration]="phDurationSelf"></app-ph-box1>
+
+  <textarea #input *ngIf="isMemo && !isDataLoading" [rows]="Rows" [readonly]="isReadOnly"
+    [style.background]="background" [style.min-height.px]="Rows * controlHeight + panel.RowSpacing * (Rows-1)"
+    class="form-control flex-grow-1 form-control-sm py-0 my-0" [formControlName]="formControlNameFinal">
+  </textarea>
+  <app-ph-box1 *ngIf="isMemo && isDataLoading" [stripHeight]="Rows * controlHeight + panel.RowSpacing * (Rows-1)"
+    [backSize]="phBackSizeSelf" [duration]="phDurationSelf"></app-ph-box1>
+
+</div>

@@ -1,0 +1,20 @@
+<div *ngIf="isVisible" #wrapper id="wrapper" class="btn-group">
+  <button  [disabled]="((!rights && !on)|| inProgress)"
+  class="btn btn-sm btn-link m-0 px-0 py-0"
+    [style.font-size.em]="fontFactor" (focus)="onFocus($event)" [matTooltip]="tooltip ? tooltip : null"
+    matTooltipPosition="below" (click)="ButtonClick($event)">
+
+    <span class="fa-stack">
+      <i *ngIf="icon" [class]="icon"></i>
+      <i *ngIf="icon2" [class]="icon2 + ' fa-stack-1x'"
+        style="text-shadow: -1px -1px #c0c0c0 ;margin-left:2px;margin-top:2px;font-size:0.9em;"></i>
+    </span>
+    <span id="label">
+      <ng-content></ng-content>
+    </span>
+
+
+  </button>
+  <i [class]="iconRight" *ngIf="(toggleDropDownState.observers.length && withDropdown) || rightIconMenuTrigger"
+    (click)="ToggleDropDownState($event)" [matMenuTriggerFor]="rightIconMenuTrigger"></i>
+</div>

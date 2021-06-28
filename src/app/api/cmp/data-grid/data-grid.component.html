@@ -1,0 +1,199 @@
+<!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  <mat-icon>more_vert</mat-icon>
+</button> -->
+
+
+<div #wrapper id="grid-wrapper" *ngIf="isReady" [style.font-size.em]="fontFactor">
+
+  <mat-menu #menu="matMenu" style="overflow: hidden;">
+    <!-- <app-filter-parameters></app-filter-parameters> -->
+    <ul class="list-group py-0">
+      <li class="list-group-item py-1">Sort Oldest M to Newest</li>
+      <li class="list-group-item py-1">Sort Newest to Oldest</li>
+      <li class="list-group-item py-1">Item 3</li>
+      <li class="list-group-item py-1">Item 4</li>
+    </ul>
+
+  </mat-menu>
+
+
+  <div *ngIf="false" id="grid-toolbar">Toolbar</div>
+  <div #gridHeader id="grid-header" [style.min-height.px]="headerHeight" [style.max-height.px]="headerHeight"
+    style="position: relative;">
+
+
+    <!-- actual visible column headers -->
+    <div *ngIf="isWithVisibleColumns" class="grid-header-row" (mousemove)="headerMouse($event)"
+      (mouseout)="headerMouse($event)" (mousedown)="headerMouse($event)" (mouseup)="headerMouse($event)"
+      (mouseout)="headerMouse($event)" [style.cursor]="headerMaskCursor" [style.margin-left.px]="leftScrollOffset"
+      [style.padding-left.px]="RowHeaderWidth" style="position:relative;" [style.min-height.px]="rowHeaderHeight"
+      [style.max-height.px]="rowHeaderHeight">
+
+
+
+      <!-- generate row header cell - data grid access to settings and other actions -->
+      <div #rowHeader class="row-header" [style.max-width.px]="RowHeaderWidth"
+      [style.left.px]="-leftScrollOffset"
+        [style.min-width.px]="RowHeaderWidth"
+        style="border-bottom:none;position:absolute;z-index:1;">
+        <i id="barMenu" matTooltipPosition="right" matTooltip="Click to manage grid columns"
+          (click)="BarMenuClicked($event)" *ngIf="!noBarMenu" class="fa fa-bars"></i>
+        <span *ngIf="noBarMenu">&nbsp;</span>
+      </div>
+
+      <!-- grip handle -->
+      <!-- <div style="position:absolute;box-sizing:border-box ;flex-grow:0;flex-shrink:0;background:lime; max-width: 2px;border:none; border-left:1px solid red;border-right:1px solid red;font-size:1px;">&nbsp;</div> -->
+      <!-- <div style="border-left:1px solid red;position:absolute;"></div> -->
+      <div id="vsep" *ngIf="false && showResizeCursor" [style.width.px]="handleOffset*2" [style.left.px]="getHandleLeft"
+        (mousedown)="splitCursorMouse($event)" (mouseup)="splitCursorMouse($event)">&nbsp;</div>
+
+
+      <!-- generate row cells -->
+      <div *ngFor="let h of options.visibleColumns;let ci=index;"
+        [style.min-width.px]="cellWidth(h,ci)"
+        class="column-header noselect d-flex" [attr.id]="'h_'+ci"
+        [style.max-width.px]="cellWidth(h,ci)" [style.padding.px]="0"
+
+      >
+        <div class="header-text"
+
+
+          [ngClass]="{'header-with-filter-or-sort':(h.sortAsc||h.sortDesc|| (h.filters ? h.filters.length : false)) && h.allowFilter &&  activeFiltering}">
+          {{h.caption}}</div>
+        <div class="header-filter" [ngClass]="{'header-with-filter-or-sort':h.sortAsc||h.sortDesc|| h.filters.length}"
+          *ngIf="h.allowFilter && activeFiltering">
+          <div class="d-flex">
+            <i class="fa" matTooltipPosition="below" matTooltipShowDelay="500" *ngIf="h.sortAsc || h.sortDesc"
+              matTooltip="Sorting in descending order applied, click to toggle sort order..."
+              [ngClass]="{'fa-sort-alpha-up':h.sortAsc, 'fa-sort-alpha-down-alt':h.sortDesc}"></i>
+            <i class="fa fa-filter" *ngIf="h.filters.length" matTooltipPosition="below" matTooltipShowDelay="500"
+              matTooltip="Data filtering applied, click to toggle off/on..."></i>
+          </div>
+
+          <i class="fa fa-caret-down" (click)="OpenFilter(h)" matTooltipPosition="below" matTooltipShowDelay="500"
+            matTooltip="Click to set filter parameters"></i>
+        </div>
+      </div>
+
+      <!-- generate row end padding cell -->
+      <div *ngIf="headerPadWidth!=0" [style.min-width.px]="headerPadWidth" [style.max-width.px]="headerPadWidth"
+        style="text-overflow:unset;padding: 0px;">&nbsp;
+      </div>
+    </div>
+
+    <!-- hidden row which is used for column widths of visible header and details -->
+    <div #gridHeaderWidthGuide class="grid-header-row" [style.height.px]="0" style="background:red;">
+      <div class="row-header" [style.max-width.px]="RowHeaderWidth"
+      [style.min-width.px]="RowHeaderWidth">.</div>
+      <div *ngFor="let h of options.visibleColumns"
+        [style.min-width.px]="headerWidth(h,{min:true})"
+        [style.max-width.px]="headerWidth(h,{max:true})"
+        style="background:red;" (click)="calcWidths()">
+        {{h.minWidth}} : {{headerWidth(h,{max:true})}} : {{h.width}}</div>
+      <div *ngIf="headerPadWidth!=0" [style.min-width.px]="headerPadWidth" [style.max-width.px]="headerPadWidth">HEADER!
+      </div>
+    </div>
+  </div>
+
+  <cdk-virtual-scroll-viewport *ngIf="isWithVisibleColumns" id="grid-view-port" #gridViewPort
+    [style.height.px]="portHeight" [itemSize]="options.rowHeight" [maxBufferPx]="options.rowHeight * bufferRows"
+    [minBufferPx]="options.rowHeight * bufferRows">
+    <div [style.width.px]="totalCellWidths" class="grid-prompt noselect" *ngIf="isNoRecord && !isLoadingData">
+      {{promptNoRecords}}</div>
+    <div [style.width.px]="totalCellWidths" class="grid-prompt noselect" *ngIf="isRefreshing && !isLoadingData">
+      {{promptRefresh}}</div>
+    <div class="grid-prompt noselect" *ngIf="isRepainting && !isLoadingData">...</div>
+    <div [style.width.px]="totalCellWidths" class="grid-prompt noselect" *ngIf="isLoadingData"><i
+        class="fa fa-spinner fa-spin fa-3x fa-fw"></i>{{promptLoadingData}}</div>
+
+    <div class="grid-row" *cdkVirtualFor="let r of dataSource;let i=index;" [style.height.px]="options.rowHeight"
+      [style.padding-left.px]="RowHeaderWidth" (click)="RowClick(r,false,true)" [ngClass]="RowClass(r)" style="position:relative;">
+
+      <!-- Detail Row Header Start - displays row status icons -->
+      <div class="row-header" [style.max-width.px]="RowHeaderWidth" [style.min-width.px]="RowHeaderWidth"
+        style="position: absolute;" [style.left.px]="barMenuLeft">
+
+        <!-- <i class="pointer fa fa-pen"></i> -->
+        <!-- <i class="pointer fa fa-lock"></i> -->
+
+        <!-- CURRENT RECORD POINTER ICON -->
+        <i class="pointer fa fa-angle-right"></i>
+
+        <!-- CURRENT RECORD POINTER ICON -->
+        <i class="check fa fa-check" [style.visibility]="SelectedVisiblity(r)"></i>
+
+        <!-- CURRENT RECORD PROGRESS SPINNER ICON -->
+        <i *ngIf="isRowWaiting" [style.visible]="isRowWaiting ? 'visible': 'hidden'"
+          class="wait fa fa-spinner fa-spin fa-1x fa-fw"></i>
+
+        <!-- CURRENT RECORD FOCUS TEXT INPUT -->
+        <input class="row-focus" type="text" (keyup)="KeyUp($event,r)" [id]="'row_focus_' + r[options.keyColumnName]" />
+
+
+
+      </div>
+      <!-- Detail Row Header End -->
+
+      <div *ngFor="let c of options.visibleColumns;let ci=index;"
+        [class]="'grid-cell'+(isCurrRow(r) ? '' : ' noselect')" [style.text-align]="c.align"
+        [style.min-width.px]="cellWidth(c,ci)" [style.max-width.px]="cellWidth(c,ci)" [style.color]="cellColor(r,c)"
+        [style.background]="cellBack(r,c)" (mouseenter)="OnCellMouse($event,r,c)" (mousemove)="OnCellMouse($event,r,c)" (mouseleave)="OnCellMouse($event,r,c)"
+        matTooltipPosition="below" matTooltipShowDelay="800" [matTooltip]="cellTip">
+        {{cellText(r,c)}}
+      </div>
+
+
+
+    </div>
+  </cdk-virtual-scroll-viewport>
+  <!-- <div id="colSplit" #colSplit class="noselect" [style.left.px] = "mouse.x" style="font-size:1x;position:absolute;top:25px;border:none;width:5px;z-index:2;box-sizing: border-box;cursor:ew-resize;">
+    <div style="font-size:1x;width:3px;border:none;border-left:1px solid red;border-right:1px solid red;height:25px;margin-left:1px;margin:0px;box-sizing: border-box;">&nbsp;</div>
+    <div style="font-size:1x;width:2px;border:none;border-left:1px solid blue;height:200px;margin-left:1px;box-sizing: border-box;">&nbsp;</div>
+  </div> -->
+
+  <app-data-grid-split *ngIf="headerHovered"
+  [headerHeight]="rowHeaderHeight" [gridHeight]="bound.height-footBound.height"
+  [xPos]="handlePosition"></app-data-grid-split>
+
+  <div #footer *ngIf="setValueTo(!options.noFooter ,true)" id="grid-footer" class="d-flex">
+    <!-- <div *ngIf="false" id="grid-footer" class="d-flex"> -->
+    <div id="footer-status" class="noselect" *ngIf="isPaging">{{recordStatus}}</div>
+    <div id="footer-no-paging" *ngIf="!isPaging" class="text-center">&nbsp;</div>
+    <div class="mr-auto">&nbsp;</div>
+
+    <div id="footer-loading" *ngIf="isLoadingData">Loading...<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+
+    <nav *ngIf="isPaging" aria-label="Page navigation example">
+      <ul class="pagination noselect m-0">
+        <ng-container *ngIf="totalPages>1">
+          <li class="page-item">
+            <button class="btn btn-link btn-sm page-link" (click)="pageNumber>1 ? PageClick($event,pageNumber-1): null"
+              (focus)="onFocus($event)" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </button>
+          </li>
+          <li *ngFor="let p of pageArray" class="page-item">
+            <button
+              [ngClass]="{'btn':true,'btn-sm':true,'btn-link':true,'page-link':true,'page-active':isCurrPage(p+1)}"
+              (focus)="onFocus($event)"
+              (click)="!isCurrPage(p+1) && p!=-1 ? PageClick($event,p+1): null">{{PageNum(p)}}</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link btn btn-sm btn-link" (focus)="onFocus($event)"
+              (click)="pageNumber<totalPages ? PageClick($event,pageNumber+1): null" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </button>
+          </li>
+        </ng-container>
+        <li [formGroup]="form">
+          <select #pageSizeSelect [disabled]="isLoadingData" formControlName="pageSize" (change)="PageSizeChange($event)">
+            <option *ngFor="let ps of pageSizes" [value]="ps">{{ps}}</option>
+          </select>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</div>

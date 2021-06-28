@@ -1,0 +1,98 @@
+<!-- <span style="position: absolute;top:0px;left:px;z-index:1600;background-color:yellow;opacity:0.5;">{{url}}</span> -->
+<div id="preview" class="d-flex"
+  style="position:relative; width:100%; flex-direction: column;flex:1 1 0;align-items:center; background:white;margin:2px 2px;overflow: hidden;">
+
+  <span *ngIf="!fileExists && (isPhoto || isVideo) && !isLoading" class="fa-stack fa-2x"
+    style="margin:auto auto;padding:0px;" [style.font-size.px]="iconFontSize" matTooltip="File not found ...">
+    <i *ngIf="isVideo" class="fa fa-film fa-stack-2x text-info" style="opacity: 0.7;"></i>
+    <i *ngIf="isPhoto" class="far fa-image fa-stack-2x text-info" style="opacity: 0.7;"></i>
+    <i class="fa fa-ban fa-stack-2x text-danger" style="opacity: 0.6;"></i>
+  </span>
+
+  <span *ngIf="(!isPhoto && !isVideo) && !isLoading" class="fa-stack fa-2x" matTooltip="Preview not supported ..."
+    style="margin:auto auto;padding:0px;" [style.font-size.px]="iconFontSize">
+    <i class="fa fa-eye-slash fa-stack-2x text-info" style="opacity: 0.6;"></i>
+  </span>
+
+  <i *ngIf="isLoading" class="fa fa-sync fa-spin fa-6x fa-fw text-info" style="margin:auto auto;"></i>
+
+  <ng-container *ngIf="url">
+
+    <img *ngIf="fileExists && isPhoto && !isLoading" [src]="url" alt=""
+      style="width:100%;height:100%;object-fit:contain;" (load)="ImageLoaded($event)">
+    <video [title]="videoTitle" #video *ngIf="fileExists && isVideo && !isLoading " autoplay controls
+      style="background-color: black;width:100%;height:100%;margin:auto auto;object-fit:contain;">
+      <!-- .mp4 file for native playback in IE9+, Firefox, Chrome, Safari and most mobile browsers -->
+      <!-- <source src="http://ivideolib.com/Videos/G0240275/V02402750000217/video.mp4" type="video/mp4" /> -->
+
+      <source [src]="url" type="video/mp4" />
+      <!-- <source src="//soga-alv/an/larfefile2.mp4" type="video/mp4"> -->
+      <!-- <source src="file://soga-alv/an/larfefile2.mp4" type="video/mp4"> -->
+
+
+      <!-- flash fallback for IE6, IE7, IE8 and Opera -->
+
+    </video>
+
+    <!-- <iframe src="file://soga-alv/an/larfefile2.mp4" *ngIf="fileExists && isVideo && !isLoading" frameborder="0"
+      style="width:250px;height:250px;"></iframe> -->
+
+      <!-- <iframe src="http://ivideolib.com/Videos/G0240275/V02402750000217/video.mp4" *ngIf="fileExists && isVideo && !isLoading" frameborder="0"
+      style="width:250px;height:250px;"></iframe> -->
+
+    <!-- <div style=" font-size: 9px;width:200px;">To play the video in full screen mode, please download the video first and then play it in Media Player.</div> -->
+    <object id="VID" *ngIf="fileExists && isVideo && !isLoading && false"
+      classid="clsid:22d6f312-b0f6-11d0-94ab-0080c74c7e95"
+      codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#version=5,1,52,701"
+      standby="loading microsoft windows media player components..." type="application/x-oleobject" width="200"
+      height="200">
+      <param name="filename"
+        value="file://soga-alv/c$/Users/alv/Documents/data/soga/WebAPIProjects/RefFiles/Attachments/REF_FILES/AN/jess5.mp4">
+      <param name="animationatstart" value="true">
+      <param name="transparentatstart" value="true">
+      <param name="autoStart" value="false">
+      <param name="showcontrols" value="true">
+      <param name="showstatusbar" value="false">
+      <param name="windowlessVideo" value="true">
+      <param name="playCount" value="1000">
+      <param name="fullScreen" value="true">
+      <param name="stretchtofit" value="1">
+      <embed src="http://soga-alv/ngarbi/reffiles/Attachments/REF_FILES/AN/jess5.mp4" autoStart="false"
+        showcontrols="false" showstatusbar="1" stretchtofit="1" bgcolor="black" [width]="200" [height]="200">
+      <strong>Error:</strong>You need <a
+        href="http://port25.technet.com/pages/windows-media-player-firefox-plugin-download.aspx">Windows Media Player
+        Plugin</a>.
+
+    </object>
+
+    <!-- <object id="mediaplayer" type="application/x-ms-wmp" data="file://soga-alv/c$/Users/alv/Documents/data/soga/WebAPIProjects/RefFiles/Attachments/REF_FILES/AN/jess5.mp4" width="200" height="200">
+        <param name="src" value="file://soga-alv/c$/Users/alv/Documents/data/soga/WebAPIProjects/RefFiles/Attachments/REF_FILES/AN/jess5.mp4" valuetype="ref" 
+          type="file://soga-alv/c$/Users/alv/Documents/data/soga/WebAPIProjects/RefFiles/Attachments/REF_FILES/AN/jess5.mp4">
+        <param name="animationatStart" value="1">
+        <param name="transparentatStart" value="1">
+        <param name="autoStart" value="1">
+        <param name="ShowControls" value="0">
+        <param name="ShowDisplay" value="0">
+        <param name="ShowStatusBar" value="0">
+        <param name="playcount" value="10">
+        <param name="autoRewind" value="1">
+        <param name="displaysize" value="0">
+        <param name="stretchtofit" value="1">
+        <param name="enableContextMenu" value="0">
+        <param name="uiMode" value="none">
+        <strong>Error:</strong>You need <a href="http://port25.technet.com/pages/windows-media-player-firefox-plugin-download.aspx">Windows Media Player Plugin</a>.
+    </object> -->
+
+  </ng-container>
+
+  <div *ngIf="data" id="prev" [class]="(isFirst ? ' disable' : '')" (click)="ShowPrev()">
+    <i class="fa fa-chevron-left"></i>
+  </div>
+  <div *ngIf="data" id="next" [class]="(isLast ? ' disable' : '')" (click)="ShowNext()">
+    <i class="fa fa-chevron-right"></i>
+  </div>
+
+  <i id="open_preview" *ngIf="!data && openPreview.observers.length==1" matTooltip="Open in preview popup window..."
+    class="fa fa-external-link-alt" (click)="OpenPreview()"></i>
+
+</div>

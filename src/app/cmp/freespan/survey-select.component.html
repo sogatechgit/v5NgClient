@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <app-data-grid-b #grid style="top:0px;margin-top:-6px;padding:0px;border:none;" 
+        [dataSet]="ds" tableCode="vwcspan" noFooter="false" autoGrid="true" fontFactor="0.9"
+        SelectMode="true" noBarMenu="true" [SelectedIds]="surveyIds" noToolbar="true" (rowClick)="RowClick($event)">
+    </app-data-grid-b>
+</div>
+
+
+
+<!-- <app-data-grid-b></app-data-grid-b> -->

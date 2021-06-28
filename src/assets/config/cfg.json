@@ -1,0 +1,877 @@
+{
+  "DataSources": [
+    {
+      "name": "sepco",
+      "app_title": "SEPCo - IMSA",
+      "app_header_main": "Integrity Management System Application - IMSA",
+      "app_header_sub": "Shell Exploration and Production Company - SEPCo",
+      "tree_definition": [
+        {
+          "tree_id": 1,
+          "name": "Integrity Status",
+          "roots": [
+            {
+              "location": "aa",
+              "id": 772
+            }
+          ]
+        },
+        {
+          "tree_id": 2,
+          "name": "Equipment",
+          "roots": [
+            {
+              "location": "ab",
+              "id": 11542
+            }
+          ]
+        },
+        {
+          "tree_id": 5,
+          "name": "Other",
+          "roots": [
+            {
+              "location": "ac",
+              "id": 11690
+            },
+            {
+              "location": "ad",
+              "id": 89680
+            },
+            {
+              "location": "ae",
+              "id": 89683
+            },
+            {
+              "location": "af",
+              "id": 89684
+            },
+            {
+              "location": "ag",
+              "id": 89685
+            },
+            {
+              "location": "ah",
+              "id": 89686
+            },
+            {
+              "location": "ai",
+              "id": 89687
+            },
+            {
+              "location": "aj",
+              "id": 89688
+            },
+            {
+              "location": "ak",
+              "id": 89689
+            },
+            {
+              "location": "al",
+              "id": 89690
+            },
+            {
+              "location": "am",
+              "id": 89873
+            },
+            {
+              "location": "an",
+              "id": 89874
+            },
+            {
+              "location": "ao",
+              "id": 89875
+            },
+            {
+              "location": "ap",
+              "id": 89877
+            },
+            {
+              "location": "aq",
+              "id": 90169
+            },
+            {
+              "location": "ar",
+              "id": 95874
+            },
+            {
+              "location": "as",
+              "id": 95875
+            }
+          ]
+        }
+      ],
+      "url_local": "http://soga-alv/ngarbi/api/app",
+      "url_soga": "http://soga-s-01/imsaapi/api/app",
+      "url_deploy": "http://ngimsa.ivideolib.com/api/app",
+      "url_use_deploy": false,
+      "attachment_root": "RefFiles"
+    },
+    {
+      "name": "spex",
+      "app_title": "SPEX - IMSA",
+      "app_header_main": "Integrity Management System Application - IMSA",
+      "app_header_sub": "Shell Philippines Exploration B.V. - SPEX",
+      "tree_definition": [
+        {
+          "tree_id": 1,
+          "name": "Integrity Status",
+          "roots": [
+            {
+              "location": "aa",
+              "id": 4667
+            }
+          ]
+        },
+        {
+          "tree_id": 2,
+          "name": "Equipment",
+          "roots": [
+            {
+              "location": "ab",
+              "id": 13970
+            }
+          ]
+        }
+      ],
+      "url_local": "http://soga-alv/ngarbi/api/app",
+      "url_soga": "http://soga-s-01/imsaapi2/api/app",
+      "url_deploy": "http://ngimsa.ivideolib.com/api/app",
+      "url_use_deploy": false
+    }
+  ],
+  "report_list": {
+    "sample_property": "Hello Report"
+  },
+  "app_menu": [
+    {
+      "id": 1,
+      "label": "Modules",
+      "active": true,
+      "icon": "fa fa-window-maximize",
+      "subMenu": [
+        {
+          "id": 1,
+          "label": "Anomaly",
+          "active": false,
+          "init_fields": "AN_ID`AN_TITLE`ASSET_ID`AN_ORIG_CLASS`AN_CURR_CLASS",
+          "ready": true,
+          "loaded": false
+        },
+        {
+          "id": 2,
+          "label": "Design Data",
+          "active": false,
+          "ready": true,
+          "loaded": false
+        },
+        {
+          "id": 3,
+          "label": "Chemical Database",
+          "active": false,
+          "ready": true,
+          "loaded": false
+        },
+        {
+          "id": 4,
+          "label": "Risk Based Inspection",
+          "active": false,
+          "loaded": false
+        },
+        {
+          "id": 5,
+          "label": "Survey Data",
+          "active": false,
+          "ready": true,
+          "loaded": false
+        },
+        {
+          "id": 6,
+          "label": "Freespan",
+          "active": false,
+          "ready": true,
+          "loaded": false
+        },
+        {
+          "id": 7,
+          "label": "Reference Library",
+          "active": false,
+          "ready": true,
+          "loaded": false
+        },
+        {
+          "id": 8,
+          "label": "Seismic",
+          "ready": true,
+          "active": false,
+          "loaded": false
+        },
+        {
+          "id": 9,
+          "label": "Compliance",
+          "ready": true,
+          "active": false,
+          "loaded": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Tools",
+      "active": false,
+      "icon": "fa fa-wrench",
+      "subMenu": [
+        {
+          "id": 9,
+          "label": "User Management",
+          "active": false,
+          "loaded": false
+        },
+        {
+          "id": 10,
+          "label": "Asset Management",
+          "active": false,
+          "loaded": false
+        },
+        {
+          "id": 11,
+          "label": "Survey Upload",
+          "active": false,
+          "loaded": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Settings",
+      "active": false,
+      "icon": "fa fa-cog",
+      "subMenu": []
+    },
+    {
+      "id": 4,
+      "label": "Help",
+      "active": false,
+      "icon": "fa fa-question-circle",
+      "subMenu": []
+    },
+    {
+      "id": 5,
+      "label": "user-info",
+      "active": false,
+      "icon": "fa fa-user ml-2",
+      "subMenu": []
+    }
+  ],
+  "general": {
+    "url_local": "http://soga-alv/ngarbi/api/app",
+    "url_deploy": "http://ngimsa.ivideolib.com/api/app",
+    "url_use_deploy": false,
+    "app_version": {
+      "ver": "Alpha 2.4.2",
+      "build": "20210616",
+      "updates": [
+        "Inserted preview component in reference file module",
+        "Activated ASX Video Reference file preview",
+        "Activated Seismic Module (event details popup set as tooltip)",
+        "Activated Freespans Module (working but still carrying out speed optimization)",
+        "Activated reporting on Anomalies, Design Data, Chemical Database and Reference Library Modules",
+        "Activated Compliance Module",
+        "Implemented Oracle Database Backend",
+        "Fixed tree search result grid display",
+        "Set fluid grid display on survey data module",
+        "Attachment preview window launch on preview thumbnail",
+        "File attachment, preview and browse components applied to major modules",
+        "Updated reference attachment component to have reumable upload feature",
+        "Fixed Attachment Component Manage Configuration",
+        "Activated Survey and Reference Files modules",
+        "Started Attachment and File preview components",
+        "Re-Activated risk column filtering on V2",
+        "Column resize by dragging enable even when on table details",
+        "Implemented core engine V2.0 accross all modules",
+        "Improved user feedback",
+        "Fixed nested stack error in custom date filtering",
+        "Fixed filter clause error on production build",
+        "Fixed floating record pointer/selector when multiple modules are loaded",
+        "Introduced more filtering and selection options in data grid component (ie. multi-select and record selection/filtering from multiple locations)",
+        "Completed standard linked reference records management (with provision for custom management component)",
+        "NOTE: Anomaly module testing and bug fixing is ongoing; ChemDB, Design Data, Reference Library and Survey Data modules under development ... "
+      ],
+      "history": [
+        {
+          "ver": "Alpha 2.4.1",
+          "build": "20210522",
+          "updates": [
+            "Activated Seismic Module (event details popup set as tooltip)"
+          ]
+        },
+        {
+          "ver": "Alpha 2.4.0",
+          "build": "20210522",
+          "updates": [
+            "Activated Freespans Module (working but still carrying out speed optimization)",
+            "Activated reporting on Anomalies, Design Data, Chemical Database and Reference Library Modules",
+            "Activated Compliance Module"
+          ]
+        },
+        {
+          "ver": "Alpha 2.3.2",
+          "build": "20210427",
+          "updates": [
+            "Implemented Oracle Database Backend"
+          ]
+        },
+        {
+          "ver": "Alpha 2.3.1",
+          "build": "20210224",
+          "updates": [
+            "Fixed tree search result grid display",
+            "Set fluid grid display on survey data module",
+            "Attachment preview window launch on preview thumbnail"
+          ]
+        },
+        {
+          "ver": "Alpha 2.3.0",
+          "build": "20210223",
+          "updates": [
+            "File attachment, preview and browse components applied to major modules"
+          ]
+        },
+        {
+          "ver": "Alpha 2.2.2",
+          "build": "20210218",
+          "updates": [
+            "Updated reference attachment component to have reumable upload feature"
+          ]
+        },
+        {
+          "ver": "Alpha 2.2.1",
+          "build": "20210211",
+          "updates": [
+            "Fixed Attachment Component Manage Configuration"
+          ]
+        },
+        {
+          "ver": "Alpha 2.2.0",
+          "build": "20210211",
+          "updates": [
+            "Activated Survey and Reference Files modules",
+            "Started Attachment and File preview components"
+          ]
+        },
+        {
+          "ver": "Alpha 2.1.1",
+          "build": "20210201",
+          "updates": [
+            "Re-Activated risk column filtering on V2",
+            "Column resize by dragging enable even when on table details"
+          ]
+        },
+        {
+          "ver": "Alpha 2.1.0",
+          "build": "20210130",
+          "updates": [
+            "Implemented data grid column resizing",
+            "Implemented core engine V2.0 accross all modules",
+            "Improved user feedback",
+            "Fixed nested stack error in custom date filtering",
+            "Fixed filter clause error on production build",
+            "Fixed floating record pointer/selector when multiple modules are loaded",
+            "Introduced more filtering and selection options in data grid component (ie. multi-select and record selection/filtering from multiple locations)",
+            "Completed standard linked reference records management (with provision for custom management component)",
+            "NOTE: Anomaly module testing and bug fixing is ongoing; ChemDB, Design Data, Reference Library and Survey Data modules under development ... "
+          ]
+        },
+        {
+          "ver": "Alpha 2.0.1",
+          "build": "20210121",
+          "updates": [
+            "Implemented core engine V2.0 accross all modules",
+            "Improved user feedback",
+            "Fixed nested stack error in custom date filtering",
+            "Fixed filter clause error on production build",
+            "Fixed floating record pointer/selector when multiple modules are loaded",
+            "Introduced more filtering and selection options in data grid component (ie. multi-select and record selection/filtering from multiple locations)",
+            "Completed standard linked reference records management (with provision for custom management component)",
+            "NOTE: Anomaly module testing and bug fixing is ongoing; ChemDB, Design Data, Reference Library and Survey Data modules under development ... "
+          ]
+        },
+        {
+          "ver": "Alpha 2.0.0",
+          "build": "20210120",
+          "updates": [
+            "Implemented core engine V2.0 accross all modules",
+            "Improved user feedback",
+            "Fixed nested stack error in custom date filtering",
+            "Fixed filter clause error on production build",
+            "Introduced more filtering and selection options in data grid component (ie. multi-select and record selection/filtering from multiple locations)",
+            "Completed standard linked reference records management (with provision for custom management component)",
+            "NOTE: Anomaly module testing and bug fixing is ongoing; ChemDB, Design Data, Reference Library and Survey Data modules under development ... "
+          ]
+        },
+        {
+          "ver": "Alpha 1.5.0",
+          "build": "20201211",
+          "updates": [
+            "Activated Chemical Database Module",
+            "Created all Chemical Database Sub-Modules with Basic information data-bound layout (other tabs stil under development)",
+            "Created Data Grid B component. Can be used to create module with complete CRUD funtionalities with proper user feedback mechanism.",
+            "Enhanced API table configuration where data column roles and dynamic properties were introduced. This will allow client-side components to automatically generate/retreive features such as lookups, labels, stamps, etc."
+          ]
+        },
+        {
+          "ver": "Alpha 1.4.3b",
+          "build": "20201105",
+          "updates": [
+            "Initial implementation of related records data grid on anomaly module",
+            "Activated data filtering feature (with some display rendering issues"
+          ]
+        },
+        {
+          "ver": "Alpha 1.4.2",
+          "build": "20201008",
+          "updates": [
+            "Reference Library Detail section with data binding deployed",
+            "Initial deployment of Design Data Module",
+            "Enabled Reference Files data grid"
+          ]
+        },
+        {
+          "ver": "Alpha 1.4.1",
+          "build": "20201005",
+          "updates": [
+            "Enabled Reference Files data grid"
+          ]
+        },
+        {
+          "ver": "Alpha 1.4.0",
+          "build": "20200930",
+          "updates": [
+            "Completed Anomaly delete action",
+            "Streamlined refresh routines after add/edit/delete action",
+            "Started working on data grid column resizing and filtering",
+            "Fixed tree search set-node-on-item-click event",
+            "Fixed null data filtering and update issues"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.9",
+          "build": "20200911",
+          "updates": [
+            "Fixed data grid scrolling issue (ping-pong behavior)"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.8",
+          "build": "20200909",
+          "updates": [
+            "Anomaly Delete in progress",
+            "Anomaly Create almost complete",
+            "Completed anomaly archiving process",
+            "Completed anomaly Edit live data posting",
+            "Created common posting and user feedback mechanism",
+            "Fixed issue with Cross-Origin Resource Sharing"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.7",
+          "build": "20200829",
+          "updates": [
+            "Completed data grid column management feature",
+            "Configured anomaly module data grid columns",
+            "Fixed data formatting on data grid and forms",
+            "Activated form date selector"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.6",
+          "build": "20200820",
+          "updates": [
+            "Reformatted risk matrix component",
+            "Adjusted tabs component stylesheet to remove hilight when tab item is made active",
+            "Changed banner layout"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.5",
+          "build": "20200819",
+          "updates": [
+            "Completed Asset Selector function"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.4",
+          "build": "20200818",
+          "updates": [
+            "Worked on data pre POST request routines"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.3",
+          "build": "20200816",
+          "updates": [
+            "Modularized application features for maintainability",
+            "Set delays on propery value assignment to prevent UI rendering errors"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.2",
+          "build": "20200814",
+          "updates": [
+            "Migrated from Angular 9 to Angular 10 to take advantage of new features and bug fixes"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.1",
+          "build": "20200813",
+          "updates": [
+            "Enabled up/down arrow key navigation on data grid/list",
+            "Implemented asset tree search feature",
+            "Implemented Integrity Status Tree Coloring"
+          ]
+        },
+        {
+          "ver": "Alpha 1.3.0",
+          "build": "20200810",
+          "updates": [
+            "Enhanced Reactive Form input component for auto detection of data type and format UI accordingly",
+            "Fixed pagination issue",
+            "Tested application with larger SEPCo data to determine speed performance especially with tree coloring"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.5",
+          "build": "20200722",
+          "updates": [
+            "Working on related records from other modules",
+            "Implemented inline lookups",
+            "Changed theme fonts to Futura",
+            "Started working on view objects",
+            "Started working on reactive forms",
+            "Concentrated working on Anomaly Module (i.e. other modules are obsolete)"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.5",
+          "build": "20200610",
+          "updates": [
+            "Implemented Tree zoom feature"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.4",
+          "build": "20200609",
+          "updates": [
+            "Implemented response data compression"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.3",
+          "build": "20200604",
+          "updates": [
+            "Changed tree loading to on-demand mode",
+            "Changed overall theme to Shell preferred colors",
+            "Started client and server side api advanced filtering facility",
+            "Activated Survey Module"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.0",
+          "build": "20200528",
+          "updates": [
+            "Activated Anomaly Module",
+            "Implemented cell rendering with foreground and backround settings"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.1",
+          "build": "20200528",
+          "updates": [
+            "Activated Anomaly Module",
+            "Implemented grid column lookup feature",
+            "Implemented cell rendering with foreground and backround settings",
+            "Activated Design Data Moodule",
+            "Implemented 2-level grid lookup using nested lookupParams",
+            "Implemented application versioning"
+          ]
+        },
+        {
+          "ver": "Alpha 1.2.2",
+          "build": "20200601",
+          "updates": [
+            "Started client and server side api advanced filtering facility",
+            "Activated Survey Module",
+            "Activated Anomaly Module",
+            "Implemented grid column lookup feature",
+            "Implemented cell rendering with foreground and backround settings",
+            "Activated Design Data Moodule",
+            "Implemented 2-level grid lookup using nested lookupParams",
+            "Implemented application versioning"
+          ]
+        }
+      ]
+    },
+    "color_defs": {
+      "danger": "#dc3545",
+      "warning": "#ffc107",
+      "success": "#28a745",
+      "info": "#17a2b8",
+      "secondary": "#6c757d",
+      "primary": "#007bff",
+      "default": "#6479a4"
+    }
+  },
+  "tree_init_config": {
+    "tree_root_location": "aa",
+    "tree_location_filter_pattern": "aa,aa__",
+    "tree_location_filter_pattern_deploy": "aa,aa__",
+    "tree_extract_node_fields": "REC_TAG`NODE_ID`NODE_DESC",
+    "tree_extract_tree_fields": "TRE_NOD_TAG`TRE_NOD_TAG_PAR`TRE_NOD_LOC`TRE_DAT_TAG",
+    "tree_child_extract_levels": 1
+  },
+  "Report_Data": {
+    "Host": "",
+    "List": [
+      {
+        "rpttitle": "Reference Library Listing Summary",
+        "rptcode": "RF_01",
+        "rpttype": "rf"
+      },
+      {
+        "rpttitle": "Reference Library Listing by Asset",
+        "rptcode": "RF_02",
+        "rpttype": "rf"
+      },
+      {
+        "rpttitle": "Reference Library Listing by Category",
+        "rptcode": "RF_03",
+        "rpttype": "rf"
+      },
+      {
+        "rpttitle": "Design Data Summary Listing by Asset",
+        "rptcode": "DD_01",
+        "rpttype": "desdat"
+      },
+      {
+        "rpttitle": "Design Data Summary Listing by Type",
+        "rptcode": "DD_02",
+        "rpttype": "desdat"
+      },
+      {
+        "rpttitle": "Chemical Data Listing by Asset/Sampling Location",
+        "rptcode": "CH_01",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chemical Data Listing by Type",
+        "rptcode": "CH_02",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chemical Data Listing by Sample Date",
+        "rptcode": "CH_03",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "PVT Analysis",
+        "rptcode": "CH_04",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Organic (Oil Wax) Analysis",
+        "rptcode": "CH_05",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Bacteria Analysis",
+        "rptcode": "CH_06",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Produced Water Analysis",
+        "rptcode": "CH_07",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Solid Analysis",
+        "rptcode": "CH_08",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Failure Analysis",
+        "rptcode": "CH_09",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Bacteria Analysis(Biocide Testing)",
+        "rptcode": "CH_10",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Corrosion Coupon",
+        "rptcode": "CH_11",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Scale Coupon",
+        "rptcode": "CH_12",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "BSW Readings",
+        "rptcode": "CH_13",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Water Quality(Oil&Grease)Analysis",
+        "rptcode": "CH_14",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Glycol Analysis",
+        "rptcode": "CH_15",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "WHRU Jacket Water(WHRU)",
+        "rptcode": "CH_16",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "WHRU Jacket Water (Jacket)",
+        "rptcode": "CH_17",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "WHRU Water Analysis",
+        "rptcode": "CH_18",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chemical Treatment Rates",
+        "rptcode": "CH_19",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chemical Documents",
+        "rptcode": "CH_20",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Fluid Service",
+        "rptcode": "CH_21",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Hydraulic Fluid Analysis-Contaminants",
+        "rptcode": "CH_22",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Hydraulic Fluid Analysis-Gen. Info",
+        "rptcode": "CH_23",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Hydraulic Fluid Analysis-Properties",
+        "rptcode": "CH_24",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chemical Residuals",
+        "rptcode": "CH_25",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Service Reports",
+        "rptcode": "CH_26",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chem Treating Manual",
+        "rptcode": "CH_27",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Chem PFD",
+        "rptcode": "CH_28",
+        "rpttype": "chmhdr"
+      },
+      {
+        "rpttitle": "Anomalies By Asset Report",
+        "rptcode": "AN_01",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomalies By Class Report",
+        "rptcode": "AN_02",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomalies By Status Report",
+        "rptcode": "AN_03",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Current Anomalies Report",
+        "rptcode": "AN_04",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Non-routine Maintenance Reports",
+        "rptcode": "AN_05",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Criteria Report",
+        "rptcode": "AN_07",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Distibution Chart",
+        "rptcode": "AN_08",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly KPI Report",
+        "rptcode": "AN_10",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Types Report",
+        "rptcode": "AN_14",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Summary Report",
+        "rptcode": "AN_16",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Action Items",
+        "rptcode": "AN_18",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Inspection Anomaly Action Items",
+        "rptcode": "AN_24",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Integrity Status Report",
+        "rptcode": "AN_19",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Integrity Status By SCE/CE/SGS Report",
+        "rptcode": "AN_22",
+        "rpttype": "an"
+      },
+      {
+        "rpttitle": "Anomaly Action Items Summary",
+        "rptcode": "AN_23",
+        "rpttype": "an"
+      }
+    ]
+  }
+}

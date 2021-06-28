@@ -1,0 +1,1083 @@
+<!-- Common chem-db details section -->
+<div class="p-0 m-0">
+
+  <app-app-form-a [readOnly]="AccessMode=='view'" (beforePosting)="BeforeDataPosting($event)"
+    (afterFormCreate)="AfterFormCreate($event)">
+    <ng-container *ngIf="AccessMode!='view'">
+      <!-- Tab ID: {{this.data.moduleExchangeInfo.detailsObject.TabId}} -->
+    </ng-container>
+
+    <!-- TAB SECTION -->
+    <app-data-tabs #t *ngIf="ParentActiveTab(18)" [height]="tabHeight" activeBackground="white" [fluidIds]="[1,2,3,4]"
+      [tabLabels]="'General Information'+(AccessMode=='view' ? ',Service Report,Chemical Treating Manual,Chem PFD,Attachments':'')"
+      style="font-size: small;">
+      <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+        <app-panel-a [PR]="2">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+              </app-app-input-a>
+              <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+              </app-app-input-a>
+              <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+              </app-app-input-a>
+              <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+              </app-app-input-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2" labelWidth="90">
+              <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+              </app-app-input-a>
+            </app-panel-a>
+
+          </app-panel-a>
+
+        </app-panel-a>
+
+      </app-panel-a>
+
+      <app-panel-a *ngIf="AccessMode=='view' && t.a(1)">
+        <!-- Service Report -->
+        <app-data-grid-b #rfGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="rf" linkChildType="sr"
+          forwardLink="true" noExtras="true" noFooter="true" customGrid="gridColumnsInAnomalies"
+          [title]="'Linked = {RECS}'" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue" [gridManagementData]="dataManageRF"
+          noMaskOnInit="true" [noInitFocus]="true" [rights]="{allowManage:true}">
+        </app-data-grid-b>
+
+      </app-panel-a>
+      <app-panel-a *ngIf="AccessMode=='view' && t.a(2)">
+        <!-- Chemical Treating Manual -->
+        <app-data-grid-b #rfGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="rf" linkChildType="tm"
+          forwardLink="true" noExtras="true" noFooter="true" customGrid="gridColumnsInAnomalies"
+          [title]="'Linked = {RECS}'" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue" [gridManagementData]="dataManageRF"
+          noMaskOnInit="true" [noInitFocus]="true" [rights]="{allowManage:true}">
+        </app-data-grid-b>
+      </app-panel-a>
+      <app-panel-a *ngIf="AccessMode=='view' && t.a(3)">
+        <!-- Chem PFD -->
+        <app-data-grid-b #rfGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="rf" linkChildType="pfd"
+          forwardLink="true" noExtras="true" noFooter="true" customGrid="gridColumnsInAnomalies"
+          [title]="'Linked = {RECS}'" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue" [gridManagementData]="dataManageRF"
+          noMaskOnInit="true" [noInitFocus]="true" [rights]="{allowManage:true}">
+        </app-data-grid-b>
+      </app-panel-a>
+      <app-panel-a *ngIf="AccessMode=='view' && t.a(4)">
+        <!-- Attachment -->
+        <!-- <app-data-grid-b #rfGrid [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="rf" forwardLink="true"
+          noExtras="true" noFooter="true" customGrid="gridColumnsInAnomalies" [title]="'Linked = {RECS}'"
+          [parentGrid]="moduleExchangeInfo.gridObject" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"
+          [gridManagementData]="dataManageRF" noMaskOnInit="true" [noInitFocus]="true" [rights]="{allowManage:true}">
+        </app-data-grid-b> -->
+        <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+      </app-panel-a>
+    </app-data-tabs>
+
+    <div *ngIf="ParentActiveTab(17)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-panel-a [useSubSource]="true">
+                  <app-app-input-a fieldName="CHD_CHEM_QUAL_GNAME" label="Chemical generic Name:"></app-app-input-a>
+                  <app-app-input-a fieldName="CHD_CHEM_QUAL_PNAME" label="Product Name:">
+                  </app-app-input-a>
+                  <app-app-input-a fieldName="CHD_CHEM_QUAL_CNAME" label="Company Name:">
+                  </app-app-input-a>
+                  <app-app-input-a fieldName="CHD_CHEM_QUAL_REC_T" label="Recommended Treatment:">
+                  </app-app-input-a>
+                </app-panel-a>
+              </app-panel-a>
+            </app-panel-a>
+
+          </app-panel-a>
+
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+    </div>
+
+    <div *ngIf="ParentActiveTab(16)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'Basic Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_GNAME" label="Chemical Generic Name:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_PNAME" label="Product Name:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_CNAME" label="Company Name:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_IPOINT" label="Injection Point:">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_REC_CON" label="Recommended Concentration:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_REC_CON_BASIS" label="Basis:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_REC_T" label="Recommended Treatment:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_TREAT_ACT_RATE" label="Actual Rate:">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(20)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_CHEM_RSD_GNAME" label="Chemical Generic Name:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_RSD_PNAME" label="Product Name:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_RSD_CNAME" label="Company Name:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_CHEM_RSD_IPOINT" label="Injection Point:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_RSD_REC_T" label="Recommended Treatment:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_CHEM_RSD_ACT_RATE" label="Actual Rate:" rows="2"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(1)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_GAP_CO2" label="CO2 (Mol%):" rows="2"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GAP_H2S" label="H2S (ppm):" rows="2"></app-app-input-a>
+              </app-panel-a>
+
+            </app-panel-a>
+
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+    <div *ngIf="ParentActiveTab(2)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_OWA_GRAVITY" label="API Gravity:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_OWA_CLOUD_PT" label="Cloud Point (oF):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_OWA_POUR_PT" label="Pour Point (oF):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_OWA_INHIBITOR" label="Inhibator (ppm):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_OWA_PARAFFIN" label="Paraffin by Wt (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_OWA_ASPHALTENE" label="Asphaltene by Wt (%) (%):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(4)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true" [labelWidth]="100">
+                <app-app-input-a fieldName="CHD_PWA_SPGR" label="Specific Gravity:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_TEMP" label="Temperature (℉):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_HARDNESS" label="Hardness (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_TDS" label="Total DISS Solids:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_ACR" label="Anion/Cation Ratio:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_TSS" label="Total SUSP Solids:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true" [labelWidth]="100">
+                <app-app-input-a fieldName="CHD_PWA_SULFATE" label="Sulfate (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_SCALETEN" label="Scaling Tendency:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_RESQTY" label="Resistivity Qty:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_PH" label="pH:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_O2" label="O2 (ppm):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_H2S" label="H2S (ppm):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true" [labelWidth]="100">
+                <app-app-input-a fieldName="CHD_PWA_SODIUM" label="Sodium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_CALCIUM" label="Calcium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_MAGNESIUM" label="Magnesium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_BARIUM" label="Barium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_BROMIDE" label="Bromide (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_CONQTY" label="Conductivity Qty:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true" [labelWidth]="100">
+                <app-app-input-a fieldName="CHD_PWA_POTASSIUM" label="Potassium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_MANGANESE" label="Manganese (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_IRONSOLID" label="Iron (Solid):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_IRONDISS" label="Iron (Dissolve):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_ZINC" label="Zinc (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_CHLORIDE" label="Chloride (mg/l):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true" [labelWidth]="100">
+                <app-app-input-a fieldName="CHD_PWA_CARBONATE" label="Carbonite (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_BICARB" label="Bicarbonite (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_TOTL_ALKALI" label="TOT Alk-HCO2-(mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_PWA_CO2" label="CO2 CONT(mole%):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(5)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-app-input-a fieldName="CHD_HDR_INT" label="Solid Type:"></app-app-input-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(6)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [tabLabels]="'General Information'"
+        style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(3)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [tabLabels]="'General Information,Details'"
+        style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_BAC_BAC_REC_TYPE" label="Record Type:"></app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [horizontal]="true">
+                <app-panel-a [PR]="2">
+                  <table>
+                    <tr>
+                      <td width="12.5%" style="text-align: center;"></td>
+                      <td width="12.5%" style="text-align: center;">SRB</td>
+                      <td width="12.5%" style="text-align: center;"></td>
+                      <td width="12.5%" style="text-align: center;">GRB</td>
+                      <td width="12.5%" style="text-align: center;"></td>
+                      <td width="12.5%" style="text-align: center;">NRB</td>
+                      <td width="12.5%" style="text-align: center;"></td>
+                      <td width="12.5%" style="text-align: center;">NRSOB</td>
+                      <td width="12.5%" style="text-align: center;"></td>
+                    </tr>
+                  </table>
+                </app-panel-a>
+              </app-panel-a>
+              <app-panel-a [horizontal]="true">
+                <app-panel-a [PR]="2">
+                  <app-panel-a [useSubSource]="true">
+                    <app-app-input-a fieldName="CHD_BAC_BAC_PSRB" label="Planktonic:"></app-app-input-a>
+                    <app-app-input-a fieldName="CHD_BAC_BAC_SSRB" label="Sessile:"></app-app-input-a>
+                  </app-panel-a>
+                </app-panel-a>
+                <app-panel-a [PR]="2">
+                  <app-panel-a [useSubSource]="true">
+                    <app-app-input-a fieldName="CHD_BAC_BAC_PGRB" label="''"></app-app-input-a>
+                    <app-app-input-a fieldName="CHD_BAC_BAC_SGRB" label="''"></app-app-input-a>
+                  </app-panel-a>
+                </app-panel-a>
+                <app-panel-a [PR]="2">
+                  <app-panel-a [useSubSource]="true">
+                    <app-app-input-a fieldName="CHD_BAC_BAC_PNRB" label="''"></app-app-input-a>
+                    <app-app-input-a fieldName="CHD_BAC_BAC_SNRB" label="''"></app-app-input-a>
+                  </app-panel-a>
+                </app-panel-a>
+                <app-panel-a [PR]="2">
+                  <app-panel-a [useSubSource]="true">
+                    <app-app-input-a fieldName="CHD_BAC_BAC_PNRSOB" label="''"></app-app-input-a>
+                    <app-app-input-a fieldName="CHD_BAC_BAC_SNRSOB" label="''"></app-app-input-a>
+                  </app-panel-a>
+                </app-panel-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(7)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[1]"
+        [tabLabels]="'General Information'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(8)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_COUP_CORR_DT_INST" label="Date Installed:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_COUP_CORR_DT_REM" label="Date Removed:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_COUP_CORR_DAYS_EXP" label="Days Exposed:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_COUP_CORR_GEN_MPY" label="General MPY:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_COUP_CORR_PITTING_MPY" label="Pitting MPY:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(9)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [tabLabels]="'General Information,Details'"
+        style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_COUP_SC_DT_INST" label="Date Installed:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_COUP_SC_DT_REM" label="Date Removed:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_COUP_SC_DAYS_EXP" label="Days Exposed:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2" labelWidth="90">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_COUP_SC_WTGN" label="Weight Gain (g):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_COUP_SC_WTGN_DY" label="Weight Gain (g/sq cm/day):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(10)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-app-input-a fieldName="CHD_HDR_TXT1" label="Operator Initials:"></app-app-input-a>
+              <app-app-input-a fieldName="CHD_HDR_DBL" label="BSW Reading (%):"></app-app-input-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(11)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_WQA_OP_INIT" label="Operator Initials:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WQA_EST_RATE" label="Estimated Rate (bwpd):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WQA_O2" label="O2 Reading (Weekly):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WQA_FIELD_IR" label="Field IR (ppm):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_WQA_LAB_IR" label="Lab IR (ppm):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WQA_WSO_IR" label="WSO Overboard IR (ppm):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WQA_MNLY_IR" label="Mnly IR - Vendor (ppm):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WQA_MNLY_LAB" label="Mnly IR - Gravimetric (ppm):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(12)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachements':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_GLY_TSS" label="Suspended Solids (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_THC" label="Total Hydrocarbons (ppm):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_TDS" label="Total Dissolved Solids:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_PH" label="pH:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_FOAMING" label="Foaming (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_FOAMING_TIME" label="Foaming Time (secs):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_GLY_H2O" label="H2O Wt (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_APP" label="Appearance:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_IRON" label="Iron (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_CALCIUM" label="Calcium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_POTASSIUM" label="Potassium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_MAGNESIUM" label="Magnesium (mg/l):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_GLY_SODIUM" label="Sodium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_CHLORIDE" label="Chloride (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_SPGR" label="Specific Gravity:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_FLASH" label="Flash Point (℉):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_MEG" label="MEG (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_DEG" label="DEG (%):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PL]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_GLY_TEG" label="TEG Wt (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_TTEG" label="TTEG Wt (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_OTHER" label="Other Wt (%):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_GLY_RESID" label="Residue Wt (%):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(13)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_WHRU_WHRU_OI" label="Operator Initials:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WHRU_PH" label="pH:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WHRU_NIT" label="Nitrate:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WHRU_COLOR" label="Color:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(14)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white"
+        [tabLabels]="'General Information,Ongoing...,Ongoing...'" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <br><br>
+            <h1>On Going, Attachment Component...</h1>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <app-panel-a [horizontal]="true">
+            <br><br>
+            <h1>On Going, Attachment Component...</h1>
+          </app-panel-a>
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(15)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_WHRU_WATER_TDS" label="Total Desolved Solids:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_TSS" label="Total Suspended Solids:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_IRON" label="Iron Dissolved"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_SPGR" label="Specific Gravity:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_WHRU_WATER_COND" label="Conductivity (Qty):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_PH" label="pH:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_CALCIUM" label="Calcium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_HARDNESS" label="Hardness (mg/l):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_WHRU_WATER_SODIUM" label="Sodium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_MAGNESIUM" label="Magnesium (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_CHLORIDE" label="Chloride (mg/l):"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_WHRU_WATER_SULFATE" label="Sulfate (mg/l):"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+    <div *ngIf="ParentActiveTab(19)">
+      <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[2]"
+        [tabLabels]="'General Information,Details'+(AccessMode=='view' ? ',Attachments':'')" style="font-size: small;">
+        <app-panel-a *ngIf="toggleDisplay && t.a(0)" horizontal="true">
+          <app-panel-a [PR]="2">
+            <app-panel-a [horizontal]="true">
+              <app-panel-a [PR]="2">
+                <app-app-input-a fieldName="CHD_HDR_ASSET_ID" [actionIcon]="assetActionIcon" label="Sample Location:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_SAMP_DATE" label="Sample Date:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_STATUS" label="Status:">
+                </app-app-input-a>
+                <app-app-input-a fieldName="CHD_HDR_ANA_VEND" label="Analysis Vendor:">
+                </app-app-input-a>
+              </app-panel-a>
+              <app-panel-a [PL]="2" labelWidth="90">
+                <app-app-input-a fieldName="CHD_HDR_COMMENTS" label="Comments:" rows="4">
+                </app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(1)">
+          <app-panel-a [horizontal]="true">
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_HFA_DTAKEN" label="Date Taken:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_DREC" label="Date Received:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_REP_TO" label="Report To:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_FNAME" label="Fluid name:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_HFA_CHK_FILT" label="Check Filter:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_SUB_ADD_SAMP" label="Submit Add'l Sample:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_DTESTED" label="Date Tested:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_DISSUED" label="Date Issued:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+            <app-panel-a [PR]="2">
+              <app-panel-a [useSubSource]="true">
+                <app-app-input-a fieldName="CHD_HFA_EMAIL_FAX" label="Email/Fax:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_SOURCE" label="Source:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_INSTSITE" label="Inst/Site:"></app-app-input-a>
+                <app-app-input-a fieldName="CHD_HFA_ELIM_SRC" label="Eliminate Source:"></app-app-input-a>
+              </app-panel-a>
+            </app-panel-a>
+          </app-panel-a>
+        </app-panel-a>
+        <app-panel-a *ngIf="t.a(2)">
+          <!-- Attachments.... -->
+          <app-attachments [pathKeyParam]="16001" [parentGrid]="moduleExchangeInfo.gridObject"
+          [parentTableCode]="TableCode" [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue"></app-attachments>
+
+        </app-panel-a>
+      </app-data-tabs>
+
+    </div>
+
+
+
+
+  </app-app-form-a>
+</div>

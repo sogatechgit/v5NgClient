@@ -1,0 +1,328 @@
+@import "../../../../appcssvars.scss";
+:host {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 0 !important;
+  padding: 0px !important;
+  font-family: $form_label_font-family;
+  font-size: 0.85em;
+}
+
+::ng-deep.mat-dialog-container {
+  resize: both;
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0px !important;
+}
+
+#details {
+  // background: lime;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  > div.menu-item {
+    display: flex;
+    flex-direction: column;
+    > div {
+      cursor: pointer;
+      span {
+        font-family: $form_label_font-family;
+        padding-top: 3px;
+        // cursor: default;
+      }
+      span.fa-stack {
+        padding: 0px;
+        margin: 0px;
+        // background: yellow;
+        i {
+          padding: 0px;
+        }
+      }
+
+      i {
+        padding: 5px;
+        width: 30px;
+        text-align: center;
+        border: 1px solid transparent;
+        margin-right: 5px;
+        cursor: pointer;
+      }
+      i.active {
+        margin-top: 3px;
+        border: 1px solid $bs_info;
+        background: $bs_warning_light;
+      }
+      i.inactive {
+        margin-top: 3px;
+        background: #f8f8f8;
+      }
+      i.text-maroon {
+        color: maroon;
+      }
+    }
+    > div:hover {
+      background-color: #fafafa;
+    }
+  }
+  > div.sep {
+    padding-bottom: 6px;
+    border-bottom: 1px solid #efefef;
+  }
+
+  > div.filler {
+    flex: 1 1 0;
+  }
+
+  .form-group {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 4px;
+    label {
+      font-family: $form_label_font-family;
+      font-size: 0.95em;
+      white-space: nowrap;
+      margin-right: 5px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding: 0px;
+    }
+
+    .form-control[type="text"],
+    textarea.form-control,
+    select,
+    .form-control option {
+      // background-color: lime;
+      font-size: 0.95em;
+      font-family: $form_input_font-family;
+      height: 30px;
+    }
+    // .form-control select option {
+    //   padding: 10px 10px;
+    //   line-height: 30px;
+    // }
+  }
+}
+textarea {
+  resize: none;
+}
+
+#action {
+  display: flex;
+  justify-content: center;
+  > button {
+    font-family: $grid_footer_font-family;
+    padding: 4px 10px;
+    font-size: 0.85em;
+  }
+}
+// .form-group {
+//   label {
+//     font-family: $form_label_font-family;
+//     font-size: 0.95em;
+//     white-space: nowrap;
+//     margin-right: 5px;
+//     margin-top: 0px;
+//     margin-bottom: 0px;
+//     padding: 0px;
+//   }
+
+//   .form-control[type="text"],
+//   textarea.form-control,
+//   select,
+//   .form-control option {
+//     // background-color: lime;
+//     font-size: 0.95em;
+//     font-family: $form_input_font-family;
+//     height:30px;
+//   }
+//   // .form-control select option {
+//   //   padding: 10px 10px;
+//   //   line-height: 30px;
+//   // }
+// }
+
+// mat-dialog-container{
+//   padding:0px !important;
+// }
+
+[mat-dialog-title] {
+  font-family: $form_header_font-family;
+  // margin: -24px -24px 0px -24px !important;
+  padding: 0px 10px;
+  background: $bs_warning;
+  color: $fore_color_dark;
+  // text-shadow: gray 1px 1px 1px;
+  cursor: move;
+  margin-bottom: 0px;
+  // text-align: center;
+}
+
+mat-dialog-content {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 0 !important;
+  overflow: hidden;
+
+  //   background: lime;
+  // .mat-typography{
+  //   margin: -24px -24px 0px -24px !important;
+  // }
+}
+mat-dialog-actions {
+  margin-left: -24px !important;
+  margin-right: -24px !important;
+
+  // background: lime !important;
+  button {
+    height: 30px !important;
+    font-family: $form_button_font-family !important;
+    font-size: 0.9em !important;
+  }
+}
+
+// mat-menu button{
+//   background:red !important;
+// }
+
+// [mat-menu-item]{
+//   height:30px;
+//   padding:0px;
+// }
+
+.no-items {
+  font-family: $form_label_font-family;
+  font-size: 1em;
+  margin: auto auto;
+  padding: 20px;
+}
+
+.items .years,
+.months,
+.days {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  li {
+    margin-left: 15px;
+    i {
+      cursor: pointer;
+      margin-right: 5px;
+      color: $bs_secondary;
+    }
+  }
+  li:hover {
+    background: #fafafa;
+  }
+}
+
+.days,
+.years li:nth-child(1) {
+  li {
+    padding-left: 16px;
+  }
+}
+
+mat-expansion-panel {
+  padding: 0px;
+  margin-top: 4px;
+  // width:200px;
+  //border:1px solid red gray;
+  border-bottom: 1px solid #efefef !important;
+  border-radius: 0px;
+
+  mat-expansion-panel-header {
+    font-family: $form_label_font-family;
+    font-size: 1em;
+
+    padding: 5px 10px;
+    // height: 30px;
+    mat-panel-title {
+    }
+  }
+  .panel-detail {
+    font-family: $form_label_font-family;
+    font-size: 0.85em;
+    flex: 1 1 0;
+    // background-color: lime;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-bottom: -15px;
+    cdk-virtual-scroll-viewport,
+    > div.custom-list {
+      flex: 1 1 0;
+      border: 1px solid #ebf1fa;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 280px;
+      min-height: 0px;
+      div.item {
+        // list item
+        // background-color: lime;
+        max-width: 300px;
+        white-space: nowrap;
+        margin-left: 15px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+
+        i {
+          margin-right: 5px;
+          color: $bs_secondary;
+        }
+      }
+
+      ul {
+        max-width: 300px;
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+        li {
+          margin-left: 15px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          cursor: default;
+          i {
+            cursor: pointer;
+            margin-right: 5px;
+            color: $bs_secondary;
+          }
+        }
+      }
+
+      .no-items {
+        margin: auto auto;
+      }
+    }
+  }
+  .panel-progress {
+    padding: 30px;
+    display: flex;
+    color: $bs_secondary;
+    span,
+    h3,
+    h4 {
+      margin: auto auto;
+      font-family: $form_label_font-family;
+    }
+  }
+}
+
+::ng-deep .customize {
+  // background: red;
+  // button{
+  //   padding:0px;
+  //   height: 30px;
+  //   margin:0px;
+  // }
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  button.mat-menu-item {
+    background-color: white;
+    line-height: 35px;
+    height: 35px;
+  }
+}

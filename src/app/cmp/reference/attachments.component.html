@@ -1,0 +1,27 @@
+<div id="grid" style="flex:1 1 0;position:relative;">
+  <!--   <app-data-grid-b #rfGrid [parentTableCode]="parentTableCode" [dataSet]="DataSet" tableCode="TableCode"
+    forwardLink="forwardLink" noExtras="true" noFooter="true" customGrid="gridColumnsInAtachments" noMaskOnInit="true"
+    [title]="'Linked = {RECS}'" [parentGrid]="parentGrid" [parentKeyValue]="gridParentKeyValue"
+    [gridManagementData]="dataManageRF" [noInitFocus]="true" [moduleExchangeInfo]="moduleExchangeInfo"
+    [rights]="{allowManage:true,allowDelete:true,allowAdd:true,allowSelect:true}" labelDelete="Remove"> -->
+
+  <app-data-grid-b #rfGrid [tableCode]="TableCode" [dataSet]="DataSet" forwardLink="forwardLink" noMaskOnInit="true"
+    [parentGrid]="parentGrid" [parentTableCode]="parentTableCode" [parentKeyValue]="parentKeyValue" [noInitFocus]="true"
+    [title]="'(Linked = {RECS})'" [promptTexts]="promptTexts" [promptWidths]="{delete:610}"
+    (openClick)="OpenAttachment($event)" (deleteClick)="RemoveLinks($event)" [bypassDeleteAction]="true"
+    [rights]="{allowManage:true,allowEdit:true,allowDelete:true,allowAdd:true,allowSelect:true,allowOpen:true}"
+    labelDelete="Remove" labelOpen="Open Preview" [moduleExchangeInfo]="moduleExchangeInfo"
+    [gridManagementData]="dataManageRF" customGrid="gridColumnsInAttachments" noFooter="true">
+
+    <app-reference-details [ExtraSettings]="{pathKey:pathKey}" [parentKeyValue]="parentKeyValue" [linkToParent]="true"
+      [DataSet]="DataSet" [isNoDetailView]="true" [moduleExchangeInfo]="moduleExchangeInfo" AccessMode="view"
+      [dataKeyValue]="moduleExchangeInfo.state.dataKeyValue" [TableCode]="TableCode">
+    </app-reference-details>
+
+  </app-data-grid-b>
+</div>
+
+<app-attachment-preview
+(openPreview)="OpenAttachment($event)"
+[style.min-width.px]="width" [style.max-width.px]="width" [url]="previewUrl" [rootUrl]="null">
+</app-attachment-preview>

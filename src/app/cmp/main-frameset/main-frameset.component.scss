@@ -1,0 +1,207 @@
+@import "../../../appcssvars.scss";
+
+$separator_color: #dfdfdf;
+
+:host {
+  // background-color: lime;
+  // border:1px solid red;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid $separator_color;
+}
+#wrapper {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  //
+  #nav-main {
+    flex-grow: 1 1 0;
+    display: flex;
+    align-items: stretch;
+    background: white;
+    font-family: $form_body_font-family;
+
+    #nav-logo {
+      // background:yellow;
+      padding: 0px 10px;
+      //padding-top:8px;
+      display: flex;
+      img {
+        margin: auto;
+      }
+    }
+    #nav-title {
+      // background:cyan;
+      padding-top: 12px;
+      white-space: nowrap;
+      p {
+        color: $fore_color_dark;
+        text-shadow: gray 1px 1px 1px;
+        span#app-ver {
+          color: gray;
+          font-size: 0.7em;
+          margin-left: 5px;
+        }
+      }
+    }
+    $sub-menu-height: 24px;
+    #nav-spacer {
+      // background:magenta;
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      #nav-spacer-top {
+        flex: 1 1 0;
+        // background:yellow;
+      }
+      #nav-spacer-bottom {
+        // background:cyan;
+        min-height: $sub-menu-height;
+        max-height: $sub-menu-height;
+        display: flex;
+        #nav-spacer-triangle {
+          flex: 1 1 0;
+          height: 0px;
+          margin-left: 12px;
+          border: 0px;
+          border-left: 50px solid transparent;
+          border-bottom: $sub-menu-height solid $back_color_dark;
+        }
+      }
+    }
+    #nav-menu {
+      display: flex;
+      flex-direction: column;
+
+      #nav-menu-bottom {
+        align-items: center;
+      }
+
+      #nav-menu-top span,
+      #nav-menu-bottom span {
+        white-space: nowrap;
+        color: $fore_color_dark;
+        font-size: 0.85em;
+        margin-left: 12px;
+        padding: 0px;
+        // background: lime;
+        box-sizing: border-box;
+        height: 1.5em;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+      }
+
+      #nav-menu-top span.active,
+      #nav-menu-bottom span.active {
+        border-bottom: 2px solid $menu_undeline;
+        //color: $fore_color_dark;;
+      }
+
+      #nav-menu-top span {
+        font-size: 0.9em;
+      }
+
+      #nav-menu-top span#notifiaction {
+        color: #c0c0c0;
+        i.active {
+          color: $bs_danger;
+        }
+      }
+
+      #nav-menu-top span:hover {
+        color: $bs_success;
+      }
+
+      // #nav-menu-top span.disabled,
+      // #nav-menu-top span.disabled:hover
+      // #nav-menu-bottom span.disabled,
+      // #nav-menu-bottom span.disabled:hover {
+      //   color: #c0c0c0
+      // }
+
+      #nav-menu-top {
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex: 1 1 0;
+        display: flex;
+        padding-right: 10px;
+        padding-bottom: 5px;
+      }
+      #nav-menu-bottom {
+        min-height: $sub-menu-height;
+        max-height: $sub-menu-height;
+        display: flex;
+        justify-content: flex-end;
+        background: $back_color_dark;
+        padding-right: 10px;
+      }
+    }
+  }
+  .hor_sep1 {
+    // flex:1 1 0;
+    $ht: 2px;
+
+    background-color: $bs_danger;
+    max-height: $ht;
+    min-height: $ht;
+    font-size: 1px;
+    padding: 0px;
+  }
+  #body {
+    flex: 1 1 0;
+    display: flex;
+    overflow: hidden;
+    .ver_sep1{
+      $wd:2px;
+      background-color: $separator_color;
+      font-size: 1px;
+      min-width:$wd;
+      max-width:$wd;
+
+    }
+    #sidenav {
+      background: white;
+      overflow: hidden;
+    }
+    #details {
+      // background-color: lime;
+      display: flex;
+      flex-direction: column;
+      flex:1 1 0;
+      overflow:hidden;
+      #modules {
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+        // > * {
+        //   // **********************************************************************************
+        //   // place rules that apply to all immediate children under the element with id=modules
+        //   // **********************************************************************************
+        //   // flex: 1 1 0;
+        //   // position: absolute;
+        //   // height:100%;
+        //   // width:100%;
+        // }
+      }
+    }
+  }
+  #footer {
+    cursor:default;
+    border-top:1px solid #c0c0c0;
+    height: 20px;
+    font-size:0.8em;
+    font-family:$form_body_font-family;
+    background: $separator_color;
+    display: flex;
+    span:nth-child(2){
+      flex:1 1 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+} // #wrapper end

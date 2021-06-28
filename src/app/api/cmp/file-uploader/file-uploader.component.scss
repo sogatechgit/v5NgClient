@@ -1,0 +1,34 @@
+@import "../../../../appcssvars.scss";
+
+$width:300px;
+:host{
+  position: absolute;
+  // min-width:$width;
+  // max-width:$width;
+  // max-height:500px;
+  overflow-y: auto;
+  // top: 32px;
+  // left: calc(100% - 300px);
+  z-index:20;
+  font-family: $form_body_font-family;
+}
+
+#wrapper{
+  // border:1px solid #c0c0c0;
+  // border-radius: 5px;
+  >div.card{
+    >div#details{
+      max-height: 500px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+    >div.card-header{
+      >i#close{
+        cursor: pointer;
+      }
+      >i#close:hover{
+        color:red !important;
+      }
+    }
+  }
+}

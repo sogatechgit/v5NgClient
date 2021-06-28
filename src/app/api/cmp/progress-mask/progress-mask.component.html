@@ -1,0 +1,13 @@
+<!-- mask panel -->
+<div class="container-fluid" [style.opacity]="maskOpacity" [style.background]="maskColor"></div>
+<!-- message -->
+<div [style.font-size.em]="fontFactor" [style.background-color]="msgBackColor">
+  <i [class]="icon" [style.color]="icoColor"></i>
+  <span class="noselect" [style.color]="msgColor">{{message}}</span>
+  <div *ngIf="ProgressDisplaySingle != undefined" class="border rounded my-1">
+    <div class="m-0 progress-bar bg-info progress-bar-striped progress-bar-animated"
+      role="progressbar" [style.width]="ProgressDisplaySingle" aria-valuenow="25"
+      style="padding:0px;height:20px;font-size: 0.85em;font-weight:400" aria-valuemin="0" aria-valuemax="100">
+      {{ProgressDisplaySingle}}</div>
+  </div>
+</div>

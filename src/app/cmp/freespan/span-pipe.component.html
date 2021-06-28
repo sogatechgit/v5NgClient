@@ -1,0 +1,39 @@
+<div class="wrapper" >
+    <div id="labels">
+        <span id="lbl_gap">Gap(mm)</span>
+        <span id="lbl_length">Length(m)</span>
+    </div>
+    <div #pipe id="pipe" ></div>
+    <div id="title"><i id="remove" class="far fa-times-circle" title="Remove campaign..." (click)="RemoveCampaign()"></i>{{campaignTitle}}</div>
+    <div id="span_bars">
+        <ng-container *ngFor="let evt of localEvents;let idx=index;">
+            
+            
+            <app-span-bar *ngIf="(evt.SP_TP == 1 || evt.SP_TP == 25 || evt.SP_TP == 26 || evt.SP_TP == 41 || evt.SP_TP == 5)" [pipe]="this" [event]="evt"></app-span-bar>
+
+
+
+
+
+
+<!-- 
+            <div id="bar_top" *ngIf="isStrake" [style.width.px]="pxSpanLengthFinal" [title]="title">
+                <i *ngIf="isLeftOverflow" class="fa fa-play"></i>
+                <i *ngIf="isRightOverflow" class="fa fa-play right"></i>
+            </div>
+            <div id="bar_bottom" *ngIf="isSpan && isVisible" [style.background]="spanBack" [style.width.px]="pxSpanLengthFinal" 
+                [title]="title">
+                <i *ngIf="isLeftOverflow" class="fa fa-play"></i>
+                <i *ngIf="isRightOverflow" class="fa fa-play right"></i>
+            </div>
+            
+            <i id="stab" [title]="title" class="fa fa-play" *ngIf="isStabilization"></i>
+            <i id="seab" [title]="title" class="fa fa-square" *ngIf="isSeabed"></i>
+            <i id="berm" [title]="title" class="fa fa-square" [style.color]="pipe.spanComponent.clrGreen" *ngIf="isBerm"></i>
+            <div id="bar_label" *ngIf="isSpan">{{spanLabel}}</div>
+ -->
+
+        </ng-container>
+    </div>
+    <!-- <div id="span_labels"></div> -->
+</div>

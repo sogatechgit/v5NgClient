@@ -1,0 +1,14 @@
+<app-app-form-a [readOnly]="isViewMode" (beforePosting)="BeforeDataPosting($event)"
+  (afterFormCreate)="AfterFormCreate($event)">
+  <app-panel-a *ngIf="!isViewMode" [labelWidth]="LWD" P="8">
+    <app-panel-a [labelWidth]="LWD" horizontal="true">
+      <app-panel-a [labelWidth]="LWD" width="400">
+        <app-app-input-a fieldName="DD_KP_START" label="KP Start"></app-app-input-a>
+        <app-app-input-a fieldName="DD_KP_END" label="KP End"></app-app-input-a>
+        <app-app-input-a fieldName="DD_KP_VALUE" label="KP Value"></app-app-input-a>
+        <app-app-input-a fieldName="DD_KP_UNIT" label="KP Unit"></app-app-input-a>
+      </app-panel-a>
+    </app-panel-a>
+  </app-panel-a>
+</app-app-form-a>
+

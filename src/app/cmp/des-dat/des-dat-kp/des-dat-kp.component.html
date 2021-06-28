@@ -1,0 +1,13 @@
+<!-- <app-data-grid-b [parentTableCode]="TableCode" [dataSet]="DataSet" tableCode="deskp" noExtras="true"
+        noFooter="true" [autoGrid]="true" [rights]="{allowAdd:true, allowEdit:true, allowDelete:true, allowExcel:true}"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue">
+      </app-data-grid-b> -->
+
+<app-data-grid-b #grid [tableCode]="TableCode" [dataSet]="DataSet" [parentGrid]="parentGrid"
+    [parentKeyValue]="parentKeyValue" [noInitFocus]="true"
+    [rights]="{allowAdd:true, allowEdit:true, allowDelete:true, allowExcel:true}" (rowClick)="RowClick($event)"
+    [moduleExchangeInfo]="moduleExchangeInfo" customGrid="" autoGrid="true" noFooter="true">
+
+    <app-des-dat-kp-details [moduleExchangeInfo]="moduleExchangeInfo" [DataSet]="DataSet"
+        [dataKeyValue]="moduleExchangeInfo.state.dataKeyValue" [TableCode]="TableCode"></app-des-dat-kp-details>
+</app-data-grid-b>

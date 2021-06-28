@@ -1,0 +1,26 @@
+@import "../../../appcssvars.scss";
+
+// :host {
+//   display: flex !important;
+//   flex-direction: column !important;
+//   flex: 1 1 0 !important;
+//   background: red;
+// }
+:host{
+  // parent container div is set to display flex, flex direction column
+  // border: 2px solid red;
+  padding: 0px;
+  flex:1 1 0 !important;
+  //display: flex !important;
+  //align-self: stretch !important;
+  //justify-self: stretch !important;
+  background-color: white !important;
+  // height:200px;
+  //flex: 1 1 0 !important;
+  //display: flex !important;
+  //display: ;
+}
+// ::ng-deep.mat-dialog-container{
+//   background-color: yellow !important;
+//   height:300px;
+// }

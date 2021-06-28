@@ -1,0 +1,37 @@
+@import "../../../../appcssvars.scss";
+:host {
+  font-family: $grid_header_font-family;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 50;
+  // > div {
+  //   position: absolute;
+  // }
+  > div:nth-child(1) {
+    position: absolute;
+    flex: 1 1 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+  }
+  > div:nth-child(2) {
+    // font-weight: bold;
+    text-align: center;
+    min-width:250px;
+    max-width:450px;
+    z-index: 51;
+    margin: auto auto;
+    // border:1px solid red;
+    padding: 7px 20px;
+    i {
+      margin-right: 10px;
+      font-size: 1.05em;
+    }
+
+    // text-shadow: 2px 2px 20px black;
+    box-shadow: 1px 1px 5px 1px #c0c0c0 ;
+    border-radius: 15px;
+  }
+}

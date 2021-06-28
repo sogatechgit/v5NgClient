@@ -1,0 +1,121 @@
+<!-- <app-test-panel style="height:600px;border:1px solid red;flex:1 1 0;display:flex;flex-direction:column;"
+  Extra="ANTYPE_GROUP`NODE_DESC" ExtraSub=""
+  TableCode="an|-node,AN_ASSET_ID;`antype,AN_TYPE;"
+  tabHeight="270" TableCodeSub="ans" [parentKeyValue]="2896">
+</app-test-panel> -->
+<!-- <app-test-panel></app-test-panel> -->
+<div id="wrapper">
+
+
+  <div id="nav-main">
+    <div id="nav-logo"><img src="./assets/shell_logo_d.png" alt="Shell logo"></div>
+    <div class="" id="nav-title">
+      <p class="m-0">
+        <span class="nav-brand noselect h5">{{ds.data["appHeader"]}}</span><br />
+        <span class="nav-brand noselect h6">{{ds.data["appHeaderSub"]}}</span>
+        <span id="app-ver" matTooltipPosition="below" [matTooltip]="appVer.tipText"
+          class="noselect">{{appVer.label}}</span>
+      </p>
+
+    </div>
+    <div class="" id="nav-spacer">
+      <div class="" id="nav-spacer-top"></div>
+      <div class="" id="nav-spacer-bottom">
+        <div class="" id="nav-spacer-triangle"></div>
+      </div>
+    </div>
+    <div class="" id="nav-menu" *ngIf="menuList">
+      <div class="" id="nav-menu-top">
+        <span *ngFor="let m of menuList" class="noselect {{m.active ? 'active' : ''}}" (click)="menuClick(m.id)"><i
+            *ngIf="m.icon" [title]="m.label == 'Help' ? ds.debugTrace : ''"
+            [class]="m.icon + ' mr-1'"></i>{{menuLabel(m)}}
+        </span>
+        <span *ngIf="ds.isAuthenticated" (click)="Logout()">[Logout]</span>
+        <span id="notifiaction" class="px-0 m-0 ml-2">
+          <i class="fa active" matTooltipPosition="below" [matTooltip]="notificationTip" (click)="NotifyClick()"
+            [ngClass]="{'fa-flag':!ds.globalMessage['error'],'fa-ban':ds.globalMessage['error']}"></i>
+        </span>
+
+      </div>
+      <div class="" id="nav-menu-bottom">
+        <span *ngIf="false">{{ds.moduleStates.length}}</span><span *ngFor="let s of subMenu"
+          class="noselect {{s.active ? 'active' : ''}}" (click)="subMenuClick(s.id)"
+          [style.color]="s.ready ? null : 'gray'">{{s.label}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="hor_sep1">&nbsp;</div>
+  <div class="card-body p-0 bg-light" *ngIf="false">
+    <app-login [data]="{DataSet:ds,parent:this}"></app-login>
+  </div>
+
+  <div id="body" *ngIf="true">
+    <div id="sidenav" [style.min-width.px]="navWidth" [style.max-width.px]="navWidth">
+
+      <app-tree-view *ngIf="true" #mainTree [treeData]="ds.mainTreeData" [colorDefinitions]="ds.colorDefinitions"
+        [rootId]="ds.rootNodeId" [nodeHeight]="22" (nodeClick)="TreeClick($event)" [rollupColorData]="ds.treeColorData"
+        (searchTreeClick)="this.ds.SearchTree($event)" (selectSearchedItem)="this.ds.SearchTreeDirectChildren($event)"
+        (nodePMClick)="TreePMClick($event)">
+        <span class="text-center p-3">
+          <i class="fa fa-spinner fa-spin fa-3x fa-fw mr-1" [style.font-size.em]="1.6"></i>Loading. Please wait...
+        </span>
+      </app-tree-view>
+    </div>
+    <div class="ver_sep1">&nbsp;</div>
+
+    <div id="details">
+      <app-app-landing *ngIf="!tabLabels"></app-app-landing>
+
+      <app-data-tabs *ngIf="tabLabels" #t [tabLabels]="tabLabels" [fontFactor]="1" [fluid]="true" [withClose]="true"
+        (tabClicked)="TabClicked($event)" (tabClosed)="TabClosed($event)">
+        <div id="modules">
+          <!-- <app-anom-action-items [style.visibility]="t.V(2)" *ngIf="isLoaded(2)" [parentKeyValue]="3332"
+            style="position: relative;"></app-anom-action-items> -->
+
+          <app-anomalies [style.z-index]="t.Z(1)" [style.visibility]="t.V(1)" *ngIf="isLoaded(1)" [CurrentTreeNode]="CurrentTreeNode">
+          </app-anomalies>
+
+          <!--owner: neo-->
+          <app-des-dat [style.z-index]="t.Z(2)" [style.visibility]="t.V(2)" *ngIf="isLoaded(2)" [CurrentTreeNode]="CurrentTreeNode">
+          </app-des-dat>
+          <app-chem-db [style.z-index]="t.Z(3)" [style.visibility]="t.V(3)" *ngIf="isLoaded(3)" [CurrentTreeNode]="CurrentTreeNode">
+          </app-chem-db>
+
+          <app-svy-dat [style.z-index]="t.Z(5)"  [style.visibility]="t.V(5)" *ngIf="isLoaded(5)" [CurrentTreeNode]="CurrentTreeNode">
+          </app-svy-dat>
+
+
+          <!--owner: terence-->
+          <app-reference [style.z-index]="t.Z(7)" [style.visibility]="t.V(7)" *ngIf="isLoaded(7)" [CurrentTreeNode]="CurrentTreeNode">
+          </app-reference>
+
+          <!--owner: reinhard-->
+          <app-compliance [style.z-index]="t.Z(9)" [style.visibility]="t.V(9)" *ngIf="isLoaded(9)" [CurrentTreeNode]="CurrentTreeNode">
+          </app-compliance>
+
+
+          <!-- <app-anom-action-items [parentKeyValue]="3332"></app-anom-action-items> -->
+          <!-- <div style="background:red;" [style.visibility]="t.V(2)" *ngIf="isLoaded(2)">&nbsp;</div> -->
+          <!-- <app-anom-action-items [parentKeyValue]="3332" [style.visibility]="t.V(2)" *ngIf="isLoaded(2)"></app-anom-action-items> -->
+
+
+          <!-- <app-data-grid-b #grid tableCode="ai" [dataSet]="ds" [parentKeyValue]="3332" [style.visibility]="t.V(2)"
+            *ngIf="isLoaded(2)" [noInitFocus]="true" [rights]="{allowManage:true}" customGrid="" autoGrid="true"
+            noFooter="true"></app-data-grid-b> -->
+
+
+        </div>
+      </app-data-tabs>
+    </div>
+  </div>
+  <div id="footer">
+
+    <span [matTooltip]="NodePath">Path:&nbsp;</span><span id="node-path"
+      [title]="'Path: ' + NodePath">{{NodePath}}</span>
+      <!-- <span *ngIf="ds.serverTime">&nbsp;|&nbsp;Server Time: {{ds.serverTime}}</span> -->
+
+  </div>
+
+  <!-- <app-file-uploader #fileUploader></app-file-uploader> -->
+
+</div>

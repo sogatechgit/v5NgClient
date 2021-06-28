@@ -1,0 +1,135 @@
+// popup component stylesheet
+@import "./../../../appcssvars.scss";
+
+h1,
+h2,
+h3 {
+  color: $fore_color_dark;
+  font-family: $form_header_font-family;
+  margin: 0px;
+  text-shadow: gray 1px 1px 1px;
+}
+
+h3 {
+  margin: 0px;
+  padding: 0px;
+  // height: $form_header_height;
+  border-bottom: 2px solid $bs_danger;
+  font-size: 1.2em;
+  box-sizing: content-box;
+  i {
+    margin-top: 7px !important;
+  }
+}
+
+// button {
+//   width: 90px;
+//   height: 36px;
+//   font-weight: 100;
+// }
+
+.buttons {
+  grid-template-columns: auto auto;
+  display: grid;
+  font-size: 14px;
+  color: #fff;
+  justify-content: center;
+  margin: 10px;
+  .save {
+    background-color: #e37b00;
+    margin-left: 2px;
+  }
+  .close {
+    background-color: #747578;
+    margin-right: 2px;
+  }
+}
+
+::ng-deep.mat-dialog-container {
+  //resize: both;
+  padding: 0px !important;
+  overflow: hidden;
+  display: grid;
+  grid-template: 1fr / 1fr;
+}
+
+:host {
+  // height:100%;
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  grid-template: 1fr / 1fr; // shorthand for grid-template-rows / grid-template-columns
+}
+
+.wrapper {
+  display: grid;
+  grid-template: $form_header_height 1fr 40px/ 1fr; // shorthand for grid-template-rows / grid-template-columns
+  // background-color: yellow !important;
+
+  #content{
+    // background-color: magenta;
+    // border: 2px lime solid;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.no-action {
+  grid-template: $form_header_height 1fr / 1fr; // shorthand for grid-template-rows / grid-template-columns
+}
+
+[mat-dialog-title] {
+  // margin: -24px -24px 0px -24px !important;
+  padding: 10px 24px;
+  background: $bs_warning;
+  color: $fore_color_dark;
+  cursor: move;
+  // text-align: center;
+}
+
+#content {
+  //background: yellow !important;
+  // border-bottom:1px solid #EEE;
+  align-self: center;
+}
+#actions {
+  // padding-bottom: 5px;
+  display: grid;
+  grid-auto-flow: column;
+  // grid-auto-columns: max-content;
+  // grid-auto-columns: fit-content();
+  // grid-auto-columns: fit-content(100px);
+  // grid-auto-columns: 80px;
+
+  align-self: center;
+
+  justify-content: center;
+  align-items: center;
+
+  grid-gap: 8px;
+
+  button {
+    display: none;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    white-space: nowrap;
+    height: 28px !important;
+
+    grid-column-gap: 5px;
+
+    font-family: $form_button_font-family;
+    font-size: 0.9em !important;
+    i {
+      font-family: 0.95em;
+    }
+    // i{margin-right:5px;}
+  }
+}
+
+
+#actions::before{
+  background-color: magenta !important;
+}

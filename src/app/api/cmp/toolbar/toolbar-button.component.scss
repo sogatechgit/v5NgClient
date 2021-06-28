@@ -1,0 +1,32 @@
+@import "../../../../appcssvars.scss";
+#wrapper {
+  button {
+    // font-size:1em;
+    margin: 0px;
+    white-space: nowrap;
+    // padding: 0px;
+    span {
+      // background-color: magenta;
+      padding: 0px;
+      i {
+        font-size: 1.1em;
+        margin: 0px;
+        padding: 0px;
+        // margin-top: -3px;
+      }
+    }
+    > span#label {
+      padding-top: 2px;
+      padding-right: 2px;
+      // color:red;
+    }
+  }
+  > i {
+    color: $bs_info;
+    margin:0px;
+    margin-right:3px;
+    padding:0px;
+    padding-top:6px;
+    cursor: pointer;
+  }
+}

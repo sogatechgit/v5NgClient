@@ -1,0 +1,84 @@
+{
+	"tabs": [
+		{
+			"label":"Performance",
+			"nopad":true,
+			"tables": [
+			  { "name": "tbl1", "tableCode":"an", "bg": "red" },
+			  { "name": "tbl2", "tableCode":"rf", "bg": "blue" },
+			  { "name": "tbl3", "tableCode":"desdat", "bg": "yellow" }
+			],
+			"charts": [
+			  { "name": "ch1", "bg": "magenta" },
+			  { "name": "ch2", "bg": "cyan" }
+			],
+			"style": {
+			  "grid-template-columns": "1fr repeat(2, 250px)",
+			  "grid-template-rows": "repeat(2, 200px) 1fr",
+			  "grid-template-areas": "\"ch1  ch2  tbl1\" \"ch1  ch2  tbl2\"  \"tbl3 tbl3 tbl3\"",
+			  "gap":"4px"
+			}
+		},
+		{
+			"label":"Top Progress",
+			"tables": [
+			],
+			"charts": [
+			],
+			"style": {
+			  "grid-template-columns": "",
+			  "grid-template-rows": "",
+			  "grid-template-areas": ""
+			}
+		},
+		{
+			"label":"Deviation Status",
+			"tables": [
+			],
+			"charts": [
+			],
+			"style": {
+			  "grid-template-columns": "",
+			  "grid-template-rows": "",
+			  "grid-template-areas": ""
+			}
+		},
+		{
+			"label":"Deviation State",
+			"tables": [
+			],
+			"charts": [
+			],
+			"style": {
+			  "grid-template-columns": "",
+			  "grid-template-rows": "",
+			  "grid-template-areas": ""
+			}
+		},
+		{
+			"label":"Pending Deviation",
+			"tables": [
+			],
+			"charts": [
+			],
+			"style": {
+			  "grid-template-columns": "",
+			  "grid-template-rows": "",
+			  "grid-template-areas": ""
+			}
+		}
+		,
+		{
+			"label":"Print All",
+			"tables": [
+			],
+			"charts": [
+			],
+			"style": {
+			  "grid-template-columns": "",
+			  "grid-template-rows": "",
+			  "grid-template-areas": ""
+			}
+		}
+	]
+}

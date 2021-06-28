@@ -1,0 +1,37 @@
+<app-ph-box1 *ngIf="!isReady" [stripHeight]="phHeight" [backSize]="phBackSize" [duration]="phDuration"></app-ph-box1>
+<div id="wrapper">
+  <div class="" id="wrapper_label">
+    <h5>Severity<span *ngIf="severityText">: {{severityText}}</span></h5>
+  </div>
+  <div class="" id="wrapper_mtx">
+    <div id="heading1" [style.min-height.px]="selectedValues ? 20 : null">
+      <div><span>Likelihood<span *ngIf="likelihoodText">: {{likelihoodText}}</span></span></div>
+    </div>
+    <div id="heading2">
+      <div class="d-flex" [ngClass]="{'bg-light':false}"><span *ngIf="readOnly">&nbsp;</span>
+        <i *ngIf="!readOnly && !selectedValues" class="fa fa-trash text-danger"
+        style="margin:auto auto;cursor:pointer;font-size:0.9em;text-shadow: white 0px 0px 10px;"
+          (click)="RemoveRisk($event)" matTooltipPosition="right"
+          matTooltip="Click to remove risk assignment..."></i></div>
+      <div *ngFor="let lik of riskMatrixData.lik" [style.background]="lik.back" [style.color]="lik.fore"
+        matTooltipPosition="above" [matTooltip]="lik.text + '['+ lik.code +']'">
+        <span>{{lik.code}}</span>
+      </div>
+    </div>
+    <div class="risk-rows" *ngFor="let sev of  riskMatrixData.sev">
+      <div [style.background]="sev.back" [style.color]="sev.fore" matTooltipPosition="right" [matTooltip]="sev.text">
+        <span>{{sev.code}}</span>
+      </div>
+      <div *ngFor="let lik of riskMatrixData.lik" (click)="CellClick(sev.key,lik.key)"
+        [style.background]="riskMatrixData.mtx['M'+sev.key+lik.key].back"
+        [style.color]="riskMatrixData.mtx['M'+sev.key+lik.key].fore" matTooltipPosition="above"
+        [matTooltip]="'Severity: ' + sev.text + ', Likelihood: ' + lik.text">
+        <span *ngIf="isWithData">
+          <i *ngIf="checkCell(sev.key,lik.key)" class="fa fa-check"></i>
+          <span *ngIf="!checkCell(sev.key,lik.key)">&nbsp;</span>
+        </span>
+        <span *ngIf="!isWithData">&nbsp;</span>
+      </div>
+    </div>
+  </div> <!-- wrapper_mtx -->
+</div>

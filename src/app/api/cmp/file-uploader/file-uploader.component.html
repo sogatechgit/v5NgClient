@@ -1,0 +1,58 @@
+<div id="wrapper" *ngIf="!hidden" [style.padding.px]="ProgressOnly ? 0 : 8">
+  <input style="display:none;" type="file" (change)="onFileSelected($event)" #fileInput>
+  <input style="display:none;" type="file" (change)="onFileSelected($event)" #fileInputM multiple>
+  <div *ngIf="!ProgressOnly" class="card shadow mb-5 bg-white rounded">
+    <div class="card-header p-1 d-flex">
+      <span style="flex:1 1 0;">File Upload</span>
+      <i id="close" class="fa fa-times text-secondary m-1" (click)="hide()" matTooltipPosition="below"
+        matToolTip="Close"></i>
+    </div>
+    <div id="details" class="card-detail p-1">
+
+      <ng-container *ngFor="let fu of forUpload">
+        <div *ngFor="let f of fu.files">
+          <div style="display:flex;font-size:0.8em;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;">
+            <div style="min-width:36px;">({{ProgressDisplay(f)}})</div>
+            <div style="flex:1 1 0;">{{f.name}}</div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped  progress-bar-animated" role="progressbar"
+              [style.width]="ProgressDisplay(f)" aria-valuenow="25" style="font-size: 0.85em;font-weight:400"
+              aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+
+        </div>
+      </ng-container>
+
+    </div>
+    <div class="card-footer p-1">
+      <button class="btn btn-sm btn-primary mr-2" type="button"
+        (click)="Multiple ? fileInputM.click() : fileInput.click()">Pick File</button>
+      <span class="mr-2">{{''}}</span>
+      <button class="btn btn-sm btn-primary mr-2" type="button" (click)="onUpload()">Upload</button>
+
+    </div>
+  </div><!-- card-->
+  <!--
+   -->
+
+  <div *ngIf="ProgressOnly" style="display: flex;flex-direction: column;">
+    <div class="bg-light border m-0">
+      <div class="m-0 progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar"
+        [style.width]="ProgressDisplaySingle" aria-valuenow="25"
+        style="padding:0px;height:14px;font-size: 0.75em;font-weight:400" aria-valuemin="0" aria-valuemax="100">
+        {{ProgressDisplaySingle}}</div>
+    </div>
+    <div style="display: flex;justify-content: space-between;overflow:hidden">
+      <button onfocus="this.blur()" class="btn btn-sm btn-link p-0 px-1" (click)="Multiple ? fileInputM.click() : fileInput.click()"
+        style="font-size:0.75em;height:15px;margin-top:-1px;margin-left:-2px;text-align:left;" matTooltipPosition="below" matTooltip="Select file to upload...">
+        SELECT FILE
+        <!-- <i class="fa fa-hand-pointer text-info" ></i> -->
+      </button>
+      <button *ngIf="false" class="btn btn-sm btn-warning p-0 px-1" (click)="onUpload()"
+        style="font-size:0.75em;height:15px;margin-top:-1px;margin-right:-2px;text-align:right;">
+          <i class="fa fa-upload"  matTooltipPosition="below" matTooltip="Upload selected file..."></i></button>
+
+    </div>
+  </div>
+</div>

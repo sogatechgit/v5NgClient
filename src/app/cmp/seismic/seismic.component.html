@@ -1,0 +1,206 @@
+<!-- <div style="position:absolute;top:0px;left:0px;border:1px solid red;z-index:589;height:50px;width:50px;">589</div>
+<div style="position:absolute;top:50px;left:50px;border:1px solid blue;z-index:589;height:50px;width:50px;">589</div> -->
+
+<app-progress-mask #mask *ngIf="loadingData" [fontFactor]="1" [maskOpacity]=".15" [maskColor]="'white'"
+    [message]="maskPrompt"></app-progress-mask>
+
+
+<div id="map_wrapper" class="noselect" [style.grid-column]="showTools ? '1 / -2' : '1 / -1'" #wrapper>
+
+    <svg id="map_image" *ngIf="showMap" xmlns:mapsvg="http://mapsvg.com" xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1"
+        [attr.viewBox]="customZoom ? viewBoxCustom : viewBox" [attr.width]="mapWidth" [attr.height]="mapHeight"
+        style="border:1px solid blue;" (mousedown)="MouseEvent($event)" (mouseout)="MouseEvent($event)"
+        (mouseup)="MouseEvent($event)" (mousemove)="MouseEvent($event)">
+        <!-- 009dc4 87ceeb -->
+
+        <ng-container *ngFor="let path of mapContours">
+            <path *ngIf="isPath(path)" [attr.id]="path.id" [attr.title]="path.title" [attr.d]="path.d"
+                [attr.stroke]="path.strokeColor ? path.strokeColor : '#ffc107'"
+                [attr.fill]="path.fillColor ? path.fillColor : '#8C6E0E'"
+                [attr.stroke-width]="path.strokeWidth ? path.strokeWidth : .707" />
+
+            <rect *ngIf="isRect(path)" [attr.x]="path.x" [attr.y]="path.y" [attr.width]="path.width"
+                [attr.height]="path.height" [attr.fill]="path.fillColor ? path.fillColor : 'none'"
+                [attr.stroke]="path.strokeColor ? path.strokeColor : 'black'"
+                [attr.stroke-width]="path.strokeWidth ? path.strokeWidth : 1" stroke-linecap="round"
+                stroke-linejoin="round" stroke-miterlimit="10"></rect>
+
+            <line fill="none" *ngIf="isLine(path)" [attr.stroke]="path.strokeColor ? path.strokeColor : 'black'"
+                [attr.stroke-width]="path.strokeWidth ? path.strokeWidth : 1" [attr.x1]="path.x1" [attr.y1]="path.y1"
+                [attr.x2]="path.x2" [attr.y2]="path.y2" stroke-linecap="round" stroke-linejoin="round"
+                stroke-miterlimit="10" />
+
+            <polyline fill="none" *ngIf="isPoly(path)" [attr.stroke]="path.strokeColor ? path.strokeColor : 'black'"
+                [attr.stroke-width]="path.strokeWidth ? path.strokeWidth : 1" [attr.points]="path.points"
+                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" />
+        </ng-container>
+
+        <ng-container *ngIf="gridReady">
+            <g *ngFor="let path of longLines">
+                <line fill="none" [attr.stroke]="refGridLongPx==path.px ? 'red' : gridColor"
+                    [attr.stroke-width]="gridWidth" [attr.x1]="path.px" [attr.y1]="0" [attr.x2]="path.px"
+                    [attr.y2]="nativeHeight" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" />
+                <text [attr.x]="path.px + markerSize/2" [attr.font-size]="gridLabelSize" [attr.y]="viewTop+markerSize"
+                    [attr.fill]="gridLabelColor" [attr.stroke-width]=".1"
+                    [attr.stroke]="gridLabelColor">{{path.text}}</text>
+            </g>
+
+            <g *ngFor="let path of latLines">
+                <line fill="none" [attr.stroke]="refGridLatPx==path.px ? 'red' : gridColor"
+                    [attr.stroke-width]="gridWidth" [attr.x1]="0" [attr.y1]="path.px" [attr.x2]="nativeWidth"
+                    [attr.y2]="path.px" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" />
+
+                <text [attr.x]="viewLeft+markerSize/3" [attr.font-size]="gridLabelSize"
+                    [attr.y]="path.px - markerSize/2" [attr.fill]="gridLabelColor" [attr.stroke-width]=".1"
+                    [attr.stroke]="gridLabelColor">{{path.text}}</text>
+
+            </g>
+
+        </ng-container>
+
+
+        <rect id="rect_limits" fill="none" fill-opacity="0.5" [attr.x]="zoomLimits.left" [attr.y]="zoomLimits.top"
+            [attr.width]="zoomLimits.width" [attr.height]="zoomLimits.height" stroke="none" stroke-width="2"
+            stroke-dasharray="10,2.5,2.5,2.5,5,5" />
+
+        <rect id="rect_limits" fill="none" fill-opacity="0.5" [attr.x]="zoomCustom.left" [attr.y]="zoomCustom.top"
+            [attr.width]="zoomCustom.width" [attr.height]="zoomCustom.height" stroke="none" stroke-width="4" />
+
+        <rect fill="none" fill-opacity="0.3" [attr.x]="0" [attr.y]="0" [attr.width]="nativeWidth"
+            [attr.height]="nativeHeight" stroke="none" stroke-dasharray="10,2.5,2.5,2.5,5,5" />
+
+        <defs>
+
+            <svg id="dotg" class="dotg" viewBox="0 0 100 100" [attr.x]="-markerSize" [attr.y]="-markerSize"
+                [attr.width]="markerSize" [attr.height]="markerSize">
+                <ellipse cx="50" cy="50" rx="45" ry="45" />
+                <path d="M25.5 18.4 L 37 30 L 40.5 26.4 L 47.6 47.6 L 26.4 40.6 L 30 37 L 18.4 25.5z" />
+                <path d="M81.6 25.5 L 70 37 L 73.6 40.6 L 52.4 47.6 L 59.4 26.4 L 63 30 L 74.5 18.4z" />
+                <path d="M18.4 74.5 L 30 63 L 26.4 59.4 L 47.6 52.4 L 40.5 73.6 L 37 70 L 25.5 81.6z" />
+                <path d="M74.5 81.6 L 63 70 L 59.4 73.6 L 52.4 52.4 L 73.6 59.4 L 70 63 L 81.6 74.5z" />
+            </svg>
+
+            <svg id="dotb" class="dotg levt" viewBox="0 0 100 100" [attr.x]="-markerSize" 
+            [attr.y]="-markerSize"
+                [attr.width]="markerSize" [attr.height]="markerSize">
+                <ellipse cx="50" cy="50" rx="45" ry="45" />
+                <ng-container *ngIf="blink">
+                    <path d="M25.5 18.4 L 37 30 L 40.5 26.4 L 47.6 47.6 L 26.4 40.6 L 30 37 L 18.4 25.5z" />
+                    <path d="M81.6 25.5 L 70 37 L 73.6 40.6 L 52.4 47.6 L 59.4 26.4 L 63 30 L 74.5 18.4z" />
+                    <path d="M18.4 74.5 L 30 63 L 26.4 59.4 L 47.6 52.4 L 40.5 73.6 L 37 70 L 25.5 81.6z" />
+                    <path d="M74.5 81.6 L 63 70 L 59.4 73.6 L 52.4 52.4 L 73.6 59.4 L 70 63 L 81.6 74.5z" />
+                </ng-container>
+            </svg>
+
+            <svg id="dotv" class="dotv" viewBox="0 0 100 100" [attr.x]="-markerSize" [attr.y]="-markerSize"
+                [attr.width]="markerSize" [attr.height]="markerSize">
+                <ellipse cx="50" cy="50" rx="45" ry="45" />
+                <path d="M25.5 18.4 L 37 30 L 40.5 26.4 L 47.6 47.6 L 26.4 40.6 L 30 37 L 18.4 25.5z" />
+                <path d="M81.6 25.5 L 70 37 L 73.6 40.6 L 52.4 47.6 L 59.4 26.4 L 63 30 L 74.5 18.4z" />
+                <path d="M18.4 74.5 L 30 63 L 26.4 59.4 L 47.6 52.4 L 40.5 73.6 L 37 70 L 25.5 81.6z" />
+                <path d="M74.5 81.6 L 63 70 L 59.4 73.6 L 52.4 52.4 L 73.6 59.4 L 70 63 L 81.6 74.5z" />
+            </svg>
+
+            <svg id="doty" class="doty" viewBox="0 0 100 100" [attr.x]="-markerSize" [attr.y]="-markerSize"
+                [attr.width]="markerSize" [attr.height]="markerSize">
+                <ellipse cx="50" cy="50" rx="45" ry="45" />
+                <path d="M25.5 18.4 L 37 30 L 40.5 26.4 L 47.6 47.6 L 26.4 40.6 L 30 37 L 18.4 25.5z" />
+                <path d="M81.6 25.5 L 70 37 L 73.6 40.6 L 52.4 47.6 L 59.4 26.4 L 63 30 L 74.5 18.4z" />
+                <path d="M18.4 74.5 L 30 63 L 26.4 59.4 L 47.6 52.4 L 40.5 73.6 L 37 70 L 25.5 81.6z" />
+                <path d="M74.5 81.6 L 63 70 L 59.4 73.6 L 52.4 52.4 L 73.6 59.4 L 70 63 L 81.6 74.5z" />
+            </svg>
+
+            <svg id="sqrrl" [attr.x]="-markerSize" [attr.y]="-markerSize" [attr.width]="markerSize * 10"
+                [attr.height]="markerSize * 10" viewBox="0 0 100 100">
+                <rect x="0" y="0" width="100" height="100" style="stroke:gray;stroke-width:4;fill:#ffff00;" />
+                <rect x="-27" y="44" width="55" height="55" style="stroke:gray;fill:red;transform: rotate(-45deg);" />
+            </svg>
+
+            <svg id="sqrrw" [attr.x]="-markerSize" [attr.y]="-markerSize" [attr.width]="markerSize * 10"
+                [attr.height]="markerSize * 10" viewBox="0 0 100 100">
+                <rect x="0" y="0" width="100" height="100" style="stroke:gray;stroke-width:4;fill:#ffff00;" />
+                <rect x="-27" y="44" width="55" height="55"
+                    style="stroke:gray;stroke-width:4;fill:white;transform: rotate(-45deg);" />
+            </svg>
+
+            <svg id="sqrra" [attr.x]="-markerSize" [attr.y]="-markerSize" [attr.width]="markerSize * 10"
+                [attr.height]="markerSize * 10" viewBox="0 0 100 100">
+                <rect x="0" y="0" width="100" height="100" style="stroke:gray;stroke-width:4;fill:#ffff00;" />
+                <rect x="-27" y="44" width="55" height="55"
+                    style="stroke:gray;stroke-width:4;fill:orange;transform: rotate(-45deg);" />
+            </svg>
+
+            <radialGradient id="grad_g" r="90%">
+                <stop offset="0%" style="stop-color:#c9fdbc;" />
+                <stop offset="100%" style="stop-color:#b1bd74;" />
+            </radialGradient>
+            <radialGradient id="grad_v" r="90%">
+                <stop offset="0%" style="stop-color:#efd6f5;" />
+                <stop offset="100%" style="stop-color:#bc36de;" />
+            </radialGradient>
+            <radialGradient id="grad_y" r="90%">
+                <stop offset="0%" style="stop-color:#fbfbee;" />
+                <stop offset="100%" style="stop-color:#fff600;" />
+            </radialGradient>
+
+        </defs>
+
+        <ng-container *ngFor="let evt of eventsFiltered;let idx=index;">
+            <use (click)="eventClick(evt)" [attr.href]="dotHREF(evt)" [attr.x]="evt.XTRA.long"
+                [attr.y]="evt.XTRA.lat"  ><title>{{EventTitle(evt)}}</title></use>
+
+            <!-- <use (click)="eventClick(evt)" [attr.href]="dotHREF(evt)" [attr.x]="DMSToMarker(evt.SIS_LONGDMS)"
+                [attr.y]="DMSToMarker(evt.SIS_LATDMS, true)" /> -->
+
+            <!-- { long: this.DMSToMarker(event.SIS_LONGDMS), lat: this.DMSToMarker(event.SIS_LATDMS, true) } -->
+
+        </ng-container>
+
+        <!-- <use (click)="eventClick(latestEvent)" *ngIf="latestEvent" [attr.href]="'#dotb'" [attr.x]="latestEvent.XTRA.long"
+            [attr.y]="latestEvent.XTRA.lat" /> -->
+
+            <use *ngIf="latestEvent ? latestEvent.XTRA : false" (click)="null" [attr.href]="'#dotb'" [attr.x]="latestEvent.XTRA.long"
+            [attr.y]="latestEvent.XTRA.lat"  (click)="eventClick(latestEvent)" ><title>{{EventTitle(latestEvent)}}</title></use>
+
+
+    </svg>
+
+
+    <!-- 
+        All Events
+Events within the last week
+Events within the last month
+Events within the last 3 months
+Events within the last 6 months
+Events within the last year
+     -->
+</div>
+<div id="tools" [style.display]="showTools ? 'grid' : 'none'" [style.width.px]="mapConfig.toolsWidth">
+    <div id="legend">
+        <span>Legend</span>
+        <ng-container *ngFor="let leg of legends">
+            <svg>
+                <use *ngIf="leg.href" [attr.href]="'#'+leg.href" [attr.x]="markerSize+3" [attr.y]="markerSize+3"
+                    [attr.width]="markerLegendSize" [attr.height]="markerLegendSize" />
+                <line *ngIf="leg.lineColor" x1="3" y1="10" [attr.x2]="3+markerLegendSize" y2="10"
+                    [style.stroke]="leg.lineColor" style="stroke-width:4;" />
+            </svg>
+            <span>{{leg.label}}</span>
+        </ng-container>
+    </div>
+
+    <div id="display">
+        <span>Display</span>
+        <ng-container *ngFor="let disp of displays">
+            <i [id]="'d_'+disp.id" (click)="DisplaySelect(disp)"
+                [class]="'far fa-' + (disp.active ? 'dot-': '') + 'circle'"></i>
+            <label [for]="'d_'+disp.id" (click)="DisplaySelect(disp)">{{disp.label}}</label>
+        </ng-container>
+    </div>
+</div>
+<i (click)="ToggleTools()" id="control" [style.grid-column]="showTools ? -1 : -2" [title]="controlTitle"
+    [class]="'fa fa-angle-double-' + (showTools ? 'right' : 'left')"></i>
+<div [title]="'Click to set zoom to entire monitored area...\n\n- Use mouse wheel to zoom in/out and\n- Click-and-Drag to pan display while zoomed-in...'" id="zoomLimits" (click)="ZoomLimits()" class="noselect"
+    [style.grid-column]="showTools ? 1 : 2">&nbsp;</div>

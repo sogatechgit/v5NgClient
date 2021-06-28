@@ -1,0 +1,83 @@
+<app-app-form-a [readOnly]="AccessMode=='view'" (beforePosting)="BeforeDataPosting($event)"
+  (afterFormCreate)="AfterFormCreate($event)">
+
+  <!-- TAB SECTION -->
+  <app-data-tabs #t [height]="tabHeight" activeBackground="white" [fluidIds]="[]"
+    [tabLabels]="'General Information,Deviation, LAFD Deviation, Attachments, Related Anomalies'">
+
+    <app-panel-a *ngIf="t.a(0)" horizontal="true">
+      <app-panel-a PR="2">
+        <app-panel-a horizontal="true">
+          <app-panel-a PR="2" [labelWidth]="170">
+            <app-app-input-a fieldName="CA_REC_TAG" [LPL]="0" [actionIcon]="isViewMode ? null : 'fa-sitemap' "
+              label="Asset"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAST_DATE" label="Last Completed Date" (change)="CA_TASK_FREQ_Changed()"
+              [readOnly]="isTaskTypeCM"></app-app-input-a>
+            <app-app-input-a fieldName="CA_TASK_REF" label="Task Reference"></app-app-input-a>
+            <app-app-input-a fieldName="CA_TASK_DESC" label="Task Description"></app-app-input-a>
+            <app-app-input-a fieldName="CA_TARGET_DATE" label="Target Completion Date" (change)="CA_TASK_FREQ_Changed()"
+              [readOnly]="isTaskTypeCM"></app-app-input-a>
+            <app-app-input-a fieldName="CA_TASK_TYPE" label="Task Type" (change)="CA_TASK_TYPEChange()">
+            </app-app-input-a>
+            <app-app-input-a fieldName="CA_TASK_FREQ" label="Task Frequency" (change)="CA_TASK_FREQ_Changed()"
+              [readOnly]="isTaskTypeCM"></app-app-input-a>
+          </app-panel-a>
+          <app-panel-a PL="2">
+            <app-app-input-a fieldName="CA_HRS_NEEDED" label="Hours Needed"></app-app-input-a>
+            <app-app-input-a fieldName="CA_SCE" label="SCE"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAFD" label="LAFD"></app-app-input-a>
+            <app-app-input-a fieldName="CA_FREQ_JUST" label="Freq Justification" [readOnly]="!isTaskTypeCM">
+            </app-app-input-a>
+            <app-app-input-a fieldName="CA_NEXT_TARGET_DATE" label="Next to Next Target Date"
+              (change)="CA_TASK_FREQ_Changed()" [readOnly]="isTaskTypeCM"></app-app-input-a>
+            <app-app-input-a fieldName="CA_UPD_BY" [readOnly]="true" label="Update By"></app-app-input-a>
+            <app-app-input-a fieldName="CA_UPD_DATE" [readOnly]="true" label="Update Date"></app-app-input-a>
+          </app-panel-a>
+        </app-panel-a>
+      </app-panel-a>
+    </app-panel-a>
+    <!--Deviation Tab-->
+    <app-panel-a *ngIf="t.a(1)" horizontal="true">
+      <app-panel-a PR="2">
+        <app-panel-a horizontal="true">
+          <app-panel-a PR="2" [labelWidth]="170">
+            <app-app-input-a fieldName="CA_DEV_NEEDED" label="Deviation Needed"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAFD_DEV_1" label="Last Allowale Finish Date (LAFD)"></app-app-input-a>
+            <app-app-input-a fieldName="CA_DEV_INITIATOR" label="Deviation Initiator"></app-app-input-a>
+            <app-app-input-a fieldName="CA_DEV_APPROVER" label="Deviation Approver"></app-app-input-a>
+          </app-panel-a>
+          <app-panel-a PL="2" [labelWidth]="120">
+            <app-app-input-a fieldName="CA_RSK_ASS" label="Risk Assessment" [rows]="3"></app-app-input-a>
+            <app-app-input-a fieldName="CA_DEV_MIT" label="Mitigation" [rows]="4"></app-app-input-a>
+          </app-panel-a>
+        </app-panel-a>
+      </app-panel-a>
+    </app-panel-a>
+
+    <!--LAFD Deviation Tab-->
+    <app-panel-a *ngIf="t.a(2)" horizontal="true">
+      <app-panel-a PR="2">
+        <app-panel-a horizontal="true">
+          <app-panel-a PR="2" [labelWidth]="170">
+            <app-app-input-a fieldName="CA_LAFD_DEV_NEEDED" label="LAFD Deviation Needed"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAFD_DEV_2" label="Last Allowale Finish Date (LAFD)"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAFD_DEV_INITIATOR" label="LAFD Deviation Initiator"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAFD_DEV_APPROVER" label="LAFD Deviation Approver"></app-app-input-a>
+          </app-panel-a>
+          <app-panel-a PL="2" [labelWidth]="150">
+            <app-app-input-a fieldName="CA_LAFD_RSK_ASS" label="Risk Assessment" [rows]="3"></app-app-input-a>
+            <app-app-input-a fieldName="CA_LAFD_MIT" label="LAFD Deviation Mitigation" [rows]="3"></app-app-input-a>
+          </app-panel-a>
+        </app-panel-a>
+      </app-panel-a>
+    </app-panel-a>
+
+    <!-- Attachments Tab-->
+    <app-panel-a *ngIf="AccessMode=='view' && t.a(3)">
+      <app-attachments [pathKeyParam]="16002" [parentGrid]="moduleExchangeInfo.gridObject" [parentTableCode]="TableCode"
+        [parentKeyValue]="moduleExchangeInfo.state.dataKeyValue">
+      </app-attachments>
+    </app-panel-a>
+
+  </app-data-tabs>
+</app-app-form-a>

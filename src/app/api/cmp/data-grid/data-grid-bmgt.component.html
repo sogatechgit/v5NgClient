@@ -1,0 +1,80 @@
+<app-app-form-a #form  [isLoadingDetail]="false">
+<h3 #heading mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle
+  class="noselect p-0 m-0 d-flex"><i [class]="'mt-2 ml-2' + (data.icon ? ' ' + data.icon : '')"></i><span
+    class="ml-2">{{manageTitle}}</span>
+  <i class="fa fa-question-circle mt-2 mr-2" matTooltipPosition="left"
+    matTooltip="Click list item(s) to mark as selected or drag-and-drop an item to sort or move to the other list."
+    style="margin-left:auto;cursor:default;"></i>
+</h3>
+<mat-dialog-content #contentSection style="min-height:580px;border-bottom:0px solid #c0c0c0;"
+  class="mat-typography d-flex flex-column">
+
+    <div class="d-flex flex-column" style="flex:1 1 0;">
+
+      <div class="card" style="flex:2 2 0;">
+        <!-- <div class="card-header">Available {{this.data.title}} ({{unselected.length}})</div> -->
+        <div class="card-body p-0" style="position: relative;overflow:hidden;">
+
+          <app-data-grid-b #topGrid [parentTableCode]="topCfg.parentTableCode" [dataSet]="topCfg.dataSet"
+            [tableCode]="topCfg.tableCode" [parentKeyValue]="topCfg.parentKeyValue" [rights]="topRights"
+            [customGrid]="topCfg.customGrid" [autoGrid]="topCfg.autoGrid" [noFooter]="topCfg.noFooter"
+            [noInitFocus]="true" [fontFactor]="topCfg.fontFactor" [forceToolbar]="true" [autoQuery]="false"
+            [title]="topCfg.title" (dataExtracted)="TopDataExtracted($event)">
+
+          </app-data-grid-b>
+
+        </div>
+      </div>
+
+
+      <div id="horizontalControls" class="bg-light p-1">
+        <button *ngIf="false" class="btn btn-secondary p-0" (click)="IncludeExcludeAll()" matTooltipPosition="left"
+          (focus)="onFocus($event)" matTooltip="Include all items"><i class="fa fa-angle-double-down"
+            style="margin-top:auto;"></i></button>
+        <button class="btn btn-secondary p-0" [disabled]="((topGrid ? topGrid.noSelection : true) || limitReached) || isProcessing"
+          (click)="IncludeExcludeSelected()" matTooltipPosition="left" (focus)="onFocus($event)"
+          matTooltip="Include selected item(s)"><i class="fa fa-angle-down"></i></button>
+        <button class="btn btn-secondary p-0" [disabled]="(bottomGrid ? bottomGrid.noSelection : true) || isProcessing"
+          (click)="IncludeExcludeSelected(false)" matTooltipPosition="right" (focus)="onFocus($event)"
+          matTooltip="Exclude selected item(s)"><i class="fa fa-angle-up"></i></button>
+        <button class="btn btn-secondary p-0" [disabled]="(bottomGrid ? bottomGrid.noSelection : true) || isProcessing"
+          (click)="IncludeExcludeAll(false)" matTooltipPosition="right" (focus)="onFocus($event)"
+          matTooltip="Exclude all items"><i class="fa fa-times" style="margin-bottom:auto;"></i></button>
+        <!-- <button class="btn btn-secondary p-0" (click)="IncludeExcludeAll(false)" matTooltipPosition="right"
+        (focus)="onFocus($event)" matTooltip="Exclude all items"><i class="fa fa-angle-double-up"
+          style="margin-bottom:auto;"></i></button> -->
+      </div>
+
+      <div class="card" style="height:200px;">
+        <!-- <div class="card-header">Selected {{this.data.title}} ({{selected.length}})</div> -->
+        <div class="card-body p-0" style="position: relative;overflow:hidden;">
+          <app-data-grid-b #bottomGrid [parentTableCode]="botCfg.parentTableCode" [dataSet]="botCfg.dataSet"
+            noExtras="true" [tableCode]="botCfg.tableCode" [parentKeyValue]="botCfg.parentKeyValue"
+            [rights]="botCfg.rights" [customGrid]="botCfg.customGrid" [autoGrid]="botCfg.autoGrid"
+            [noFooter]="botCfg.noFooter" [noInitFocus]="true" [fontFactor]="botCfg.fontFactor"
+            [IncludedIds]="includedRowIds" [forceToolbar]="true" [title]="bottomTitle"
+            [maxItems]="botCfg.maxItems" (dataExtracted)="BottomDataExtracted($event)">
+
+          </app-data-grid-b>
+          <!-- <ul cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selected"
+          [cdkDropListConnectedTo]="[unselectedList]" class="list-group" (cdkDropListDropped)="drop($event)">
+          <li *ngFor="let item of selected" [attr.id]="item.id" (click)="itemClicked(item,$event)"
+            class="list-group-item item-box noselect" cdkDrag>
+            <span>{{item.caption}}</span><i *ngIf="item.selected" class="far fa-check-square"></i>
+          </li>
+        </ul> -->
+        </div>
+      </div>
+    </div>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions #actions align="center" class="p-0" style="max-height:35px;">
+  <!-- <button mat-button *ngFor="let btn of this.data.buttons" [mat-dialog-close]="{value:btn.value,response:data.response}"
+    [class]="btn.class + ' m-0 p-0 ml-2'">{{btn.label}}</button> -->
+  <button *ngFor="let btn of data.buttons" [class]="btn.class + ' m-0 ml-2'" matTooltipPosition="above"
+    [matTooltip]="btn.toolTip" (click)="clickAction(btn.value)">{{btn.label}}</button>
+  <!-- <button mat-button class="btn btn-warning m-0 p-0 ml-2" (click)="this.acceptAndClose()">Save</button> -->
+</mat-dialog-actions>
+</app-app-form-a>

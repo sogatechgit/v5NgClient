@@ -1,0 +1,121 @@
+<div #GRID_WRAPPER id="main_wrapper" class="container-fluid p-0 m-0">
+
+  <!--toolbar start -->
+  <div class="toolbar" *ngIf="!noToolbar" [style.font-size.em]="fontFactor">
+
+    <!--Neo 20210413-->
+    <app-toolbar-button (buttonClick)="CampEvtClick($event)" [rights]="GetRights('allowCampEvt')"
+      icon="fa fa-list-alt text-info" [inProgress]="isLoadingRecords" tooltip="Campaign / Event Selector">
+      {{labelCampEvt}}</app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="AddClick($event)" [rights]="GetRights('allowAdd')" icon="fa fa-plus text-primary"
+      [inProgress]="isLoadingRecords" tooltip="Add new record">{{labelAdd}}</app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="EditClick($event)" [rights]="GetRights('allowEdit')"
+      icon="fa fa-edit text-success" [tooltip]="editToolTip" [inProgress]="isLoadingRecords || SelectedCount!=1">
+      {{labelEdit}}</app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="DeleteClick($event)" [rights]="GetRights('allowDelete')"
+      icon="fa fa-times  text-danger" [tooltip]="delToolTip" [inProgress]="isLoadingRecords || SelectedCount==0">
+      {{labelDelete}}
+    </app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="ManageGrid($event)" [rights]="GetRights('allowManage')"
+      icon="fa fa-pen text-info" [inProgress]="isLoadingRecords">{{labelManage}}</app-toolbar-button>
+
+
+    <app-toolbar-button (buttonClick)="ExcelClick($event)" [rights]="GetRights('allowExcel')"
+      tooltip="Extract table to excel format file" icon="far fa-file-excel text-success"
+      [inProgress]="isLoadingRecords  || (reqInfo ? (reqInfo.totalRecords ? reqInfo.totalRecords == 0 : true) :true)">
+      {{labelExcel}}</app-toolbar-button>
+
+      <app-toolbar-button (buttonClick)="ReportClicked($event)" [rights]="GetRights('allowReport')" [withDropdown]="true" 
+      icon="fa fa-print text-info" tooltip="Report" [inProgress]="isLoadingRecords"
+       iconRight="fas fa-caret-right px-1"
+      [rightIconMenuTrigger]="menu"
+      >
+       {{labelReport}} 
+      
+       <!-- (toggleDropDownState)="C" -->
+       <!-- [matMenuTriggerFor]="menu" -->
+       <!-- <i class="fas fa-caret-right text-grey px-1" aria-hidden="true" [matMenuTriggerFor]="menu"
+                  style="cursor:pointer;"></i> -->
+    </app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="OpenPreview($event)" [rights]="GetRights('allowOpen')"
+      icon="fa fa-external-link-alt text-sccess" [inProgress]="isLoadingRecords || SelectedCount!=1">{{labelOpen}}
+    </app-toolbar-button>
+
+    <span id="title" *ngIf="title" [innerHTML]="fullTitle"></span>
+
+    <div class="spacer">&nbsp;</div>
+
+    <app-toolbar-button *ngIf="SelectMode" (buttonClick)="FilterSelected($event)" [rights]="GetRights('allowSelect')"
+      [tooltip]="filtSelToolTip" icon2="fas fa-filter text-primary" icon="far fa-check-square text-success"
+      [inProgress]="(isLoadingRecords || noSelection) && !FilterSelectedFlag">{{selectedFilterLabel}}
+    </app-toolbar-button>
+
+    <app-toolbar-button *ngIf="SelectMode" (buttonClick)="SelectInverse($event)" [rights]="GetRights('allowSelect')"
+      tooltip="Reverse record marked state" icon="fas fa-check-square text-primary" [inProgress]="isLoadingRecords">
+      {{labelInverse}}</app-toolbar-button>
+
+    <app-toolbar-button *ngIf="SelectMode" (buttonClick)="UnSelectAll($event)" [rights]="GetRights('allowSelect')"
+      icon="far fa-check-square text-success" [icon2]="'fa fa-ban text-danger'" tooltip="UnMark all loaded records"
+      [inProgress]="isLoadingRecords || noSelection">{{labelUnselectAll}}</app-toolbar-button>
+    <app-toolbar-button *ngIf="SelectMode" (buttonClick)="SelectAll($event)" [rights]="GetRights('allowSelect')"
+      tooltip="Mark all loaded records" icon="far fa-check-square text-primary "
+      [inProgress]="isLoadingRecords || (LoadedCount==0)">{{labelSelectAll}}</app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="SelectClick($event)" [rights]="GetRights('allowSelect')"
+      [icon]="SelectMode ? 'far fa-check-square text-success' : 'far fa-square text-danger'" [tooltip]="selTip"
+      [inProgress]="isLoadingRecords">{{labelSelect}}</app-toolbar-button>
+
+    <app-toolbar-button (buttonClick)="RefreshClick($event)" on="true" icon="fa fa-sync-alt text-info"
+      tooltip="Reload records list" [inProgress]="isLoadingRecords">{{labelRefresh}}</app-toolbar-button>
+
+    <app-toolbar-button #btnFilter [withDropdown]="compId" (buttonClick)="FilterClick($event)" on="true"
+      icon="fa fa-filter text-info" (toggleDropDownState)="FilterDropClick($event)"
+      tooltip="Setup and apply column filtering" [icon2]="!activeFiltering ? 'fa fa-ban text-danger' : null"
+      [inProgress]="isLoadingRecords">{{labelFilter}}
+    </app-toolbar-button>
+
+  </div>
+  <!--toolbar end -->
+  <div style="height:5px;" *ngIf="noToolbar">&nbsp;</div>
+
+  <div id="form-wrapper" class="d-flex flex-column" style="flex:1 1 0;">
+
+    <div *ngIf="_ReportMode">
+      <app-report-viewer #reportViewer [Reload]="QryStr"></app-report-viewer>
+    </div> 
+    
+    <div #GRID_CONTAINER id="grid_container">
+      <app-progress-mask #mask *ngIf="isLoadingRecords" [message]="maskMessage"></app-progress-mask>
+
+      <div [style.height.px]="gridHeightCalc">
+        <!-- <input type="hidden" [value]="TreeLocationFinal"> -->
+
+        <app-data-grid #grid [options]="options" [noBarMenu]="noBarMenu" [pageNumber]="reqInfo.pageNumber"
+          [pageSize]="reqInfo.pageSize" [totalPages]="reqInfo.totalPages" [totalRecords]="reqInfo.totalRecords"
+          [sourceRows]="sourceRows" [sourceTable]="sourceTable" [gridPortHeight]="1080" [fontFactor]="fontFactor"
+          (pageClick)="PageClick($event)" (pageSizeChange)="PageSizeChange($event)" (rowClick)="RowClick($event)"
+          [dataSet]="dataSet" (applyFilter)="ApplyFilter($event)" [pageSizes]="pageSizes" [allowSelect]="SelectMode"
+          (onSelectChange)="OnSelectChange($event)" [activeFiltering]="activeFiltering">
+        </app-data-grid>
+      </div>
+    </div>
+    <div id="details_container" *ngIf="!_ReportMode">
+
+
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <app-filter-list #filterList *ngIf="btnFilter ? btnFilter.dropDownState : false" [style.top.px]="popTop"
+    [style.left.px]="popLeft"></app-filter-list>
+</div>
+
+<mat-menu #menu="matMenu" class="customize">
+  <button (click)="reportSelected(rpt)" mat-menu-item
+    *ngFor="let rpt of Reportpermodule"><span>{{rpt.rpttitle}}</span></button>
+
+</mat-menu>

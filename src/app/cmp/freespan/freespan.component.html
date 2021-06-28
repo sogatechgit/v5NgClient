@@ -1,0 +1,78 @@
+<!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quasi maiores labore voluptas, nihil impedit, eum reiciendis eaque tempore odio molestiae voluptatibus repellat modi. Iusto nobis, vitae saepe adipisci dolorem amet blanditiis repellendus soluta facere cupiditate sunt nam natus suscipit nostrum laborum officiis commodi aliquam cum reprehenderit laboriosam consequuntur pariatur optio. Non veritatis porro quod facilis, a commodi minus mollitia repudiandae? Aliquid sit dolores molestiae tempore accusantium quibusdam voluptatem ipsam perferendis odit dolorem ipsa in delectus suscipit hic ut aperiam unde, quod voluptatibus modi dolorum maiores amet natus laborum. Quasi nulla blanditiis a temporibus sed inventore ducimus ratione similique quaerat.</p> -->
+<!-- <app-span-mark></app-span-mark>
+<app-span-pipe></app-span-pipe> -->
+
+<app-progress-mask #mask *ngIf="loadingData" [ProgressDisplaySingle]="ProgressDisplaySingle"
+    [fontFactor]="1" [maskOpacity]=".15" [maskColor]="'white'"
+    [message]="'Loading data. Please wait...'"></app-progress-mask>
+
+<div class="wrapper" [formGroup]="this.form">
+    <div id="controls">
+        <!-- first row -->
+        <label for="sel_pipeline">Select Pipeline/Umbilical to Plot:</label>
+        <select #pipeSelect name="sel_pipeline" id="sel_pipeline" formControlName="sel_pipeline" (change)="PipeSelect()">
+            <option value="0">Select a pipeline ...</option>
+            <option [value]="pipe.id" *ngFor="let pipe of pipes">{{pipe.name}}</option>
+        </select>
+        <label for="sel_range">KP Range:</label>
+        <select name="sel_range" id="sel_range" style="width:80px;" (change)="ChangeRange($event)" formControlName="sel_kprange">
+            <option value="0" disabled style="color:#c0c0c0;">All (slow)</option>
+            <option value="500">500m</option>
+            <option value="1000">1km</option>
+            <option value="2000">2km</option>
+            <option value="5000" disabled style="color:#c0c0c0;">5km (slow)</option>
+            <option value="10000" disabled style="color:#c0c0c0;">10km (slow)</option>
+            <option value="20000" disabled style="color:#c0c0c0;">20km (slow)</option>
+            <option value="50000" disabled style="color:#c0c0c0;">50km (slow)</option>
+        </select>
+        <div id="grp_actions">
+            <button *ngIf="false" (click)="ShowData($event)">Show Data</button>
+            <button (click)="ChooseSurveys($event)">Choose Survey</button>
+        </div>
+        <!-- second row -->
+        <span>Center KP ({{kpRangeText}})</span>
+        <div id="center_value">
+            <button (click)="KpNav('F')"><i class="fa fa-angle-double-left"></i></button>
+            <button (click)="KpNav('P')"><i class="fa fa-angle-left"></i></button>
+            <input type="text" formControlName="txt_centerkp" (change)="CenterChanged($event)">
+            <button (click)="KpNav('N')"><i class="fa fa-angle-right"></i></button>
+            <button (click)="KpNav('L')"><i class="fa fa-angle-double-right"></i></button>
+            <span id="lbl_show">Show:</span>
+            <i id="tgl_green" [style.color]="clrGreen" 
+                [class]="'fa fa-toggle-' + (form.get('tgl_green').value ? 'on' : 'off') +' tgl'"
+                (click)="ShowToggle($event)"></i>
+            <i id="tgl_amber" [style.color]="clrAmber" 
+                [class]="'fa fa-toggle-'+ (form.get('tgl_amber').value ? 'on' : 'off') +' tgl'"
+                (click)="ShowToggle($event)"></i>
+            <i id="tgl_red" [style.color]="clrRed" 
+                [class]="'fa fa-toggle-'+ (form.get('tgl_red').value ? 'on': 'off') +' tgl'"
+                (click)="ShowToggle($event)"></i>
+        </div>
+        <div id="legend">
+            <i id="sym_str" class="fa fa-square"></i>
+            <span>Strake</span>
+            <i id="sym_ber" class="fa fa-square" [style.color]="clrGreen"></i>
+            <span>Berm</span>
+            <i id="sym_sta" class="fa fa-play"></i>
+            <span>Stabilization</span>
+            <i id="sym_sea" class="far fa-square"></i>
+            <span>Seabed</span>
+        </div>
+    </div>
+    <div id="pipes_grid" [style.grid-template]="gridTemp">
+        <div *ngFor="let val of axyLines;let idx=index"><span class="x_val">{{fmtVal(val)}}</span>
+            <div class="vline" #gridStart *ngIf="idx==0"></div>
+            <div class="vline" #gridEnd *ngIf="idx==(axyLines.length-1)"></div>
+            <div class="vline" *ngIf="idx!=0 && idx!=(axyLines.length-1)"></div>
+        </div>
+    </div>
+    <div id="pipes">
+        <ng-container *ngFor="let survey of surveys">
+            <app-span-pipe [allEvents]="events" *ngIf="survey.active" [spanComponent]="this" [surveyId]="survey.id"
+                [campaignTitle]="survey.name"></app-span-pipe>
+            <!-- <app-span-pipe *ngIf="survey.active" [campaignTitle]="survey.name"></app-span-pipe> -->
+            <!-- <app-span-pipe  [campaignTitle]="survey.name"></app-span-pipe> -->
+        </ng-container>
+    </div>
+    <div id="footer"></div>
+</div>

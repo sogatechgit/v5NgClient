@@ -1,0 +1,13 @@
+
+:host{
+  display: flex;  // this will make children flex...
+  flex-direction: column;
+  // justify-content: stretch;
+  // background-color: lime;
+  padding:0px 0px;
+  flex: 1 1 0;
+}
+
+#form_wrapper{
+  position:relative;
+}

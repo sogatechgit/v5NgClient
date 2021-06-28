@@ -1,0 +1,64 @@
+<!--
+[style.grid-template-columns]="'1fr repeat(2, 250px)'"
+
+  -->
+<div id="wrapper">
+    <!-- <div id="wrapper_no_data" *ngIf="!configJSON"> -->
+    <!-- <span>Configuration object not available!</span> -->
+    <div id="header">header</div>
+    <div id="details">
+        <app-data-tabs #t activeBackground="white" [fluidIds]="fluidTabs" tabClass="alt-a" *ngIf="tabLabels"
+            [tabLabels]="tabLabels">
+            <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
+                <div class="tab_details" *ngIf="t.a(idx) && (tab.tables.length==0 && tab.charts.length==0)">
+                    {{tab.label + (tab.charts.length || tab.tables.length ? '' : ': no status element defined!')}}
+                </div>
+                <div class="tab_details" [ngStyle]="tab.style"
+                    *ngIf="t.a(idx) && (tab.tables.length!=0 || tab.charts.length!=0)">
+                    <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" 
+                    style="position: relative;"
+                    [style.background-color]="tbl.bg">
+                        <!-- 
+                        <app-data-grid *ngIf="false" #grid [options]="options" [noBarMenu]="noBarMenu"
+                            [pageNumber]="reqInfo.pageNumber" [pageSize]="reqInfo.pageSize"
+                            [totalPages]="reqInfo.totalPages" [totalRecords]="reqInfo.totalRecords"
+                            [sourceRows]="sourceRows" [sourceTable]="sourceTable" [gridPortHeight]="1080"
+                            [fontFactor]="fontFactor" (pageClick)="PageClick($event)"
+                            (pageSizeChange)="PageSizeChange($event)" (rowClick)="RowClick($event)" [dataSet]="dataSet"
+                            (applyFilter)="ApplyFilter($event)" [pageSizes]="pageSizes" [allowSelect]="SelectMode"
+                            (onSelectChange)="OnSelectChange($event)" [activeFiltering]="activeFiltering">
+                        </app-data-grid>
+                        <app-data-grid [gridParams]="tbl.params"></app-data-grid> -->
+
+                        <app-data-grid-b #grid style="top:0px;margin-top:-3px;padding:0px;border:none;" 
+                            [dataSet]="ds"
+                            [tableCode]="tbl.tableCode" noFooter="false" autoGrid="true" fontFactor="0.9"
+                            noBarMenu="true" noToolbar="true" (rowClick)="RowClick($event)">
+                        </app-data-grid-b>
+
+
+                    </div>
+                    <div *ngFor="let ch of tab.charts" [style.grid-area]="ch.name" [style.background-color]="ch.bg">
+                        {{ch.name}}
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- <div *ngIf="t.a(0)">General Information</div>
+        <div *ngIf="t.a(1)">Assessment</div>
+        <div *ngIf="t.a(2)">Recommendations</div>
+        <div *ngIf="t.a(3)">Risk Ranking</div> -->
+        </app-data-tabs>
+
+    </div>
+
+</div>
+<div id="wrapperX" *ngIf="configJSON && false">
+    <div id="tab_wrapper" [ngStyle]="activeTabDef.style">
+        <div *ngFor="let tbl of activeTabDef.tables" [style.grid-area]="tbl.name" [style.background-color]="tbl.bg">
+            {{tbl.name}}</div>
+        <div *ngFor="let ch of activeTabDef.charts" [style.grid-area]="ch.name" [style.background-color]="ch.bg">
+            {{ch.name}}
+        </div>
+    </div>
+</div>

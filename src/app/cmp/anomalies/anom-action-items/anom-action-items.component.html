@@ -1,0 +1,9 @@
+<app-data-grid-b #grid [tableCode]="TableCode" [dataSet]="DataSet"
+  noMaskOnInit="true" [parentGrid]="parentGrid"
+  [parentKeyValue]="parentKeyValue" [noInitFocus]="true"
+  [rights]="{allowAdd:true, allowEdit:true, allowDelete:true, allowExcel:true}" (rowClick)="RowClick($event)"
+  [moduleExchangeInfo]="moduleExchangeInfo" customGrid="" autoGrid="true" noFooter="true">
+
+  <app-anom-action-items-details [moduleExchangeInfo]="moduleExchangeInfo" [DataSet]="DataSet"
+    [dataKeyValue]="moduleExchangeInfo.state.dataKeyValue" [TableCode]="TableCode"></app-anom-action-items-details>
+</app-data-grid-b>
