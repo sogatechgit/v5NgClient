@@ -95,7 +95,9 @@
       <div [style.height.px]="gridHeightCalc">
         <!-- <input type="hidden" [value]="TreeLocationFinal"> -->
 
-        <app-data-grid #grid [options]="options" [noBarMenu]="noBarMenu" [pageNumber]="reqInfo.pageNumber"
+        <app-data-grid #grid [options]="options" 
+          [gridHeaderClassName]="gridHeaderClassName"
+          [noBarMenu]="noBarMenu" [pageNumber]="reqInfo.pageNumber"
           [pageSize]="reqInfo.pageSize" [totalPages]="reqInfo.totalPages" [totalRecords]="reqInfo.totalRecords"
           [sourceRows]="sourceRows" [sourceTable]="sourceTable" [gridPortHeight]="1080" [fontFactor]="fontFactor"
           (pageClick)="PageClick($event)" (pageSizeChange)="PageSizeChange($event)" (rowClick)="RowClick($event)"

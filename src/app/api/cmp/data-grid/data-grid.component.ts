@@ -91,6 +91,8 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() sourceRows: any = null;
   @Input() sourceLookups: any = null;
 
+  @Input() gridHeaderClassName: string;
+
   @Input() pageSizes: Array<number> = [200, 500, 1000, 1500, 2000, 3000];
   @Input() defaultPageSizeIndex: number = 0;
 

@@ -22,6 +22,7 @@ $test_col_with: 400px;
     font-family: $grid_body_font-family;
     font-weight: normal !important;
     background: $grid_bg_header !important;
+    // background: red !important;
     padding: 0px !important;
     text-align: center !important;
     border-bottom: 1px solid $grid_header_border_color;
@@ -36,7 +37,7 @@ $test_col_with: 400px;
     color: $bs_info !important;
     background: $bs_warning_light !important;
   }
-  #grid-header {
+  #grid-header.alt-a {
     overflow: hidden;
     > div {
       display: flex;
@@ -45,21 +46,23 @@ $test_col_with: 400px;
       color: $grid_fg_header;
       > div {
         flex: 1 1 0;
-        background: $grid_bg_header;
-        //min-width: $test_col_with;
+        background: #525252;
         white-space: nowrap;
         box-sizing: border-box;
         border-top: 1px solid $grid_header_border_color;
         border-right: 1px solid $grid_header_border_color;
         overflow: hidden;
-        color: $grid_fg_header;
-        font-weight: bold;
+        color: white;
+        font-weight: normal;
         padding: $grid_header_cell_padding;
 
         font-family: $grid_cell_font;
         font-size: $grid_header_cell_font_size;
         text-overflow: ellipsis;
         text-align: center;
+
+        display: grid;
+        place-items: center;
       }
       > div#vsep {
         padding: 0px;
@@ -70,12 +73,6 @@ $test_col_with: 400px;
         position: absolute;
         box-sizing: border-box;
         height: 100%;
-      }
-
-      > div:first-child {
-        //border-left: 1px solid $grid_border_color;
-        //border-left: 1px solid $grid_header_border_color;
-        // background-color: red;
       }
 
       .header-with-filter-or-sort {
@@ -103,7 +100,6 @@ $test_col_with: 400px;
         max-width: 20px;
         font-size: 1.2em;
         > div:first-child {
-          // background: $bs_warning;
           min-height: 12px;
           max-height: 12px;
           order: 1;
@@ -123,18 +119,10 @@ $test_col_with: 400px;
             // sort icon
             font-size: 0.6em;
           }
-          // > i:first-child:hover {
-          //   color: $bs_info;
-          //   background-color: $bs_warning_light;
-          // }
           > i:last-child {
             // filter icon
             font-size: 0.5em;
           }
-          // > i:last-child:hover {
-          //   color: $bs_info;
-          //   background-color: $bs_warning_light;
-          // }
         }
         > i:last-child {
           // drop arrow
@@ -152,9 +140,7 @@ $test_col_with: 400px;
         }
       }
     }
-    >div.column-header{
-      //
-    }
+
     #barMenu {
       margin-top: 5px;
       //padding-top:0px 0px;
@@ -163,10 +149,203 @@ $test_col_with: 400px;
       //background:red;
     }
   }
+
+  #grid-header {
+    overflow: hidden;
+    > div {
+      display: flex;
+      z-index: 0;
+      background-color: $grid_bg_header;
+      color: $grid_fg_header;
+      > div {
+        flex: 1 1 0;
+        background: $grid_bg_header;
+        white-space: nowrap;
+        box-sizing: border-box;
+        border-top: 1px solid $grid_header_border_color;
+        border-right: 1px solid $grid_header_border_color;
+        overflow: hidden;
+        color: $grid_fg_header;
+        font-weight: bold;
+        padding: $grid_header_cell_padding;
+
+        font-family: $grid_cell_font;
+        font-size: $grid_header_cell_font_size;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+      > div#vsep {
+        padding: 0px;
+        font-size: 0px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        background: $grid_header_border_color;
+        position: absolute;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      .header-with-filter-or-sort {
+        background: $bs_warning_light;
+        color: $bs_info;
+      }
+
+      .header-text {
+        margin-left: 2px;
+        flex: 1 1 0;
+        margin: 0px 0px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // display: flex; // this causes text overflow disappear
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 2px;
+        padding-right: 2px;
+      }
+      .header-filter {
+        justify-content: flex-end;
+        display: flex;
+        flex-direction: column;
+        min-width: 20px;
+        max-width: 20px;
+        font-size: 1.2em;
+        > div:first-child {
+          min-height: 12px;
+          max-height: 12px;
+          order: 1;
+          > i {
+            flex: 1 1 0;
+            border: 1px solid transparent;
+            padding: 1px;
+            cursor: pointer;
+            //padding-top: 1px;
+          }
+          > i:hover {
+            color: $bs_info;
+            background-color: $bs_warning_light;
+            border: 1px solid $bs_info;
+          }
+          > i:first-child {
+            // sort icon
+            font-size: 0.6em;
+          }
+          > i:last-child {
+            // filter icon
+            font-size: 0.5em;
+          }
+        }
+        > i:last-child {
+          // drop arrow
+          // background: $bs_danger;
+          font-size: 0.8em;
+          padding: 0px !important;
+          border: 1px solid transparent;
+          cursor: pointer;
+          flex: 1 1 0;
+        }
+        > i:last-child:hover {
+          color: $bs_info;
+          background-color: $bs_warning_light;
+          border: 1px solid $bs_info;
+        }
+      }
+    }
+
+    #barMenu {
+      margin-top: 5px;
+      //padding-top:0px 0px;
+      cursor: pointer;
+      font-size: 1.2em;
+      //background:red;
+    }
+  }  
   #grid-view-port {
     .grid-row:first-child {
       //border-top:1px solid $grid_header_border_color;
     }
+    .grid-row.alt-a {
+      display: flex;
+
+      .grid-cell {
+        //min-width:$test_col_with;
+        flex: 1 1 0;
+
+        cursor: default;
+
+        white-space: nowrap;
+        box-sizing: border-box;
+        border-right: 1px solid $grid_border_color;
+        border-bottom: 1px solid $grid_border_color;
+        padding: $grid_cell_padding;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: $grid_cell_font;
+        font-size: $grid_cell_font_size;
+
+        display:grid;
+        align-items: center;
+
+      }
+      .grid-cell:first-child {
+        border-left: 1px solid $grid_border_color;
+      }
+
+      > div.row-header {
+        padding: 0px;
+
+        display: flex;
+        flex: 1 1 0;
+        // flex-wrap: wrap;
+        align-items: center;
+        // > div {
+        //   // display: none;
+        //   font-size: 1px !important;
+        //   margin: 0px !important;
+        //   padding: 0px !important;
+        //   min-width: 50% !important;
+        //   max-width: 50% !important;
+        //   min-height: 100% !important;
+        //   max-height: 100% !important;
+        //   display:flex;
+        //   flex-direction: column;
+        //   > div {
+        //     // flex:1 1 0 !important;
+        //     min-width: 100% !important;
+        //     max-width: 100% !important;
+        //     min-height: 50%;
+        //     max-height: 50%;
+        //     background-color: white;
+        //   }
+        // }
+        // border:1px solid red;
+        > i {
+          font-size: 0.6em;
+          // display: none;
+          visibility: hidden;
+          min-width: 8px;
+        }
+        > i.check {
+          color: $bs_success;
+          visibility: visible;
+        }
+        > i.pointer {
+          color: $bs_info;
+          font-size: 0.85em;
+        }
+        > i.wait {
+          color: $bs_secondary;
+        }
+      }
+
+      .row-focus {
+        width: 0px;
+        height: 0px;
+        background-color: red;
+        border: none;
+        opacity: 0;
+      }
+    }    
     .grid-row {
       display: flex;
 
@@ -186,6 +365,7 @@ $test_col_with: 400px;
         text-overflow: ellipsis;
         font-family: $grid_cell_font;
         font-size: $grid_cell_font_size;
+
       }
       .grid-cell:first-child {
         border-left: 1px solid $grid_border_color;

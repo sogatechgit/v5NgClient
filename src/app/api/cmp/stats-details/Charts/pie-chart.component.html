@@ -1,1 +1,11 @@
-<p>pie-chart works!</p>
+<div style="display: block;" [style.visibility]="visibility">
+    <canvas baseChart #canvas
+      [data]="pieChartData" 
+      [labels]="pieChartLabels" 
+      [chartType]="pieChartType"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend">
+    </canvas>
+  </div>
+  

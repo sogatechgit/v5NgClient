@@ -18,7 +18,8 @@
 
 
   <div *ngIf="false" id="grid-toolbar">Toolbar</div>
-  <div #gridHeader id="grid-header" [style.min-height.px]="headerHeight" [style.max-height.px]="headerHeight"
+  <div #gridHeader id="grid-header" [class]="gridHeaderClassName"
+    [style.min-height.px]="headerHeight" [style.max-height.px]="headerHeight"
     style="position: relative;">
 
 
@@ -106,11 +107,12 @@
     <div [style.width.px]="totalCellWidths" class="grid-prompt noselect" *ngIf="isLoadingData"><i
         class="fa fa-spinner fa-spin fa-3x fa-fw"></i>{{promptLoadingData}}</div>
 
-    <div class="grid-row" *cdkVirtualFor="let r of dataSource;let i=index;" [style.height.px]="options.rowHeight"
+    <div [class]="'grid-row' + (gridHeaderClassName ? ' ' + gridHeaderClassName: '')" *cdkVirtualFor="let r of dataSource;let i=index;" [style.height.px]="options.rowHeight"
       [style.padding-left.px]="RowHeaderWidth" (click)="RowClick(r,false,true)" [ngClass]="RowClass(r)" style="position:relative;">
 
       <!-- Detail Row Header Start - displays row status icons -->
-      <div class="row-header" [style.max-width.px]="RowHeaderWidth" [style.min-width.px]="RowHeaderWidth"
+      <div class="row-header" *ngIf="RowHeaderWidth"
+        [style.max-width.px]="RowHeaderWidth" [style.min-width.px]="RowHeaderWidth"
         style="position: absolute;" [style.left.px]="barMenuLeft">
 
         <!-- <i class="pointer fa fa-pen"></i> -->

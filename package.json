@@ -25,6 +25,7 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
+    "chartjs-plugin-datalabels": "^1.0.0",
     "moment": "^2.29.1",
     "ng2-charts": "^2.2.3",
     "rxjs": "~6.6.0",

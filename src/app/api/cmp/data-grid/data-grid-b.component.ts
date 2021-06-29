@@ -67,6 +67,8 @@ export class DataGridBComponent
   //
   @Input() reportPageSize: number = 50;
 
+  @Input() gridHeaderClassName: string;
+
   @Input() pageSizes: Array<number> = [200, 500, 1000, 1500, 2000, 3000];
   @Input() promptTexts: any = {};
   @Input() promptWidths: any = {};
