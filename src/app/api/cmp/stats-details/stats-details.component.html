@@ -7,7 +7,8 @@
     <!-- <span>Configuration object not available!</span> -->
     <div id="header">header</div>
     <div id="details">
-        <app-data-tabs #t activeBackground="white" [fluidIds]="fluidTabs" tabClass="alt-a" *ngIf="tabLabels"
+        <app-data-tabs #t activeBackground="white" [fluidIds]="fluidTabs" 
+            tabClass="alt-a" *ngIf="tabLabels"
             [tabLabels]="tabLabels">
             <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
                 <div class="tab_details" *ngIf="t.a(idx) && (tab.tables.length==0 && tab.charts.length==0)">
@@ -25,8 +26,9 @@
                             [noBarMenu]="true"
                             [dataSet]="ds"
                             gridHeaderClassName="alt-a"
-                            [tableCode]="tbl.tableCode" noFooter="false" autoGrid="true" 
-                            fontFactor="1.05"
+                            [tableCode]="tbl.tableCode" autoGrid="true" 
+                            [noFooter]="tbl.noFooter" 
+                            fontFactor="0.95"
                             noBarMenu="true" noToolbar="true" (rowClick)="RowClick($event)">
                         </app-data-grid-b>
 

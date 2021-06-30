@@ -20,6 +20,7 @@
 				{
 					"name": "tbl1",
 					"tableCode": "an",
+					"noFooter":true,
 					"bg": "red",
 					"filters": [
 						{
@@ -35,6 +36,7 @@
 				{
 					"name": "tbl2",
 					"tableCode": "rf",
+					"noFooter":true,
 					"bg": "blue"
 				},
 				{
@@ -46,6 +48,7 @@
 			"charts": [
 				{
 					"name": "ch1",
+					"title":"Deviation Performance as per ${year} in Percentage",
 					"type": "pie",
 					"bg": "magenta"
 				},

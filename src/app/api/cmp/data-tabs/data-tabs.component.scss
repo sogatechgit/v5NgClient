@@ -1,5 +1,8 @@
 @import "../../../../appcssvars.scss";
 
+$alt_font-family:'Helvetica';
+$alt_background:#525252;
+
 .tab-wrapper {
   display: flex;
   flex-direction: column;
@@ -78,8 +81,10 @@
 
     li.alt-a {
 
+      $form_tab_font-family:$alt_font-family;  
+
       button {
-        background: #525252;
+        background: $alt_background;
         height: 35px;
         border-radius: 0px;
         border-left: 2px #424242 solid;

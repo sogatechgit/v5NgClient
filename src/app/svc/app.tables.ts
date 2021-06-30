@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 6/28/2021 1:28:05 PM
+* Automatically generated on 6/30/2021 10:52:22 AM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2821,6 +2821,213 @@ export class TblDesignDataParamsRow extends TableRowBase{
 
   // Returs the table object where the row is a member of.
   public get Table():TblDesignDataParams{ return super._Table(); }
+
+
+}
+
+
+
+
+export class TblDevMain extends TableBase {
+
+  public rows:Array<TblDevMainRow> = [];
+
+  public tableFieldPrefix="DEV_TBLDEVMAIN";
+	private _tableLinks:Array<string> = [];
+	private _links:Array<any> = [];
+	public clientConfig:any = {
+  "roles": "",
+  "keyField": "DEVID",
+  "dataGroup": "",
+  "gridColumns": [
+    "REFCODE|cap=Ref. Code;center;wd=100",
+    "DEVTITLE|cap=Title;mnw=150"
+  ]
+};
+
+  constructor(public http:HttpClient,public apiUrl:string, public tables:Array<any>, public apiCommon:AppCommonMethodsService) {
+    super(http, apiUrl,tables,apiCommon);
+
+    this.derivedTable = this;
+
+    this.tableCode="devmain";
+
+	this.columns.push(new ColumnInfo('DEVID', 'number', '', '', '', 0, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('REFCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('REVISION', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('PARENTREFCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ASSETCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEVTITLE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TYPECODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RAISEDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('INITUID', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('INITNAME', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('INITREFIND', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('COORDUID', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('COORDNAME', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('COORDREFIND', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('PERMANENT', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEVFROM', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEVTO', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPROVED', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('AREAEQUIPNO', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('EQUIPDUTY', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('IMPDESCRIPTION', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('OTHERREFCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('MINTHK', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RETENTIONPRESS', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RVCITHPPRESS', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('OPERATINGPRESS', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('STATUSCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TAROLES', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TADISAGGRED', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TAOTHER', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TACOMMENT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('LONGTERM', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('SUBMITTED', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('PRASSESSMENT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CONTMEASURE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RESRISK', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CUMRISK', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ACTIONCOMMENT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('POTOVERALL', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('POTPEOPLE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('POTENVIRONMENT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('POTASSETS', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('POTREPUTATION', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RESOVERALL', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPUID', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('STATUSCODEOLD', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEVTOOLD', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('LOCKED', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('LOCKEDBY', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TYPESUBCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('REFNOWON', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('FROMAIMS', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEFREASONCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEFAPPROVED', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TANAME', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TANAMEDEL', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ASSESSEDBY', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ASSESSEDDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CONFLICTAKNOWLEDGEDAGREE', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CONFLICTAKNOWLEDGEDBY', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CONFLICTAKNOWLEDGEDDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TOEXPIRELOGGED', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TASETCHANGEDBY', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TASETCHANGEDDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('TEST', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPUIDFINAL', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPROLEPREV', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPROLEFINAL', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPPROVREQ', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPPROVRESP', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPPROVRESPDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPPROVRESPBY', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('EXTCOUNT', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+
+    this.InitializeTable();
+
+  }
+
+  Add(row?:TblDevMainRow):TblDevMainRow
+  {
+    return super.Add(row);
+  }
+
+  NewRow():TblDevMainRow{return new TblDevMainRow();}
+  GetRows():Array<TblDevMainRow>{return this.rows;}
+  public set currentRow(value:TblDevMainRow){super.__currentRow(value);}
+  public get currentRow():TblDevMainRow{return super.__currentRow();}
+  public TableLinks():Array<string>{return this._tableLinks;}
+  public Links():Array<any>{return this._links;}
+  public get dirtyRows():Array<TblDevMainRow>{return super.__dirtyRows();}
+  public get newRows():Array<TblDevMainRow>{return super.__newRows();}
+
+
+}
+
+export class TblDevMainRow extends TableRowBase{
+	constructor(
+		public DEVID?:number, 
+		public REFCODE?:string, 
+		public REVISION?:string, 
+		public PARENTREFCODE?:string, 
+		public ASSETCODE?:string, 
+		public DEVTITLE?:string, 
+		public TYPECODE?:string, 
+		public RAISEDATE?:Date, 
+		public INITUID?:string, 
+		public INITNAME?:string, 
+		public INITREFIND?:string, 
+		public COORDUID?:string, 
+		public COORDNAME?:string, 
+		public COORDREFIND?:string, 
+		public PERMANENT?:number, 
+		public DEVFROM?:Date, 
+		public DEVTO?:Date, 
+		public APPROVED?:Date, 
+		public AREAEQUIPNO?:string, 
+		public EQUIPDUTY?:string, 
+		public IMPDESCRIPTION?:string, 
+		public OTHERREFCODE?:string, 
+		public MINTHK?:number, 
+		public RETENTIONPRESS?:number, 
+		public RVCITHPPRESS?:number, 
+		public OPERATINGPRESS?:number, 
+		public STATUSCODE?:string, 
+		public TAROLES?:string, 
+		public TADISAGGRED?:number, 
+		public TAOTHER?:string, 
+		public TACOMMENT?:string, 
+		public LONGTERM?:number, 
+		public SUBMITTED?:Date, 
+		public PRASSESSMENT?:string, 
+		public CONTMEASURE?:string, 
+		public RESRISK?:string, 
+		public CUMRISK?:string, 
+		public ACTIONCOMMENT?:string, 
+		public POTOVERALL?:string, 
+		public POTPEOPLE?:string, 
+		public POTENVIRONMENT?:string, 
+		public POTASSETS?:string, 
+		public POTREPUTATION?:string, 
+		public RESOVERALL?:string, 
+		public APPUID?:string, 
+		public STATUSCODEOLD?:string, 
+		public DEVTOOLD?:Date, 
+		public LOCKED?:Date, 
+		public LOCKEDBY?:string, 
+		public TYPESUBCODE?:string, 
+		public REFNOWON?:string, 
+		public FROMAIMS?:number, 
+		public DEFREASONCODE?:string, 
+		public DEFAPPROVED?:number, 
+		public TANAME?:string, 
+		public TANAMEDEL?:string, 
+		public ASSESSEDBY?:string, 
+		public ASSESSEDDATE?:Date, 
+		public CONFLICTAKNOWLEDGEDAGREE?:number, 
+		public CONFLICTAKNOWLEDGEDBY?:string, 
+		public CONFLICTAKNOWLEDGEDDATE?:Date, 
+		public TOEXPIRELOGGED?:number, 
+		public TASETCHANGEDBY?:string, 
+		public TASETCHANGEDDATE?:Date, 
+		public TEST?:number, 
+		public APPUIDFINAL?:string, 
+		public APPROLEPREV?:string, 
+		public APPROLEFINAL?:string, 
+		public APPPROVREQ?:number, 
+		public APPPROVRESP?:string, 
+		public APPPROVRESPDATE?:Date, 
+		public APPPROVRESPBY?:string, 
+		public EXTCOUNT?:number){
+    super();
+
+  }
+
+  // Returs the table object where the row is a member of.
+  public get Table():TblDevMain{ return super._Table(); }
 
 
 }

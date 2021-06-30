@@ -3,7 +3,7 @@
 </button> -->
 
 
-<div #wrapper id="grid-wrapper" *ngIf="isReady" [style.font-size.em]="fontFactor">
+<div #wrapper id="grid-wrapper" *ngIf="isReady" [style.font-size.em]="fontFactor" [class]="'alt-a'">
 
   <mat-menu #menu="matMenu" style="overflow: hidden;">
     <!-- <app-filter-parameters></app-filter-parameters> -->
@@ -157,7 +157,7 @@
   [headerHeight]="rowHeaderHeight" [gridHeight]="bound.height-footBound.height"
   [xPos]="handlePosition"></app-data-grid-split>
 
-  <div #footer *ngIf="setValueTo(!options.noFooter ,true)" id="grid-footer" class="d-flex">
+  <div #footer *ngIf="setValueTo(!options.noFooter ,true)" id="grid-footer" [class]="'d-flex'+(gridHeaderClassName ? ' ' + gridHeaderClassName :'')">
     <!-- <div *ngIf="false" id="grid-footer" class="d-flex"> -->
     <div id="footer-status" class="noselect" *ngIf="isPaging">{{recordStatus}}</div>
     <div id="footer-no-paging" *ngIf="!isPaging" class="text-center">&nbsp;</div>

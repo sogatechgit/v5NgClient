@@ -54,6 +54,7 @@ import { TblDesignData, TblDesignDataRow } from './app.tables';
 import { TblDesignDataHistory, TblDesignDataHistoryRow } from './app.tables';
 import { TblDesignDataKP, TblDesignDataKPRow } from './app.tables';
 import { TblDesignDataParams, TblDesignDataParamsRow } from './app.tables';
+import { TblDevMain, TblDevMainRow } from './app.tables';
 import { TblFailureThreats, TblFailureThreatsRow } from './app.tables';
 import { SysLocks, SysLocksRow } from './app.tables';
 import { TblLookups, TblLookupsRow } from './app.tables';
@@ -192,6 +193,7 @@ export class AppDataset extends DatasetBase {
   public tblDesignDataHistory:TblDesignDataHistory = this.AddTable(new TblDesignDataHistory(this.http, this.apiUrl, this.tables, this.apiCommon));
   public tblDesignDataKP:TblDesignDataKP = this.AddTable(new TblDesignDataKP(this.http, this.apiUrl, this.tables, this.apiCommon));
   public tblDesignDataParams:TblDesignDataParams = this.AddTable(new TblDesignDataParams(this.http, this.apiUrl, this.tables, this.apiCommon));
+  public tblDevMain:TblDevMain = this.AddTable(new TblDevMain(this.http, this.apiUrl, this.tables, this.apiCommon));
   public tblFailureThreats:TblFailureThreats = this.AddTable(new TblFailureThreats(this.http, this.apiUrl, this.tables, this.apiCommon));
   public sysLocks:SysLocks = this.AddTable(new SysLocks(this.http, this.apiUrl, this.tables, this.apiCommon));
   public tblLookups:TblLookups = this.AddTable(new TblLookups(this.http, this.apiUrl, this.tables, this.apiCommon));

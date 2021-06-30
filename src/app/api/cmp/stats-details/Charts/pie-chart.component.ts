@@ -79,7 +79,6 @@ export class PieChartComponent implements OnInit, AfterViewInit {
         fontColor: this.textColor,
         fontFamily:this.fontFamily,
         fontSize:this.legendSize
-        
       },
       position: this.legendPosition,
       
@@ -109,6 +108,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    
   }
 
   ngAfterViewInit() {
