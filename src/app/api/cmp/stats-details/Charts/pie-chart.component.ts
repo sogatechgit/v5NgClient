@@ -62,6 +62,8 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   @Input() name: string;
+  @Input() labels:Array<string> = ['Closed', 'Raised'];
+  @Input() seriesData:SingleDataSet = [9, 3];
 
   @ViewChild('canvas') canvas: ElementRef;
 
@@ -96,8 +98,8 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   };
   // for multi-line legends, supply array of strings for each data sector
   // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  public pieChartLabels: Label[] = ['Closed', 'Raised'];
-  public pieChartData: SingleDataSet = [9, 3];
+  public pieChartLabels: Label[] = this.labels;
+  public pieChartData: SingleDataSet = this.seriesData;
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
