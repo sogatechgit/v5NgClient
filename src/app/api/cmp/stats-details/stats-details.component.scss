@@ -3,6 +3,8 @@
     width: 100%;
 }
 
+$line_color: #c0c0c0;
+
 // #tab_wrapper,
 // #wrapper_no_data {
 //     display: grid;
@@ -26,21 +28,37 @@
 
     place-items: center;
     background-color: white;
-    grid-template: 100px 1fr / 1fr;
+    grid-template-columns: 1fr;
     position: relative; // needed to make data tab width responsive when width is changed
     place-items: stretch;
-    div#header{
+    div#header {
         display: grid;
         grid-column: 1 / -1;
         grid-row: 1;
-        background-color: lime;
+        font-size: 0.85em;
+
+        label {
+        }
+        select {
+            padding: 3px 5px 3px 5px;
+            border-radius: 6px;
+            border-color: $line_color;
+            margin-left: 5px;
+
+            option{
+                font-size:0.9em;
+            }
+        }
+        select:focus {
+            outline: none;
+        }
     }
-    div#details{
+    div#details {
         display: grid;
-        grid-template:1fr / 1fr;
+        grid-template: 1fr / 1fr;
         // border:2px solid cyan;
         overflow: hidden;
-        position:relative;
+        position: relative;
         app-data-tabs {
             grid-column: 1 / -1;
             grid-row: 1 / -1;
@@ -53,21 +71,21 @@
     }
 }
 
-.tab_details{
+.tab_details {
     display: grid;
 
     height: 100%;
     width: 100%;
     background-color: white;
-    border:1px solid red;
+    border: 1px solid red;
 
     > div {
         overflow: hidden;
         display: grid;
-        grid-template:1fr / 1fr;
+        grid-template: 1fr / 1fr;
         place-items: center;
         // border:2px dashed orange;
-        border:1px solid #c0c0c0;
+        border: 1px solid #c0c0c0;
 
         box-sizing: border-box;
         overflow: hidden;
@@ -75,11 +93,10 @@
         justify-items: stretch;
         align-items: stretch;
 
-        app-bar-chart{
+        app-bar-chart {
             // background-color: lime;
-            grid-row:1 / span 1;
-            grid-column:1 / span 1;
+            grid-row: 1 / span 1;
+            grid-column: 1 / span 1;
         }
-
     }
 }

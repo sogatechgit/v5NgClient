@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 6/30/2021 3:41:20 PM
+* Automatically generated on 7/1/2021 3:04:41 PM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2838,10 +2838,9 @@ export class QryDevMain extends TableBase {
 	public clientConfig:any = {
   "roles": "",
   "keyField": "DEVID",
-  "dataGroup": "",
   "gridColumns": [
-    "REFCODE|cap=Ref. Code;center;wd=100",
-    "DEVTITLE|cap=Title;mnw=150"
+    "REFNUM|cap=Ref.No.;center;wd=100",
+    "DEVTITLE|cap=Title;mnw=200"
   ]
 };
 
@@ -2853,10 +2852,14 @@ export class QryDevMain extends TableBase {
     this.tableCode="devmain";
 
 	this.columns.push(new ColumnInfo('DEVID', 'number', '', '', '', 0, -1, -1, -1, -1, false, false, false, this));
-	this.columns.push(new ColumnInfo('DEVTITLE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('REFNUM', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('REFCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('REVISION', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('DEVTITLE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('DSTSTATUS', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('STATUSCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RSCLSTAT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RAISEDYEAR', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 
     this.InitializeTable();
 
@@ -2882,10 +2885,14 @@ export class QryDevMain extends TableBase {
 export class QryDevMainRow extends TableRowBase{
 	constructor(
 		public DEVID?:number, 
-		public DEVTITLE?:string, 
+		public REFNUM?:string, 
 		public REFCODE?:string, 
 		public REVISION?:string, 
-		public DSTSTATUS?:string){
+		public DEVTITLE?:string, 
+		public DSTSTATUS?:string, 
+		public STATUSCODE?:string, 
+		public RSCLSTAT?:string, 
+		public RAISEDYEAR?:number){
     super();
 
   }

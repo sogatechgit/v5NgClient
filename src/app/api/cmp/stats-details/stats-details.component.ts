@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppMainServiceService } from './../../../svc/app-main-service.service';
 import { AppDataset } from 'src/app/svc/app-dataset.service';
 import { RequestParams } from '../../mod/app-params.model';
 import { DataGridOption, GridParams } from '../data-grid/data-grid.component';
+import { PieChartComponent } from './Charts/pie-chart.component';
 //import { AppMainServiceService } from './../../svc/app-main-service.service';
 
 
@@ -14,11 +15,12 @@ import { DataGridOption, GridParams } from '../data-grid/data-grid.component';
 })
 
 
-export class StatsDetailsComponent implements OnInit {
+export class StatsDetailsComponent implements OnInit, AfterViewInit {
   constructor(public dataSource: AppMainServiceService, public http: HttpClient) {
 
   }
-  // constructor() { }
+
+  @ViewChildren(PieChartComponent) pieCharts: QueryList<PieChartComponent>;
 
   @Input() configFile: string;
 
@@ -40,7 +42,33 @@ export class StatsDetailsComponent implements OnInit {
     if (!this.ds) return;
 
     this.InitSource();
+  }
+  ngAfterViewInit() {
+    console.log(" #### pieCharts :", this.pieCharts.first);
+    setTimeout(() => {
+      console.log("! UPDATING....", this.pieCharts.first.chart)
+      this.pieCharts.first.pieChartOptions.title.text = "sAMPLE CHANGE";
 
+      this.pieCharts.first.chart.datasets[0].data.pop();
+      this.pieCharts.first.chart.labels.pop();
+
+      this.pieCharts.first.chart.datasets[0].data.pop();
+      this.pieCharts.first.chart.labels.pop();
+
+      this.pieCharts.first.chart.datasets[0].data.push(2);
+      this.pieCharts.first.chart.labels.push('Test');
+
+      this.pieCharts.first.chart.chart.update()
+      //this.pieCharts.first.chart.data.push()
+      //this.pieCharts.first.chart.data
+
+      // add data
+      // this.pieCharts.first.pieChartData.push()
+      // this.pieCharts.first.seriesData.slice();
+
+
+      // setTimeout(()=>{this.pieCharts.first.chart.chart.update();},1000)
+    }, 6000)
   }
 
   InitSource(): any {
@@ -68,7 +96,7 @@ export class StatsDetailsComponent implements OnInit {
           });
 
           this._configJSON = result;
-          console.log("table configs: ",this._configJSON.tabs)
+          console.log("table configs: ", this._configJSON.tabs)
 
           resolve();
           subs.unsubscribe();
@@ -168,6 +196,10 @@ export class StatsDetailsComponent implements OnInit {
   }
   get gridStyle(): any {
     return {};
+  }
+
+  FilterSelect(event: any, source: any) {
+    console.log("Filter chaged: ", event, source,event.srcElement.value);
   }
 
 }

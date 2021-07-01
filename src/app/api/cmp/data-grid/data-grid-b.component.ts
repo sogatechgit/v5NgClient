@@ -69,7 +69,19 @@ export class DataGridBComponent
 
   @Input() gridHeaderClassName: string;
 
-  @Input() pageSizes: Array<number> = [200, 500, 1000, 1500, 2000, 3000];
+
+  private _pageSizes: Array<number> = [200, 500, 1000, 1500, 2000, 3000];
+  @Input() set pageSizes(value: Array<number>) {
+    if (value == null) {
+      this._pageSizes = [];
+    } else {
+      this._pageSizes = value;
+    }
+  }
+  get pageSizes(): Array<number> {
+    return this._pageSizes;
+  }
+  //[10,50,100,200,500]
   @Input() promptTexts: any = {};
   @Input() promptWidths: any = {};
 
@@ -151,7 +163,7 @@ export class DataGridBComponent
       opt.BaseFilterDefineOff();
     }
 
-    console.log("this.autoGrid || this.customGrid : ", this.autoGrid ," ### ")
+    console.log("this.autoGrid || this.customGrid : ", this.autoGrid, " ### ")
 
     if (this.autoGrid || this.customGrid) {
       // perform data grid columns definition using the
@@ -222,7 +234,7 @@ export class DataGridBComponent
 
   @Input() gridManagementData: any = {};
 
-  @Input() CampEvtSelectorGrid: any ={};//Neo 20210413
+  @Input() CampEvtSelectorGrid: any = {};//Neo 20210413
   @Input() labelCampEvt: string = 'Campaign/Event Selector';//Neo 20210413
   @Input() labelAdd: string = 'Add';
   @Input() labelEdit: string = 'Edit';
@@ -395,7 +407,7 @@ export class DataGridBComponent
   @Input() filterListener: Function = null;
 
   @Input() fontFactor: number = 1;
-  @Output() campEvtClick: EventEmitter<any>= new EventEmitter();
+  @Output() campEvtClick: EventEmitter<any> = new EventEmitter();
   @Output() manageClick: EventEmitter<any> = new EventEmitter();
   @Output() addClick: EventEmitter<any> = new EventEmitter();
   @Output() editClick: EventEmitter<any> = new EventEmitter();
@@ -1215,7 +1227,7 @@ export class DataGridBComponent
 
 
   //Neo 20210413
-  CampEvtClick(e: any){
+  CampEvtClick(e: any) {
     this.campEvtClick.emit({ e: e, sender: this });
   }
 
@@ -2735,12 +2747,12 @@ export class DataGridBComponent
   get isNoGrid(): boolean {
     return !this.grid ? true : false;
   }
-  
+
   private _SelectMode: boolean = false;
-  @Input() set SelectMode(value:boolean){
+  @Input() set SelectMode(value: boolean) {
     this._SelectMode = value;
   }
-  get SelectMode():boolean{
+  get SelectMode(): boolean {
     return this._SelectMode
   }
 
@@ -2882,7 +2894,7 @@ export class DataGridBComponent
 
   public QryStr: string = ''
   private prevGridPageSize: number;
-  public ReportDetails : any;
+  public ReportDetails: any;
   reportSelected(op: any) {
     this._ReportMode = true;
     this.ReportDetails = op;
@@ -2913,7 +2925,7 @@ export class DataGridBComponent
   }
 
   ReportClicked(e: any) {
-    if (this._ReportMode){
+    if (this._ReportMode) {
       this._ReportMode = false;
       this.labelReport = "Report"
       this.activeFiltering = false;

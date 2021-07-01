@@ -9,8 +9,12 @@ import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsToolt
 })
 export class PieChartComponent implements OnInit, AfterViewInit {
 
-  @Input() title: string = 'Pie Chart Title';
-  @Input() titlePosition: PositionType = 'top';
+  @Input() set title(value: string){
+    this.pieChartOptions.title.text = value;
+  }
+  @Input() set titlePosition(value: PositionType){
+    this.pieChartOptions.title.position = value;
+  }
   @Input() titleAlign:string='left'
 
   @Input() textColor:string = 'gray';
@@ -62,8 +66,20 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   @Input() name: string;
-  @Input() labels:Array<string> = ['Closed', 'Raised'];
-  @Input() seriesData:SingleDataSet = [9, 3];
+
+  @Input() set seriesTitles(value:Label[]){
+    this.pieChartLabels = value;
+  }
+  get seriesTitles():Label[]{
+    return this.pieChartLabels;
+  }
+
+  @Input() set seriesData(value:SingleDataSet){
+    this.pieChartData = value;
+  }
+  get seriesData():SingleDataSet{
+    return this.pieChartData;
+  }
 
   @ViewChild('canvas') canvas: ElementRef;
 
@@ -90,16 +106,15 @@ export class PieChartComponent implements OnInit, AfterViewInit {
       fontSize: this.titleSize,
       display: true,
       fontColor:this.textColor,
-      text: this.title,
-      position: this.titlePosition,
-      
+      position: 'top',
+      text:'Pie Chart Title'
       
     }
   };
   // for multi-line legends, supply array of strings for each data sector
   // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  public pieChartLabels: Label[] = this.labels;
-  public pieChartData: SingleDataSet = this.seriesData;
+  public pieChartLabels: Label[];
+  public pieChartData: SingleDataSet;
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
@@ -114,6 +129,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log("@@@@@@@@@@ PIE Params: ",this.seriesData, this.seriesTitles)
     this.handleResize(null);
   }
 
