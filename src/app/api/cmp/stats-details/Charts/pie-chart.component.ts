@@ -36,7 +36,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
       const parElem = this.elRef.nativeElement.parentElement;
 
       if (this.name == 'ch1') {
-        console.log("PARENT ELEMENT: ", parElem.clientWidth, parElem.clientHeight);
+        // console.log("PARENT ELEMENT: ", parElem.clientWidth, parElem.clientHeight);
       }
 
       const ctx = this.canvas.nativeElement.getContext("2d");
@@ -129,7 +129,6 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log("@@@@@@@@@@ PIE Params: ",this.seriesData, this.seriesTitles)
     this.handleResize(null);
   }
 

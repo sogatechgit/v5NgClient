@@ -1365,7 +1365,7 @@ export class DataGridBComponent
   }
 
   SetGridColumnDef(gridColumn: string) {
-    console.log("SetGridColumnDef ....")
+    
     // Define datagir column found in table configuration's  gridColumns or customGridColumns
     let opt: DataGridOption = this.options;
     let colDef: IDataGridColumn = {};

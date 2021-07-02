@@ -21,7 +21,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       const parElem = this.elRef.nativeElement.parentElement;
 
       if (this.name == 'ch2') {
-        console.log("PARENT ELEMENT: ", parElem.clientWidth, parElem.clientHeight);
+        // console.log("PARENT ELEMENT: ", parElem.clientWidth, parElem.clientHeight);
       }
 
       const ctx = this.canvas.nativeElement.getContext("2d");

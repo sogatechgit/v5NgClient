@@ -338,9 +338,6 @@ export class DataOption {
       if (this.fields.find((f) => f.fieldName == args.fieldName)) return this;
 
     const fld = new DataColumn(args);
-    if (args.fieldName == 'LKP_MEMO_1') {
-      console.log('### MEMO FIELD OBJECT:', fld,", args:", args);
-    }
 
     fld.parentOption = this;
     this.fields.push(fld);

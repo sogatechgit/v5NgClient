@@ -5,6 +5,7 @@ import { AppDataset } from 'src/app/svc/app-dataset.service';
 import { RequestParams } from '../../mod/app-params.model';
 import { DataGridOption, GridParams } from '../data-grid/data-grid.component';
 import { PieChartComponent } from './Charts/pie-chart.component';
+import { flush } from '@angular/core/testing';
 //import { AppMainServiceService } from './../../svc/app-main-service.service';
 
 
@@ -44,7 +45,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     this.InitSource();
   }
   ngAfterViewInit() {
-    console.log(" #### pieCharts :", this.pieCharts.first);
+
     setTimeout(() => {
       console.log("! UPDATING....", this.pieCharts.first.chart)
       this.pieCharts.first.pieChartOptions.title.text = "sAMPLE CHANGE";
@@ -82,7 +83,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
       ////do your initialisation stuff here
       const subs = this.http.get(path).subscribe(
         (result: any) => {
-          console.log("@@@@@ stats details result: ", result);
 
           const labels = [];
           let ctr: number = 0;
@@ -95,8 +95,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             ctr++;
           });
 
-          this._configJSON = result;
-          console.log("table configs: ", this._configJSON.tabs)
+          this.ProcessConfig(result)
 
           resolve();
           subs.unsubscribe();
@@ -199,7 +198,75 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   FilterSelect(event: any, source: any) {
-    console.log("Filter chaged: ", event, source,event.srcElement.value);
+    console.log("Filter chaged: ", event, source, event.srcElement.value);
+  }
+
+  HeaderItem(item:any):any{
+    const {type, name} = item;
+    if(type == 'filter'){
+      return this._configJSON.filters.find(flt=>flt.name == name);
+    }else{
+      return null;
+    }
+    // return name
+  }
+
+  ProcessConfig(result: any) {
+    this._configJSON = result;
+    console.log("table configs: ", this._configJSON.tabs);
+
+    // set filter parameters
+    /* sample filter configuration
+      "params": {
+        "source": "devmain",
+        "value": "RAISEDYEAR",
+        "display": "RAISEDYEAR",
+        "sort": "-RAISEDYEAR"
+      },
+      "data": [
+        {
+          "value": 2021,
+          "display": "2021"
+        }
+      ]
+     */
+
+    const reqParams: Array<RequestParams> = []
+    const processedFilters: Array<any> = []
+    this._configJSON.filters.forEach(flt => {
+
+      processedFilters.push(flt);
+      const { source, display, value, sort } = flt.params;
+
+      reqParams.push({
+        code: source,
+        includedFields: `${value}@VALUE\`${display ? display : value}@DISPLAY`,
+        sortFields: sort,
+        snapshot: true,
+        distinct: true
+      })
+
+    })
+
+    // console.log("filter reqParams: ", reqParams)
+
+    this.ds.Get(reqParams, {
+      onSuccess: (data) => {
+        // console.log("@@@@ Filter Data: ",reqParams, data);
+
+        for (let idx = 0; idx <= processedFilters.length; idx++) {
+          const flt = processedFilters[idx];
+          const rows = data.processed.data[idx];
+          const opts: Array<any> = [];
+          rows.forEach(row => {
+            opts.push({ value: row.XTRA.VALUE, display: row.XTRA.DISPLAY })
+          })
+          flt.data = opts;
+          console.log("Filter entries: ", flt, rows)
+        }
+
+      }
+    })
   }
 
 }

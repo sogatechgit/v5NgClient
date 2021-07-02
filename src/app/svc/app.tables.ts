@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 7/1/2021 3:04:41 PM
+* Automatically generated on 7/2/2021 1:11:30 PM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2840,7 +2840,14 @@ export class QryDevMain extends TableBase {
   "keyField": "DEVID",
   "gridColumns": [
     "REFNUM|cap=Ref.No.;center;wd=100",
-    "DEVTITLE|cap=Title;mnw=200"
+    "DEVTITLE|cap=Title;mnw=120",
+    "ASSET|cap=Asset;mnw=100",
+    "STATUS|cap=Status;center;wd=80",
+    "RAISEDATE|cap=Raised;center;wd=80",
+    "APPROVED|cap=Approved;center;wd=80",
+    "CLOSED|cap=Closed;center;wd=100",
+    "DSTSTATUS|cap=Current Status;center;wd=110",
+    "RESPONSIBLE|cap=Responsible;wd=110"
   ]
 };
 
@@ -2852,6 +2859,8 @@ export class QryDevMain extends TableBase {
     this.tableCode="devmain";
 
 	this.columns.push(new ColumnInfo('DEVID', 'number', '', '', '', 0, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ASSETCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ASSET', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('REFNUM', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('REFCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('REVISION', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
@@ -2860,6 +2869,11 @@ export class QryDevMain extends TableBase {
 	this.columns.push(new ColumnInfo('STATUSCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('RSCLSTAT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('RAISEDYEAR', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('STATUS', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RAISEDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('APPROVED', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CLOSED', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('RESPONSIBLE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 
     this.InitializeTable();
 
@@ -2885,6 +2899,8 @@ export class QryDevMain extends TableBase {
 export class QryDevMainRow extends TableRowBase{
 	constructor(
 		public DEVID?:number, 
+		public ASSETCODE?:string, 
+		public ASSET?:string, 
 		public REFNUM?:string, 
 		public REFCODE?:string, 
 		public REVISION?:string, 
@@ -2892,7 +2908,12 @@ export class QryDevMainRow extends TableRowBase{
 		public DSTSTATUS?:string, 
 		public STATUSCODE?:string, 
 		public RSCLSTAT?:string, 
-		public RAISEDYEAR?:number){
+		public RAISEDYEAR?:number, 
+		public STATUS?:string, 
+		public RAISEDATE?:Date, 
+		public APPROVED?:Date, 
+		public CLOSED?:string, 
+		public RESPONSIBLE?:string){
     super();
 
   }

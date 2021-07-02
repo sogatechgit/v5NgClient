@@ -1906,14 +1906,6 @@ export class DataGridOption extends DataOption {
 
     if (args.fieldName == 'LKP_MEMO_1') {
       col.fieldName = 'RF_PATH_LOC';
-      console.log(
-        'NO COLUMN ORDER!: ',
-        col,
-        ', fldOpt:',
-        fldOpt,
-        ', this.columns',
-        this.columns
-      );
     }
 
     return this;

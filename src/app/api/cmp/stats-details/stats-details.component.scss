@@ -45,8 +45,9 @@ $line_color: #c0c0c0;
             border-color: $line_color;
             margin-left: 5px;
 
-            option{
-                font-size:0.9em;
+            option {
+                font-size: 0.9em;
+                font-weight: normal;
             }
         }
         select:focus {
@@ -79,13 +80,15 @@ $line_color: #c0c0c0;
     background-color: white;
     border: 1px solid red;
 
+    padding: 8px;
+
     > div {
         overflow: hidden;
         display: grid;
         grid-template: 1fr / 1fr;
         place-items: center;
         // border:2px dashed orange;
-        border: 1px solid #c0c0c0;
+        // border: 1px solid #c0c0c0;
 
         box-sizing: border-box;
         overflow: hidden;
@@ -97,6 +100,40 @@ $line_color: #c0c0c0;
             // background-color: lime;
             grid-row: 1 / span 1;
             grid-column: 1 / span 1;
+        }
+    }
+    > div.header {
+        // padding-left: 4px;
+        // padding-right: 4px;
+        // border: 1px solid olive;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        // background-color: red;
+
+
+        > div.filter {
+            // background-color: yellow;
+            padding:0px;
+            label {
+                line-height: 0.9em;
+            }
+            select {
+                // display: none;
+                padding: 3px 5px 3px 5px;
+                border-radius: 6px;
+                border-color: $line_color;
+                margin-left: 5px;
+                // margin:0px;
+
+                option {
+                    font-size: 0.9em;
+                    font-weight: normal;
+                }
+            }
+            select:focus {
+                outline: none;
+            }
         }
     }
 }
