@@ -69,6 +69,8 @@ export class DataGridBComponent
 
   @Input() gridHeaderClassName: string;
 
+  @Input() extFilterExpression: string;
+
 
   private _pageSizes: Array<number> = [200, 500, 1000, 1500, 2000, 3000];
   @Input() set pageSizes(value: Array<number>) {
@@ -218,6 +220,8 @@ export class DataGridBComponent
   @ContentChild('details') details: any;
 
   @Input() compId: string;
+  
+  @Input() name: string;
 
   @Input() parent: any = null;
   @Input() gridRowsStateName: string = 'gridRows';
@@ -919,9 +923,9 @@ export class DataGridBComponent
     const keyName = tbl.keyName;
     const dataGroup: ColumnInfo = tbl.DataGroup;
 
-    const tblCfg: IRegularTableConfig = tbl.TableConfig;
+    // const tblCfg: IRegularTableConfig = tbl.TableConfig;
 
-    const asset: ColumnInfo = tbl.AssetField;
+    // const asset: ColumnInfo = tbl.AssetField;
 
     // ********************** set filter expressions ************************************
 
@@ -1008,6 +1012,12 @@ export class DataGridBComponent
     // set filter clause
     reqParam.filter = opt.whereClause; // where
 
+
+    // AND external filter expression
+    if(this.extFilterExpression){
+      reqParam.filter += (reqParam.filter ? "^" : "")  + this.extFilterExpression
+    }
+
     reqParam.sortFields = opt.orderByClause; // order by
     reqParam.fieldMap = opt.fieldMap; // field mapping
 
@@ -1018,6 +1028,7 @@ export class DataGridBComponent
       reqParam.pageSize = pageSize;
     }
 
+    console.log("DataGrid-B reqParam: ",reqParam)
     return reqParam;
   }
 

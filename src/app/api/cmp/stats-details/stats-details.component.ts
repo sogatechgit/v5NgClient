@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit,ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppMainServiceService } from './../../../svc/app-main-service.service';
 import { AppDataset } from 'src/app/svc/app-dataset.service';
@@ -6,6 +6,10 @@ import { RequestParams } from '../../mod/app-params.model';
 import { DataGridOption, GridParams } from '../data-grid/data-grid.component';
 import { PieChartComponent } from './Charts/pie-chart.component';
 import { flush } from '@angular/core/testing';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DataGridBComponent } from '../data-grid/data-grid-b.component';
+import { BarChartComponent } from './Charts/bar-chart.component';
+import { DataTabsComponent } from '../data-tabs/data-tabs.component';
 //import { AppMainServiceService } from './../../svc/app-main-service.service';
 
 
@@ -22,8 +26,15 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChildren(PieChartComponent) pieCharts: QueryList<PieChartComponent>;
+  @ViewChildren(BarChartComponent) barCharts: QueryList<BarChartComponent>;
+  @ViewChildren(DataGridBComponent) tables: QueryList<DataGridBComponent>;
+  @ViewChild('t') tabs:DataTabsComponent;
+
+  
 
   @Input() configFile: string;
+
+  public formGroup:FormGroup = new FormGroup({});
 
   private _configJSON: any;
   @Input() set configJSON(value: any) {
@@ -48,28 +59,67 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       console.log("! UPDATING....", this.pieCharts.first.chart)
-      this.pieCharts.first.pieChartOptions.title.text = "sAMPLE CHANGE";
+      // this.pieCharts.first.pieChartOptions.title.text = "sAMPLE CHANGE";
 
-      this.pieCharts.first.chart.datasets[0].data.pop();
-      this.pieCharts.first.chart.labels.pop();
+      // this.pieCharts.first.chart.datasets[0].data.pop();
+      // this.pieCharts.first.chart.labels.pop();
 
-      this.pieCharts.first.chart.datasets[0].data.pop();
-      this.pieCharts.first.chart.labels.pop();
+      // this.pieCharts.first.chart.datasets[0].data.pop();
+      // this.pieCharts.first.chart.labels.pop();
 
-      this.pieCharts.first.chart.datasets[0].data.push(2);
-      this.pieCharts.first.chart.labels.push('Test');
+      // this.pieCharts.first.chart.datasets[0].data.push(2);
+      // this.pieCharts.first.chart.labels.push('Test');
 
-      this.pieCharts.first.chart.chart.update()
-      //this.pieCharts.first.chart.data.push()
-      //this.pieCharts.first.chart.data
+      // this.pieCharts.first.chart.chart.update()
 
-      // add data
-      // this.pieCharts.first.pieChartData.push()
-      // this.pieCharts.first.seriesData.slice();
-
-
-      // setTimeout(()=>{this.pieCharts.first.chart.chart.update();},1000)
     }, 6000)
+  }
+
+  GetFilterItemControlName(tab:any, item:any):string{
+
+    const {type, name} = item;
+    if(type == 'filter'){
+      const fltName:string =`${tab.name}_${name}`;
+      if(!this.formGroup.get(fltName)){
+        this.formGroup.addControl(fltName,new FormControl(0));
+      }
+
+      return fltName;
+    }else{
+      return null;
+    }
+
+  }
+
+  ExternalFilterExpression(tableDef:any):string{
+    if(!tableDef) return "";
+    if(!tableDef.filters ? true : tableDef.filters.length == 0) return "";
+
+          /*
+      "filters": [
+						{
+							"name": "year",
+							"field": ""
+						},
+						{
+							"name": "flt2",
+							"field": ""
+						}
+					]
+      */
+
+    tableDef.filters.forEach(flt => {
+      const retVal:Array<string> = [];
+      const {name, field} = flt;
+      if(name && field){
+        /*
+        1. get reference to filter control and get the value
+        2. form expression if value is not 0 (i.e. all)
+        */ 
+      }
+    });
+
+    return ""
   }
 
   InitSource(): any {
@@ -198,7 +248,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   FilterSelect(event: any, source: any) {
-    console.log("Filter chaged: ", event, source, event.srcElement.value);
+    console.log("Filter chaged: ", event, source, this.formGroup, this.tables, this.tabs.activeTab);
   }
 
   HeaderItem(item:any):any{
@@ -209,6 +259,10 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
       return null;
     }
     // return name
+  }
+
+  TabClicked(event:any){
+    console.log("TabClicked: " ,event)
   }
 
   ProcessConfig(result: any) {
@@ -262,7 +316,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             opts.push({ value: row.XTRA.VALUE, display: row.XTRA.DISPLAY })
           })
           flt.data = opts;
-          console.log("Filter entries: ", flt, rows)
         }
 
       }

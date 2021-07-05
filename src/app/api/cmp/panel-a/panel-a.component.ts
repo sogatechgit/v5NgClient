@@ -65,7 +65,7 @@ export class PanelAComponent implements OnInit, AfterViewInit {
 
   @Input() tabControl:boolean = false;
 
-  @Input() tabDef: DataTab = {};
+  @Input() tabDef: DataTab = null;
 
   @Input() fluidTab: boolean = false;
   @Input() tabBackground: string = 'white';

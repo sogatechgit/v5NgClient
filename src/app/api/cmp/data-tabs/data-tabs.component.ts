@@ -106,12 +106,20 @@ export class DataTabsComponent implements OnInit, AfterViewInit {
   @Input() activeBackground: string = null;
   @Input() panelBackground: string = 'white';
 
+  private _tabTags: Array<any> = null;
+  @Input() set tabTags(value: Array<any>) {
+    this._tabTags = value;
+  }
+  get tabTags(): Array<any> {
+    return this._tabTags;
+  }
+
   @Input() set tabLabels(value: string) {
     const opts = new DataTabsOption([]);
     const labels = value.split(',');
     let ctr: number = 0;
-    const withActive: boolean =
-      value.startsWith('@') || value.indexOf(',@') != -1;
+    const withActive: boolean = value.startsWith('@') || value.indexOf(',@') != -1;
+
     labels.forEach((L) => {
       const withActiveSymbol = L.startsWith('@');
 
@@ -124,7 +132,7 @@ export class DataTabsComponent implements OnInit, AfterViewInit {
       const label = labelArr[withId ? 1 : 0];
       const active = ctr == 0 && !withActive ? true : withActiveSymbol;
 
-      opts.AddTab({ id: id, label: label, active: active });
+      opts.AddTab({ id: id, label: label, active: active, parentOption: opts, parent: this });
       ctr++;
     });
     this.options = opts;
@@ -346,6 +354,7 @@ export interface IDataTab {
   parentOption?: DataTabsOption;
   withClose?: boolean;
   panel?: PanelAComponent;
+  parent?: DataTabsComponent;
 }
 
 export class DataTab {
@@ -361,6 +370,8 @@ export class DataTab {
       withClose,
       parentOption,
       panel,
+      parent
+
     } = args;
 
     this.id = id;
@@ -373,7 +384,19 @@ export class DataTab {
     this.loaded = loaded;
     this.parentOption = parentOption;
     this.panel = panel;
+
+    this.parent = parent
+
+    this.index = this.parentOption.tabs.length;
+
   }
+
+  
+  // get sample():string{
+  //   return  "sample"
+  // }
+
+  public index?: number;
   public id?: number;
   public label?: string;
   public toolTip?: string;
@@ -384,6 +407,15 @@ export class DataTab {
   public withClose?: boolean;
   public parentOption?: DataTabsOption;
   public panel?: PanelAComponent;
+  public parent?: DataTabsComponent;
+
+  get tag():any{
+    if(!this.parent) return null;
+    if(!this.parent.tabTags) return null;
+    if(this.index > this.parent.tabTags.length -1 ) return null;
+    return this.parent.tabTags[this.index]
+  }
+
 }
 
 export class DataTabsOption {

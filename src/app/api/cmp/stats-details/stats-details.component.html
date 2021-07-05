@@ -2,7 +2,7 @@
 [style.grid-template-columns]="'1fr repeat(2, 250px)'"
 
   -->
-<div id="wrapper" [style.grid-template-rows]="configJSON.headerHeight + ' 1fr'">
+<div id="wrapper" [formGroup]="formGroup" [style.grid-template-rows]="configJSON.headerHeight + ' 1fr'">
     <!-- <div id="wrapper_no_data" *ngIf="!configJSON"> -->
     <!-- <span>Configuration object not available!</span> -->
     <div id="header" [ngStyle]="configJSON.headerStyle">
@@ -16,22 +16,26 @@
     </div>
     <div id="details">
         <app-data-tabs #t activeBackground="white" [fluidIds]="fluidTabs" tabClass="alt-a" *ngIf="tabLabels"
-            [tabLabels]="tabLabels">
+            [tabLabels]="tabLabels" [tabTags]="configJSON.tabs" (tabClicked)="TabClicked($event)">
             <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
+                <!-- whem mo charts or tables defined -->
                 <div class="tab_details" *ngIf="t.a(idx) && (tab.tables.length==0 && tab.charts.length==0)">
                     {{tab.label + (tab.charts.length || tab.tables.length ? '' : ': no status element defined!')}}
                 </div>
+
+                <!-- whem at least one chart or table is defined -->
                 <div class="tab_details" [ngStyle]="tab.style"
                     *ngIf="t.a(idx) && (tab.tables.length!=0 || tab.charts.length!=0)">
                     <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" style="position: relative;">
 
-                        <app-data-grid-b #grid style="top:0px;margin-top:-3px;padding:0px;border:none;" [RowHeight]="26"
+                        <app-data-grid-b [name]="tbl.name" #grid
+                            style="top:0px;margin-top:-3px;padding:0px;border:none;" [RowHeight]="26"
                             [RowHeaderHeight]="30" [RowHeaderWidth]="0" [noBarMenu]="true" [dataSet]="ds"
                             [pageSizes]="tbl.pageSizes"
                             [activeFiltering]="tbl.allowFilter!=undefined ? tbl.allowFilter : false"
                             gridHeaderClassName="alt-a" [tableCode]="tbl.tableCode" autoGrid="true"
                             [noFooter]="tbl.noFooter" fontFactor="0.95" noBarMenu="true" noToolbar="true"
-                            (rowClick)="RowClick($event)">
+                            (rowClick)="RowClick($event)" [extFilterExpression]="ExternalFilterExpression(tbl)">
                         </app-data-grid-b>
 
                     </div>
@@ -48,9 +52,12 @@
                             <!-- {{JSON.stringify(item)}} -->
                             <div class="filter" *ngIf="item.type=='filter' && HeaderItem(item)">
                                 <label for="">{{HeaderItem(item).label}}</label>
-                                <select [name]="HeaderItem(item).name" id="" (change)="FilterSelect($event, HeaderItem(item))">
+                                <select [formControlName]="GetFilterItemControlName(tab, item)"
+                                    [name]="HeaderItem(item).name" id=""
+                                    (change)="FilterSelect($event, HeaderItem(item))">
                                     <option value="0">All</option>
-                                    <option *ngFor="let opt of HeaderItem(item).data" [value]="opt.value">{{opt.display}}</option>
+                                    <option *ngFor="let opt of HeaderItem(item).data" [value]="opt.value">
+                                        {{opt.display}}</option>
                                 </select>
                             </div>
                         </ng-container>
