@@ -28,22 +28,22 @@
                     *ngIf="t.a(idx) && (tab.tables.length!=0 || tab.charts.length!=0)">
                     <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" style="position: relative;">
 
-                        <app-data-grid-b [name]="tbl.name" #grid
+                        <app-data-grid-b
+                            [name]="tab.name + '_' + tbl.name" #grid
                             style="top:0px;margin-top:-3px;padding:0px;border:none;" [RowHeight]="26"
                             [RowHeaderHeight]="30" [RowHeaderWidth]="0" [noBarMenu]="true" [dataSet]="ds"
                             [pageSizes]="tbl.pageSizes"
                             [activeFiltering]="tbl.allowFilter!=undefined ? tbl.allowFilter : false"
                             gridHeaderClassName="alt-a" [tableCode]="tbl.tableCode" autoGrid="true"
                             [noFooter]="tbl.noFooter" fontFactor="0.95" noBarMenu="true" noToolbar="true"
-                            (rowClick)="RowClick($event)" [extFilterExpression]="ExternalFilterExpression(tbl)">
+                            (rowClick)="RowClick($event)">
                         </app-data-grid-b>
 
                     </div>
                     <div *ngFor="let ch of tab.charts" [style.grid-area]="ch.name">
 
                         <app-bar-chart *ngIf="ch.type=='bar'" [name]="ch.name"></app-bar-chart>
-                        <app-pie-chart *ngIf="ch.type=='pie'" [name]="ch.name" [title]="ch.title"
-                            [seriesData]="ch.seriesData" [seriesTitles]="ch.seriesTitles"></app-pie-chart>
+                        <app-pie-chart *ngIf="ch.type=='pie'" [name]="ch.name" [title]="ch.title"></app-pie-chart>
                     </div>
                     <div class="header" *ngFor="let hdr of tab.headers" [style.grid-area]="hdr.name">
                         <!-- <app-header-a></app-header-a> -->
@@ -53,7 +53,7 @@
                             <div class="filter" *ngIf="item.type=='filter' && HeaderItem(item)">
                                 <label for="">{{HeaderItem(item).label}}</label>
                                 <select [formControlName]="GetFilterItemControlName(tab, item)"
-                                    [name]="HeaderItem(item).name" id=""
+                                    [name]="HeaderItem(item).name" [id]="activeTab ? activeTab.name + '_' + HeaderItem(item).name: ''"
                                     (change)="FilterSelect($event, HeaderItem(item))">
                                     <option value="0">All</option>
                                     <option *ngFor="let opt of HeaderItem(item).data" [value]="opt.value">

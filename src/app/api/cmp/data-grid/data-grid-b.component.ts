@@ -69,7 +69,16 @@ export class DataGridBComponent
 
   @Input() gridHeaderClassName: string;
 
-  @Input() extFilterExpression: string;
+  private _extFilterExpression: string = ""
+  @Input() set extFilterExpression(value: string) {
+    this._extFilterExpression = value;
+    console.log("set extFilterExpression : ", value, ", this.ReqParam: ", this.ReqParam)
+    
+  }
+
+  get extFilterExpression(): string {
+    return this._extFilterExpression;
+  }
 
 
   private _pageSizes: Array<number> = [200, 500, 1000, 1500, 2000, 3000];
@@ -220,7 +229,7 @@ export class DataGridBComponent
   @ContentChild('details') details: any;
 
   @Input() compId: string;
-  
+
   @Input() name: string;
 
   @Input() parent: any = null;
@@ -1014,8 +1023,8 @@ export class DataGridBComponent
 
 
     // AND external filter expression
-    if(this.extFilterExpression){
-      reqParam.filter += (reqParam.filter ? "^" : "")  + this.extFilterExpression
+    if (this.extFilterExpression) {
+      reqParam.filter += (reqParam.filter ? "^" : "") + this.extFilterExpression
     }
 
     reqParam.sortFields = opt.orderByClause; // order by
@@ -1028,7 +1037,6 @@ export class DataGridBComponent
       reqParam.pageSize = pageSize;
     }
 
-    console.log("DataGrid-B reqParam: ",reqParam)
     return reqParam;
   }
 
@@ -1376,7 +1384,7 @@ export class DataGridBComponent
   }
 
   SetGridColumnDef(gridColumn: string) {
-    
+
     // Define datagir column found in table configuration's  gridColumns or customGridColumns
     let opt: DataGridOption = this.options;
     let colDef: IDataGridColumn = {};

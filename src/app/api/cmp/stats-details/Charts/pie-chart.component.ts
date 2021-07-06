@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, HostListener, AfterViewInit } from '@angular/core';
 import { ChartType, ChartOptions, PositionType } from 'chart.js';
+import { Color } from 'chartjs-plugin-datalabels/types/options';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, BaseChartDirective } from 'ng2-charts';
 
 @Component({
@@ -9,19 +10,19 @@ import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsToolt
 })
 export class PieChartComponent implements OnInit, AfterViewInit {
 
-  @Input() set title(value: string){
+  @Input() set title(value: string) {
     this.pieChartOptions.title.text = value;
   }
-  @Input() set titlePosition(value: PositionType){
+  @Input() set titlePosition(value: PositionType) {
     this.pieChartOptions.title.position = value;
   }
-  @Input() titleAlign:string='left'
+  @Input() titleAlign: string = 'left'
 
-  @Input() textColor:string = 'gray';
-  @Input() fontFamily:string = 'Futura-Book';
-  @Input() titleSize:number = 16;
-  @Input() legendSize:number = 14;
-  
+  @Input() textColor: string = 'gray';
+  @Input() fontFamily: string = 'Futura-Book';
+  @Input() titleSize: number = 16;
+  @Input() legendSize: number = 14;
+
 
   @Input() legendPosition: PositionType = 'right';
 
@@ -59,7 +60,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
 
         }
 
-        if (this.chart) this.chart.chart.update();
+        if (this.chart) this.update();
       }
 
     }
@@ -67,17 +68,37 @@ export class PieChartComponent implements OnInit, AfterViewInit {
 
   @Input() name: string;
 
-  @Input() set seriesTitles(value:Label[]){
+  private _data: any = { values: [], titles: [], backgroundColor: [] };
+  @Input() set data(value: any) {
+    this._data = value;
+    if (value.values) {
+      this.pieChartData = value.values;
+      this._data.values = value.values;
+    }
+    if (value.titles) {
+      this.pieChartLabels = value.titles;
+      this._data.titles = value.titles;
+    }
+
+    if (value.backgroundColor) {
+      this.chart.datasets[0].backgroundColor = value.backgroundColor;
+      this._data.backgroundColor = value.backgroundColor;
+    }
+
+    if (this.chart) this.update();
+  }
+
+  @Input() set seriesTitles(value: Label[]) {
     this.pieChartLabels = value;
   }
-  get seriesTitles():Label[]{
+  get seriesTitles(): Label[] {
     return this.pieChartLabels;
   }
 
-  @Input() set seriesData(value:SingleDataSet){
+  @Input() set seriesData(value: SingleDataSet) {
     this.pieChartData = value;
   }
-  get seriesData():SingleDataSet{
+  get seriesData(): SingleDataSet {
     return this.pieChartData;
   }
 
@@ -95,29 +116,30 @@ export class PieChartComponent implements OnInit, AfterViewInit {
     legend: {
       labels: {
         fontColor: this.textColor,
-        fontFamily:this.fontFamily,
-        fontSize:this.legendSize
+        fontFamily: this.fontFamily,
+        fontSize: this.legendSize
       },
       position: this.legendPosition,
-      
+
     },
     title: {
-      fontFamily:this.fontFamily,
+      fontFamily: this.fontFamily,
       fontSize: this.titleSize,
       display: true,
-      fontColor:this.textColor,
+      fontColor: this.textColor,
       position: 'top',
-      text:'Pie Chart Title'
-      
+      text: 'Pie Chart Title'
+
     }
   };
   // for multi-line legends, supply array of strings for each data sector
   // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  public pieChartLabels: Label[];
-  public pieChartData: SingleDataSet;
+  public pieChartLabels: Label[] = [];
+  public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
+  public pieColors: Color[] = []
 
   constructor(private elRef: ElementRef) {
     monkeyPatchChartJsTooltip();
@@ -125,11 +147,16 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   ngAfterViewInit() {
     this.handleResize(null);
+  }
+
+  update() {
+    if (!this.chart) return;
+    this.chart.chart.update()
   }
 
 }

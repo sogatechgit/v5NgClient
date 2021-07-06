@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 7/5/2021 8:43:14 AM
+* Automatically generated on 7/6/2021 2:29:34 PM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2842,11 +2842,11 @@ export class QryDevMain extends TableBase {
     "REFNUM|cap=Ref.No.;center;wd=100",
     "DEVTITLE|cap=Title;mnw=120",
     "ASSET|cap=Asset;mnw=100",
-    "STATUS|cap=Status;center;wd=80",
+    "RSCLSTAT|cap=Status;center;wd=80",
     "RAISEDATE|cap=Raised;center;wd=80",
     "APPROVED|cap=Approved;center;wd=80",
     "CLOSED|cap=Closed;center;wd=100",
-    "DSTSTATUS|cap=Current Status;center;wd=110",
+    "STATUS|cap=Current Status;center;wd=110",
     "RESPONSIBLE|cap=Responsible;wd=110"
   ]
 };

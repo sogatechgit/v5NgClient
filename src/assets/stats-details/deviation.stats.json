@@ -23,7 +23,7 @@
 		},
 		{
 			"name": "status",
-			"label": "Status",
+			"label": "Current Status",
 			"params": {
 				"source": "devmain",
 				"value": "STATUS",
@@ -31,21 +31,46 @@
 				"sort": "STATUS"
 			},
 			"data": []
+		},
+		{
+			"name": "asset",
+			"label": "Asset",
+			"params": {
+				"source": "devmain",
+				"value": "ASSET",
+				"display": "ASSET",
+				"sort": "ASSET"
+			},
+			"data": []
 		}
 	],
 	"tabs": [
 		{
-			"name":"perf",
+			"name": "perf",
 			"label": "Performance",
 			"nopad": true,
 			"headers": [
 				{
 					"name": "hdr_charts",
-					"items": [{"type":"filter","name":"year"}]
+					"items": [
+						{
+							"type": "filter",
+							"name": "year"
+						}
+					]
 				},
 				{
 					"name": "hdr_list",
-					"items": [{"type":"filter","name":"status"}]
+					"items": [
+						{
+							"type": "filter",
+							"name": "asset"
+						},
+						{
+							"type": "filter",
+							"name": "status"
+						}
+					]
 				}
 			],
 			"tables": [
@@ -60,49 +85,54 @@
 						200,
 						500
 					],
+					"filters": [
+						{
+							"name": "asset",
+							"field": "ASSET"
+						},
+						{
+							"name": "status",
+							"field": "STATUS"
+						}
+					],
 					"bg": "yellow"
 				}
 			],
 			"charts": [
 				{
 					"name": "perf_pie",
+					"title": "Deviation Performance as per ${year} in Percentage",
+					"tableCode": "devmain",
+					"aggregate": "count(DEVID)",
+					"series": "RSCLSTAT",
+					"seriesTitles": [
+					],
+					"seriesData": [
+					],
+					"type": "pie",
+					"bg": "magenta"
+				},
+				{
+					"name": "perf_bar",
 					"type": "bar",
-					"bg": "cyan",
 					"filters": [
 						{
 							"name": "year",
 							"field": ""
-						},
-						{
-							"name": "flt2",
-							"field": ""
 						}
-					]
-				},
-				{
-					"name": "perf_bar",
-					"title": "Deviation Performance as per ${year} in Percentage",
-					"seriesTitles": [
-						"Closed",
-						"Raised"
 					],
-					"seriesData": [
-						4,
-						50
-					],
-					"type": "pie",
-					"bg": "magenta"
+					"bg": "cyan"
 				}
 			],
 			"style": {
 				"grid-template-columns": "1fr 1fr",
 				"grid-template-rows": "auto 250px auto 1fr",
-				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar  perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
+				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_pie perf_bar\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
 				"gap": "3px"
 			}
 		},
 		{
-			"name":"topProg",
+			"name": "topProg",
 			"label": "Top Progress",
 			"tables": [],
 			"charts": [],
@@ -113,7 +143,7 @@
 			}
 		},
 		{
-			"name":"devStatus",
+			"name": "devStatus",
 			"label": "Deviation Status",
 			"tables": [],
 			"charts": [],
@@ -124,7 +154,7 @@
 			}
 		},
 		{
-			"name":"devState",
+			"name": "devState",
 			"label": "Deviation State",
 			"tables": [],
 			"charts": [],
@@ -135,7 +165,7 @@
 			}
 		},
 		{
-			"name":"devPending",
+			"name": "devPending",
 			"label": "Pending Deviation",
 			"tables": [],
 			"charts": [],
@@ -146,7 +176,7 @@
 			}
 		},
 		{
-			"name":"print",
+			"name": "print",
 			"label": "Print All",
 			"tables": [],
 			"charts": [],
