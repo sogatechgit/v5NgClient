@@ -9,6 +9,17 @@
 		"align-items": "center",
 		"background-color": "beige"
 	},
+	"chartBackgrounds": [
+		"#dc3545",
+		"#28a745",
+		"#ffc107",
+		"#17a2b8",
+		"#6c757d",
+		"#007bff",
+		"#6479a4",
+		"#ffe495",
+		"purple"
+	],
 	"filters": [
 		{
 			"name": "year",
@@ -18,6 +29,17 @@
 				"value": "RAISEDYEAR",
 				"display": "RAISEDYEAR",
 				"sort": "-RAISEDYEAR"
+			},
+			"data": []
+		},
+		{
+			"name": "biyear",
+			"label": "Raised Years",
+			"params": {
+				"source": "devmain",
+				"value": "RAISEDYEAR",
+				"minmax": true,
+				"step": 1
 			},
 			"data": []
 		},
@@ -56,6 +78,12 @@
 						{
 							"type": "filter",
 							"name": "year"
+						},
+						{
+							"type": "filter",
+							"name": "biyear",
+							"noAll": true,
+							"defLast": true
 						}
 					]
 				},
@@ -105,16 +133,16 @@
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
 					"series": "RSCLSTAT",
-					"seriesTitles": [
-					],
-					"seriesData": [
-					],
+					"seriesTitles": [],
+					"seriesData": [],
 					"type": "pie",
+					"wrapStyle": {},
 					"bg": "magenta"
 				},
 				{
 					"name": "perf_bar",
 					"type": "bar",
+					"wrapStyle": {},
 					"filters": [
 						{
 							"name": "year",
@@ -127,19 +155,108 @@
 			"style": {
 				"grid-template-columns": "1fr 1fr",
 				"grid-template-rows": "auto 250px auto 1fr",
-				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_pie perf_bar\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
+				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
 				"gap": "3px"
 			}
 		},
 		{
 			"name": "topProg",
 			"label": "Top Progress",
-			"tables": [],
-			"charts": [],
+			"nopad": true,
+			"headers": [
+				{
+					"name": "hdr_prog_charts",
+					"items": [
+						{
+							"type": "filter",
+							"name": "biyear",
+							"noAll": true,
+							"defLast": true
+						}
+					]
+				},
+				{
+					"name":"hdr_prog_list",
+					"items":[
+						{
+							"type": "filter",
+							"name": "asset"
+						},
+						{
+							"type": "filter",
+							"name": "status"
+						}						
+					]
+
+				}
+			],			
+			"tables": [
+				{
+					"name": "dev_prog_list",
+					"tableCode": "devmain",
+					"allowFilter": true,
+					"pageSizes": [
+						10,
+						50,
+						100,
+						200,
+						500
+					],
+					"filters": [
+						{
+							"name": "asset",
+							"field": "ASSET"
+						},
+						{
+							"name": "status",
+							"field": "STATUS"
+						}
+					],
+					"bg": "yellow"
+				}
+			],
+			"charts": [
+				{
+					"name": "prog_bar",
+					"type": "bar",
+					"wrapStyle": {},
+					"filters": [
+						{
+							"name": "year",
+							"field": ""
+						}
+					],
+					"bg": "cyan"
+				},
+				{
+					"name": "prog_pie1",
+					"title": "Deviation Performance as per 2020 in Percentage",
+					"tableCode": "devmain",
+					"aggregate": "count(DEVID)",
+					"series": "RSCLSTAT",
+					"seriesTitles": ["Raised", "Closed"],
+					"seriesData": [12,34],
+					"type": "pie",
+					"wrapStyle": {},
+					"bg": "magenta"
+				},
+				{
+					"name": "prog_pie2",
+					"title": "Deviation Performance as per 2021 in Percentage",
+					"tableCode": "devmain",
+					"aggregate": "count(DEVID)",
+					"series": "RSCLSTAT",
+					"seriesTitles": [],
+					"seriesData": [],
+					"type": "pie",
+					"wrapStyle": {},
+					"bg": "magenta"
+				}
+			],
 			"style": {
-				"grid-template-columns": "",
-				"grid-template-rows": "",
-				"grid-template-areas": ""
+				"grid-template-columns": "1fr 1fr",
+				"grid-template-rows": "auto 150px 150px auto 1fr",
+				"grid-template-areas": "\"hdr_prog_charts hdr_prog_charts\" \"prog_bar prog_pie1\" \"prog_bar prog_pie2\" \"hdr_prog_list hdr_prog_list\" \"dev_prog_list dev_prog_list\""
 			}
 		},
 		{

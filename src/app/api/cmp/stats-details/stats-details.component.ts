@@ -35,6 +35,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   @Input() configFile: string;
 
   public formGroup: FormGroup = new FormGroup({});
+  public filtersReady: boolean = false;
 
   private _configJSON: any;
   @Input() set configJSON(value: any) {
@@ -57,6 +58,11 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
 
+    // setTimeout(() => {
+    //   this.filtersReady = true;
+    //   console.log("! filtersReady....")
+    // },4000)
+
     setTimeout(() => {
       console.log("! UPDATING....", this.pieCharts.first.chart)
       // this.pieCharts.first.pieChartOptions.title.text = "sAMPLE CHANGE";
@@ -72,7 +78,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
       // this.pieCharts.first.chart.chart.update()
 
-    }, 2000)
+    }, 0)
   }
 
   GetFilterItemControlName(tab: any, item: any): string {
@@ -80,8 +86,22 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     const { type, name } = item;
     if (type == 'filter') {
       const fltName: string = `${tab.name}_${name}`;
+      const flt = this.configJSON.filters.find(f => f.name == item.name)
       if (!this.formGroup.get(fltName)) {
-        this.formGroup.addControl(fltName, new FormControl(0));
+        ///const defVal = item.noAll ?  "2010,2011" : 0;
+        this.formGroup.addControl(fltName, new FormControl(null));
+        setTimeout(() => {
+          // need to use setTimeout to allow normalization of filter object data.
+          const defVal = item.noAll ? (item.defLast ? flt.lastValue : flt.firstValue) : 0;
+          if (defVal == null || defVal == undefined) {
+            setTimeout(() => {
+              const defVal = item.noAll ? (item.defLast ? flt.lastValue : flt.firstValue) : 0;
+              this.formGroup.get(fltName).setValue(defVal);
+            }, 150)
+          } else {
+            this.formGroup.get(fltName).setValue(defVal);
+          }
+        }, 10)
       }
 
       return fltName;
@@ -261,8 +281,10 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     return tab.tag;
   }
 
-  FilterSelect(event: any, source: any) {
+  FilterSelect(event: any, item: any) {
     //console.log("Filter chaged: ", event, source, this.formGroup, this.tables,"\nActive TAB: ", this.activeTab);
+
+    if (item.type != 'filter') return;
 
     const ctrlName = event.srcElement.id;
     const value = this.formGroup.get(ctrlName).value
@@ -271,6 +293,11 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     console.log("ctrlName: ", ctrlName, value, " TabTables:", tables)
 
     tables.forEach(tbl => {
+
+      // test if filter is applicable and continue if not applicable
+      if (!tbl.filters) return;
+      if (!tbl.filters.find(flt => flt.name == item.name)) return;
+
       // iterate through all the tables in the tab
       const tableName = tbl.name;
       const tableObject = this.tables.find(tbl => tbl.name == tabPrefix + tableName)
@@ -290,6 +317,23 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
       }
     })
 
+    const pieCharts = this.activeTab.pieCharts;
+    const barCharts = this.activeTab.barCharts;
+
+    pieCharts.forEach(ch => {
+      // test if filter is applicable and continue if not applicable
+      if (!ch.filters) return;
+      if (!ch.filters.find(flt => flt.name == item.name)) return;
+
+    })
+
+    barCharts.forEach(ch => {
+      // test if filter is applicable and continue if not applicable
+      if (!ch.filters) return;
+      if (!ch.filters.find(flt => flt.name == item.name)) return;
+
+    })
+
 
   }
 
@@ -306,6 +350,8 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   TabClicked(event: any) {
     console.log("TabClicked: ", event, "\nActive TAB: ", this.activeTab)
   }
+
+
 
   ProcessConfig(result: any) {
     this._configJSON = result;
@@ -332,15 +378,27 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     this._configJSON.filters.forEach(flt => {
 
       processedFilters.push(flt);
-      const { source, display, value, sort } = flt.params;
+      const { source, display, value, sort, minmax } = flt.params;
 
-      reqParams.push({
-        code: source,
-        includedFields: `${value}@VALUE\`${display ? display : value}@DISPLAY`,
-        sortFields: sort,
-        snapshot: true,
-        distinct: true
-      })
+      if (minmax) {
+
+        reqParams.push({
+          code: source,
+          includedFields: `min(${value})@MIN\`max(${value})@MAX`,
+          snapshot: true
+        });
+
+      } else {
+
+        reqParams.push({
+          code: source,
+          includedFields: `${value}@VALUE\`${display ? display : value}@DISPLAY`,
+          sortFields: sort,
+          snapshot: true,
+          distinct: true
+        });
+
+      }
 
     });
 
@@ -351,18 +409,41 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
     this.ds.Get(reqParams, {
       onSuccess: (data) => {
-        // console.log("@@@@ Filter Data: ",reqParams, data);
+        console.log("@@@@ Filter Data: ", reqParams, data);
 
         for (let idx = 0; idx <= processedFilters.length; idx++) {
           const flt = processedFilters[idx];
           if (flt) {
             const rows = data.processed.data[idx];
             const opts: Array<any> = [];
+            const { minmax, step } = flt.params;
+            const rangeStep = step ? step : 1;
             if (rows) {
-              rows.forEach(row => {
-                opts.push({ value: row.XTRA.VALUE, display: row.XTRA.DISPLAY })
-              })
+              if (minmax) {
+                const row = rows[0];
+                const { MIN, MAX } = row.XTRA;
+
+                for (let idx = MIN; idx <= (MAX - rangeStep); idx++) {
+                  const years: string[] = [];
+                  // build option values
+                  for (let yr = idx; yr <= (idx + rangeStep); yr++) {
+                    years.push(yr);
+                  }
+                  // build option objects
+                  opts.push({ value: years.join(','), display: `${idx}-${idx + step}` });
+
+                }
+
+              } else {
+                rows.forEach(row => {
+                  opts.push({ value: row.XTRA.VALUE, display: row.XTRA.DISPLAY })
+                })
+              }
+
             }
+
+            flt.firstValue = opts.length ? opts[0].value : "0";
+            flt.lastValue = opts.length ? opts[opts.length - 1].value : "0";
             flt.data = opts;
           }
         }
@@ -371,8 +452,10 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         this.pieCharts.first.data = {
           values: [12, 50],
           titles: ['Raised', 'Closed'],
-          backgroundColor: ['#dc3545', '#28a745']
+          backgroundColor: this.configJSON.chartBackgrounds
         }
+
+        this.filtersReady = true
 
       }
     })

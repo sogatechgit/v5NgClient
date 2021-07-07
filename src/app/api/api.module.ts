@@ -54,6 +54,7 @@ import { BarChartComponent } from './cmp/stats-details/Charts/bar-chart.componen
 import { PieChartComponent } from './cmp/stats-details/Charts/pie-chart.component'
 import { LineChartComponent } from './cmp/stats-details/Charts/line-chart.component'
 import { HeaderAComponent } from './cmp/stats-details/Header/header-a.component';
+import { NumberNavComponent } from './cmp/stats-details/number-nav/number-nav.component';
 
 
 const declare = [
@@ -91,7 +92,8 @@ const declare = [
   BarChartComponent,
   PieChartComponent,
   LineChartComponent,
-  HeaderAComponent
+  HeaderAComponent,
+  NumberNavComponent,
 ];
 
 @NgModule({
