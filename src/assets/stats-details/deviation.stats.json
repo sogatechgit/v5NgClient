@@ -20,6 +20,16 @@
 		"#ffe495",
 		"purple"
 	],
+	"chartBackgroundsBySeries": [
+		{
+			"series": "Raised",
+			"color": "#dc3545"
+		},
+		{
+			"series": "Closed",
+			"color": "#28a745"
+		}
+	],
 	"filters": [
 		{
 			"name": "year",
@@ -78,12 +88,6 @@
 						{
 							"type": "filter",
 							"name": "year"
-						},
-						{
-							"type": "filter",
-							"name": "biyear",
-							"noAll": true,
-							"defLast": true
 						}
 					]
 				},
@@ -129,10 +133,22 @@
 			"charts": [
 				{
 					"name": "perf_pie",
-					"title": "Deviation Performance as per ${year} in Percentage",
+					"title": "Deviation Performance in Percentage",
+					"titleExpression": "Deviation Performance as per ${year} in Percentage",
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
 					"series": "RSCLSTAT",
+					"filters": [
+						{
+							"name": "year",
+							"field": "RAISEDYEAR"
+						}
+					],
+					"seriesFixedTitles": [
+						"Raised",
+						"Closed"
+					],
+					"useSeriesColors": true,
 					"seriesTitles": [],
 					"seriesData": [],
 					"type": "pie",
@@ -148,6 +164,14 @@
 							"name": "year",
 							"field": ""
 						}
+					],
+					"seriesTitles": [
+						"Raised",
+						"Closed"
+					],
+					"seriesData": [
+						123,
+						456
 					],
 					"bg": "cyan"
 				}
@@ -176,8 +200,8 @@
 					]
 				},
 				{
-					"name":"hdr_prog_list",
-					"items":[
+					"name": "hdr_prog_list",
+					"items": [
 						{
 							"type": "filter",
 							"name": "asset"
@@ -185,11 +209,10 @@
 						{
 							"type": "filter",
 							"name": "status"
-						}						
+						}
 					]
-
 				}
-			],			
+			],
 			"tables": [
 				{
 					"name": "dev_prog_list",
@@ -230,26 +253,46 @@
 				},
 				{
 					"name": "prog_pie1",
-					"title": "Deviation Performance as per 2020 in Percentage",
+					"title": "Deviation Performance as per ${biyear} in Percentage",
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
 					"series": "RSCLSTAT",
-					"seriesTitles": ["Raised", "Closed"],
-					"seriesData": [12,34],
-					"type": "pie",
-					"wrapStyle": {},
-					"bg": "magenta"
-				},
-				{
-					"name": "prog_pie2",
-					"title": "Deviation Performance as per 2021 in Percentage",
-					"tableCode": "devmain",
-					"aggregate": "count(DEVID)",
-					"series": "RSCLSTAT",
+					"seriesFixedTitles": [
+						"Raised",
+						"Closed"
+					],
 					"seriesTitles": [],
 					"seriesData": [],
 					"type": "pie",
 					"wrapStyle": {},
+					"filters": [
+						{
+							"name": "biyear:0",
+							"field": "RAISEDYEAR"
+						}
+					],
+					"bg": "magenta"
+				},
+				{
+					"name": "prog_pie2",
+					"title": "Deviation Performance as per ${biyear} in Percentage",
+					"tableCode": "devmain",
+					"aggregate": "count(DEVID)",
+					"series": "RSCLSTAT",
+					"seriesFixedTitles": [
+						"Raised",
+						"Closed"
+					],
+					"seriesTitles": [],
+					"seriesData": [],
+					"type": "pie",
+					"wrapStyle": {},
+					"filters": [
+						{
+							"name": "biyear:1",
+							"field": "RAISEDYEAR"
+						}
+					],
 					"bg": "magenta"
 				}
 			],

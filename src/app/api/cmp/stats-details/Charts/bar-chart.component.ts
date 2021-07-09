@@ -10,6 +10,22 @@ import { BaseChartDirective, Label } from 'ng2-charts';
   styleUrls: ['./bar-chart.component.scss']
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
+  @Input() name: string;
+
+  private _data: any = {};
+  @Input() set data (value: string){
+    this._data = value;
+  }
+  get data(){
+    return this._data;
+  }
+
+  @Input() set title(value: string) {
+    this.barChartOptions.title.text = value ? value : 'Bar Chart';
+  }
+
+  @ViewChild('canvas') canvas: ElementRef;
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   @HostListener('window:resize', ['$event']) handleResize(event: any) {
@@ -39,7 +55,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         if (this._visibility != 'visible') {
           setTimeout(() => {
             this._visibility = 'visible';
-          },50)
+          }, 50)
 
         }
 
@@ -49,15 +65,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  @Input() name: string;
-
-  @ViewChild('canvas') canvas: ElementRef;
 
   private _visibility: string = 'hidden';
   get visibility(): string {
     return this._visibility;
   }
-
 
   public barChartOptions: ChartOptions = {
     maintainAspectRatio: false,
@@ -66,7 +78,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       display: true,
       text: 'Sample Bar Chart',
       fontSize: 14,
-      position: 'bottom'
+      position: 'top'
+    },
+    legend: {
+      position: 'right',
     },
     scales: {
       yAxes: [
@@ -76,15 +91,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             beginAtZero: true,
             // min: 0,
             // max: 6,
-            fontFamily:'Futura-Book',
-            fontSize:10,
+            fontFamily: 'Futura-Book',
+            fontSize: 10,
             stepSize: 1,
           },
           gridLines: {
             offsetGridLines: false
           },
         }
-      ],
+      ]
     },
     plugins: {
       datalabels: {
@@ -93,14 +108,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  public barChartLabels: Label[] = ['2006'];
+  public barChartLabels: Label[] = ['Performance'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[] = [
-    { data: [4], label: 'Raised', backgroundColor:'green' },
-    { data: [3], label: 'Closed' }
+    { data: [4], label: 'Raised', backgroundColor: 'red' },
+    { data: [3], label: 'Closed', backgroundColor: 'green' }
   ];
 
   constructor(private elRef: ElementRef) { }
@@ -111,5 +126,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.handleResize(null);
+
+    // this.chart.chart.data = {
+    //   labels:['Raised','Closed'],
+    //   datasets:[{
+    //     label:
+    //   }]
+
+    // }
+    //this.chart.chart.data.datasets[1].label = 'HELLO'
+  }
+
+  update() {
+    this.chart.chart.update();
   }
 }

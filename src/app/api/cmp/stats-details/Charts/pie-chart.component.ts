@@ -156,6 +156,9 @@ export class PieChartComponent implements OnInit, AfterViewInit {
 
   update() {
     if (!this.chart) return;
+    // this.chart.options.title.text = this.pieChartOptions.title.text;
+    // console.log("CHART OOBJECT: " ,this.chart.chart);
+    this.chart.chart.options.title.text =  this.pieChartOptions.title.text;
     this.chart.chart.update()
   }
 

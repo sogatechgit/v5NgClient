@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewChildren, QueryList, AfterViewInit, ComponentFactoryResolver } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppMainServiceService } from './../../../svc/app-main-service.service';
 import { AppDataset } from 'src/app/svc/app-dataset.service';
@@ -64,7 +64,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     // },4000)
 
     setTimeout(() => {
-      console.log("! UPDATING....", this.pieCharts.first.chart)
       // this.pieCharts.first.pieChartOptions.title.text = "sAMPLE CHANGE";
 
       // this.pieCharts.first.chart.datasets[0].data.pop();
@@ -79,36 +78,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
       // this.pieCharts.first.chart.chart.update()
 
     }, 0)
-  }
-
-  GetFilterItemControlName(tab: any, item: any): string {
-
-    const { type, name } = item;
-    if (type == 'filter') {
-      const fltName: string = `${tab.name}_${name}`;
-      const flt = this.configJSON.filters.find(f => f.name == item.name)
-      if (!this.formGroup.get(fltName)) {
-        ///const defVal = item.noAll ?  "2010,2011" : 0;
-        this.formGroup.addControl(fltName, new FormControl(null));
-        setTimeout(() => {
-          // need to use setTimeout to allow normalization of filter object data.
-          const defVal = item.noAll ? (item.defLast ? flt.lastValue : flt.firstValue) : 0;
-          if (defVal == null || defVal == undefined) {
-            setTimeout(() => {
-              const defVal = item.noAll ? (item.defLast ? flt.lastValue : flt.firstValue) : 0;
-              this.formGroup.get(fltName).setValue(defVal);
-            }, 150)
-          } else {
-            this.formGroup.get(fltName).setValue(defVal);
-          }
-        }, 10)
-      }
-
-      return fltName;
-    } else {
-      return null;
-    }
-
   }
 
   ExternalFilterExpression(tab: any, tableDef: any): string {
@@ -152,7 +121,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   InitSource(): any {
 
     const path = `./assets/stats-details/${this.configFile}`;
-    console.log("InitSource...", path);
 
     if (!this.configFile) return;
 
@@ -190,7 +158,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
           const sdata = this.ds.Get(params, {
             onSuccess: (data) => {
-              console.log("SEISMIC DATA: ", data);
             },
             onError: (err) => {
 
@@ -282,7 +249,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   FilterSelect(event: any, item: any) {
-    //console.log("Filter chaged: ", event, source, this.formGroup, this.tables,"\nActive TAB: ", this.activeTab);
 
     if (item.type != 'filter') return;
 
@@ -290,8 +256,8 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     const value = this.formGroup.get(ctrlName).value
     const tables = this.activeTab.tables;
     const tabPrefix = this.activeTab.name + '_';
-    console.log("ctrlName: ", ctrlName, value, " TabTables:", tables)
 
+    // apply external filters to referencing table(s)
     tables.forEach(tbl => {
 
       // test if filter is applicable and continue if not applicable
@@ -315,24 +281,35 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         tableObject.extFilterExpression = expr.length ? `(${expr.join('^')})` : "";
         tableObject.RefreshClick(null);
       }
-    })
+    }) // tables.forEach ...
 
-    const pieCharts = this.activeTab.pieCharts;
-    const barCharts = this.activeTab.barCharts;
+    const pieCharts = this.pieCharts;
+    const barCharts = this.barCharts;
 
-    pieCharts.forEach(ch => {
-      // test if filter is applicable and continue if not applicable
-      if (!ch.filters) return;
-      if (!ch.filters.find(flt => flt.name == item.name)) return;
+    if (pieCharts) {
+      // pieCharts.forEach(ch => {
+      //   // test if filter is applicable and continue if not applicable
+      //   if (!ch.filters) return;
+      //   if (!ch.filters.find(flt => flt.name == item.name)) return;
 
-    })
+      // })
+      console.log("Pie charts on active tab:", pieCharts)
+      this.UpdateActiveTab();
+    } else {
+      console.log("No pie charts on active tab:", this.activeTab)
+    }
 
-    barCharts.forEach(ch => {
-      // test if filter is applicable and continue if not applicable
-      if (!ch.filters) return;
-      if (!ch.filters.find(flt => flt.name == item.name)) return;
+    if (barCharts) {
+      // barCharts.forEach(ch => {
+      //   // test if filter is applicable and continue if not applicable
+      //   if (!ch.filters) return;
+      //   if (!ch.filters.find(flt => flt.name == item.name)) return;
 
-    })
+      // })
+      console.log("Bar charts on active tab:", barCharts)
+    } else {
+      console.log("No bar charts on active tab", this.activeTab)
+    }
 
 
   }
@@ -348,10 +325,169 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   TabClicked(event: any) {
-    console.log("TabClicked: ", event, "\nActive TAB: ", this.activeTab)
+    //console.log("TabClicked: ", event, "\nActive TAB: ", this.activeTab)
+    this.UpdateActiveTab();
   }
 
+  UpdateActiveTab() {
+    if (!this.activeTab) return;
+    console.log("ACTIVE TAB: ", this.activeTab, ", Config:", this.configJSON);
 
+    const reqParams: Array<RequestParams> = [];
+    const tabName = this.activeTab.name;
+    const pie = this.activeTab.charts.filter(ch => ch.type == 'pie')
+    const bar = this.activeTab.charts.filter(ch => ch.type == 'bar')
+
+    pie.forEach(ch => {
+      const { aggregate, series, tableCode, name } = ch;
+      console.log(`Name:${name}, Table:${tableCode}, Aggregate:${aggregate}, Series:${series}`, ch)
+
+      let title = ch.title;
+      let filters: any[] = [];
+      let fltExpr: string[] = [];
+
+      if (ch.filters) {
+        // if filter(s) is specified, change title to filter selected value
+
+
+        ch.filters.forEach(cflt => {
+          console.log("Chart filter: ", cflt);
+          const { name, field } = cflt;
+          const nameArr = name.split(':');
+          const fltName = nameArr[0];
+          const valIdx = nameArr.length >= 2 ? nameArr[1] : -1;
+
+          const fltCtrlName = tabName + '_' + fltName;
+          const fltCtrl = this.formGroup.get(fltCtrlName);
+
+          if (fltCtrl) {
+            console.log("fltCtrl.value : ", fltCtrl.value);
+            if (fltCtrl.value != "0") {
+              const fltValue = valIdx != -1 ? fltCtrl.value.split(',')[valIdx] : fltCtrl.value
+              filters.push({ name: fltName, value: fltValue });
+              fltExpr.push(`{${field}|${fltValue}}`)
+            }
+          }
+
+
+        })
+      }
+
+      if (fltExpr.length != 0) {
+        if (ch.titleExpression) title = ch.titleExpression;
+        filters.forEach(flt => {
+          console.log("flt.name: ", flt.name)
+          const placeholder = `$\{${flt.name}\}`
+          title = title.replace(placeholder, flt.value)
+        })
+      }
+
+      const reqParam: RequestParams = {
+        code: tableCode,
+        includedFields: `${aggregate}@DATA\`${series}@SERIES`,
+        filter: fltExpr.length ? `(${fltExpr.join('^')})` : '',
+        snapshot: true,
+        XTRA: { title: title, chartName: ch.name }
+      }
+
+      reqParams.push(reqParam);
+
+
+      // console.log("PIE CHART!!!! ",`${ch.name}`,chObj);
+
+    })
+
+    console.log('reqParams: ', reqParams)
+
+    if (reqParams.length) {
+      // this.ds.Get(reqParams, {onSuccess:(data)=>{
+
+      // })
+      this.ds.Get(reqParams, {
+        onSuccess: data => {
+          console.log("CHARTS DATA: ", data)
+
+          let resIdx: number = 0;
+          reqParams.forEach(prm => {
+            const { title, chartName } = prm.XTRA;
+            const chObj = this.pieCharts.find(pie => pie.name == chartName);
+
+            console.log("CHART INFO:", prm.XTRA, ", chObj:", chObj);
+
+            if (chObj) {
+              const chDef = pie.find(ch => ch.name == chartName);
+
+              let seriesTitles = chDef.seriesFixedTitles ? chDef.seriesFixedTitles : []
+              let seriesValues = [];
+              const chData = data.processed.data[resIdx];
+
+              if (seriesTitles.length) {
+                // if fixed titles are specified
+                if (chData.length == 0) {
+                  // set all data to 0
+                  seriesTitles.forEach(ser => { seriesValues.push(0); });
+                } else {
+                  seriesTitles.forEach(ser => {
+                    const rec = chData.find(r => r.XTRA.SERIES == ser);
+                    seriesValues.push(rec ? rec.XTRA.DATA : 0);
+                  })
+                }
+
+              } else {
+                // series is defined by the data extracted
+                const stitles: string[] = [];
+                chData.forEach(r => {
+                  stitles.push(r.XTRA.SERIES);
+                  seriesValues.push(r.XTRA.DATA);
+                })
+                seriesTitles = stitles;
+              }
+
+              console.log(`CHART DATA chData (${chartName}) : `, chData)
+
+              const serColors = this.configJSON.chartBackgroundsBySeries;
+              let backColors: string[] = this.configJSON.chartBackgrounds;
+              if (chDef.useSeriesColors && serColors) {
+                backColors = [];
+                seriesTitles.forEach(ser=>{
+                  backColors.push(serColors.find(clr=>clr.series == ser).color)
+                })
+              }
+
+              chObj.title = title;
+              chObj.data = {
+                values: seriesValues,
+                titles: seriesTitles,
+                backgroundColor: backColors
+              }
+            }
+            resIdx++;
+          })
+        }
+      })
+    }
+
+    // const chObj = this.pieCharts.find(cho => cho.name == `${ch.name}`);
+    // if (chObj) {
+    //   // update chart
+    //   chObj.title = title;
+    //   chObj.data = {
+    //     values: [50, 50],
+    //     titles: ['Raised', 'Closed'],
+    //     backgroundColor: this.configJSON.chartBackgrounds
+    //   }
+    // }
+
+
+    // update chart(s)
+    // console.log("this.pieCharts.first.name: ",this.pieCharts.first.name)
+    // this.pieCharts.first.data = {
+    //   values: [50, 50],
+    //   titles: ['Raised', 'Closed'],
+    //   backgroundColor: this.configJSON.chartBackgrounds
+    // }
+
+  }
 
   ProcessConfig(result: any) {
     this._configJSON = result;
@@ -377,7 +513,9 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     const processedFilters: Array<any> = []
     this._configJSON.filters.forEach(flt => {
 
+      // collect all filters with parameters formed.
       processedFilters.push(flt);
+      // deconstruct filter parameters
       const { source, display, value, sort, minmax } = flt.params;
 
       if (minmax) {
@@ -402,6 +540,35 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
     });
 
+    // create filter form controls for all tabs
+    const processedControls: any = {};
+    this.configJSON.tabs.forEach(tab => {
+      // console.log('TAB: ',tab.name, tab.label,tab.tables, tab.charts, tab.headers)
+      // process filter controls from headers
+
+      if (tab.headers) {
+        // headers exist in tab
+        tab.headers.forEach(hdr => {
+          // iterate through the items in the header
+          hdr.items.forEach(item => {
+            // select only header items of filter type
+            if (item.type == 'filter') {
+              // get control name
+              const ctlName = tab.name + '_' + item.name;
+
+              // set colection of control names using the filter object
+              if (!processedControls[item.name]) processedControls[item.name] = [];
+              processedControls[item.name].push({ name: ctlName, noAll: item.noAll, defLast: item.defLast });
+
+              // add control to the formGroup
+              this.formGroup.addControl(ctlName, new FormControl(null));
+            }
+          })
+        });
+      }
+
+    });
+
     // process charts data
 
 
@@ -409,7 +576,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
     this.ds.Get(reqParams, {
       onSuccess: (data) => {
-        console.log("@@@@ Filter Data: ", reqParams, data);
 
         for (let idx = 0; idx <= processedFilters.length; idx++) {
           const flt = processedFilters[idx];
@@ -445,15 +611,25 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             flt.firstValue = opts.length ? opts[0].value : "0";
             flt.lastValue = opts.length ? opts[opts.length - 1].value : "0";
             flt.data = opts;
-          }
-        }
 
-        // update chart(s)
-        this.pieCharts.first.data = {
-          values: [12, 50],
-          titles: ['Raised', 'Closed'],
-          backgroundColor: this.configJSON.chartBackgrounds
-        }
+            // set filter controls default values
+            if (processedControls[flt.name]) {
+              processedControls[flt.name].forEach(ctlObj => {
+                const { name, noAll, defLast } = ctlObj;
+                const ctl = this.formGroup.get(name);
+                if (ctl) {
+                  ctl.setValue(noAll ? (defLast ? flt.lastValue : flt.firstValue) : "0")
+                } else {
+                  console.log("Filter control not found!!!!")
+                }
+              })
+            }
+
+          }
+        } // processedFilters loop
+
+
+        this.UpdateActiveTab();
 
         this.filtersReady = true
 

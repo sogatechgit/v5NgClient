@@ -56,6 +56,7 @@ export class RequestParams {
   clearExisting?: boolean;
   snapshot?: boolean;
   distinct?: boolean;
+  XTRA?: any;
 }
 
 export interface ILookupSource {
