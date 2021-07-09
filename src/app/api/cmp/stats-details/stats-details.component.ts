@@ -331,7 +331,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
   UpdateActiveTab() {
     if (!this.activeTab) return;
-    console.log("ACTIVE TAB: ", this.activeTab, ", Config:", this.configJSON);
+    // console.log("ACTIVE TAB: ", this.activeTab, ", Config:", this.configJSON);
 
     const reqParams: Array<RequestParams> = [];
     const tabName = this.activeTab.name;
@@ -340,7 +340,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
     pie.forEach(ch => {
       const { aggregate, series, tableCode, name } = ch;
-      console.log(`Name:${name}, Table:${tableCode}, Aggregate:${aggregate}, Series:${series}`, ch)
+      // console.log(`Name:${name}, Table:${tableCode}, Aggregate:${aggregate}, Series:${series}`, ch)
 
       let title = ch.title;
       let filters: any[] = [];
@@ -351,7 +351,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
 
         ch.filters.forEach(cflt => {
-          console.log("Chart filter: ", cflt);
           const { name, field } = cflt;
           const nameArr = name.split(':');
           const fltName = nameArr[0];
@@ -361,7 +360,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
           const fltCtrl = this.formGroup.get(fltCtrlName);
 
           if (fltCtrl) {
-            console.log("fltCtrl.value : ", fltCtrl.value);
             if (fltCtrl.value != "0") {
               const fltValue = valIdx != -1 ? fltCtrl.value.split(',')[valIdx] : fltCtrl.value
               filters.push({ name: fltName, value: fltValue });
@@ -390,14 +388,52 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         XTRA: { title: title, chartName: ch.name }
       }
 
+      // append request param to common reqPrams array
       reqParams.push(reqParam);
 
 
-      // console.log("PIE CHART!!!! ",`${ch.name}`,chObj);
+    }) // pie chart iteration
 
-    })
 
-    console.log('reqParams: ', reqParams)
+    bar.forEach(ch => {
+
+      const chObj = this.barCharts.find(bar => bar.name == ch.name);
+
+      // console.log("BAR Chart: ", ch, chObj)
+
+      // chObj.data = {
+      //   barChartTitle: 'Multi Dataset Multi Value Bar Chart',
+      //   barChartLabels: ['2019','2020','2021'],
+      //   barChartData: [
+      //     { data: [2,6,5], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
+      //     { data: [5,8,7], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
+      //   ]
+      // }
+
+      // chObj.data = {
+      //   barChartTitle: 'Multi Dataset Single Value Bar Chart',
+      //   barChartLabels: ['Performance'],
+      //   barChartData: [
+      //     { data: [2], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
+      //     { data: [5], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
+      //   ]
+      // }
+
+      chObj.data = {
+        barChartTitle: 'Single Dataset Bar Chart',
+        barChartLabels: ['Initialized', 'Cancelled', 'Extended'],
+        barChartData: [{
+          data: [3, 5, 2], backgroundColor: [
+            this.SeriesColor('Initialized','lime'), 
+            this.SeriesColor('Cancelled'),
+            this.SeriesColor('Extended')]
+        }]
+      }
+
+      // ch.update();
+
+    }) // bar chart iteration
+
 
     if (reqParams.length) {
       // this.ds.Get(reqParams, {onSuccess:(data)=>{
@@ -405,14 +441,13 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
       // })
       this.ds.Get(reqParams, {
         onSuccess: data => {
-          console.log("CHARTS DATA: ", data)
 
           let resIdx: number = 0;
           reqParams.forEach(prm => {
             const { title, chartName } = prm.XTRA;
             const chObj = this.pieCharts.find(pie => pie.name == chartName);
 
-            console.log("CHART INFO:", prm.XTRA, ", chObj:", chObj);
+            // console.log("CHART INFO:", prm.XTRA, ", chObj:", chObj);
 
             if (chObj) {
               const chDef = pie.find(ch => ch.name == chartName);
@@ -443,14 +478,14 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
                 seriesTitles = stitles;
               }
 
-              console.log(`CHART DATA chData (${chartName}) : `, chData)
+              // console.log(`CHART DATA chData (${chartName}) : `, chData)
 
               const serColors = this.configJSON.chartBackgroundsBySeries;
               let backColors: string[] = this.configJSON.chartBackgrounds;
               if (chDef.useSeriesColors && serColors) {
                 backColors = [];
-                seriesTitles.forEach(ser=>{
-                  backColors.push(serColors.find(clr=>clr.series == ser).color)
+                seriesTitles.forEach(ser => {
+                  backColors.push(serColors.find(clr => clr.series == ser).color)
                 })
               }
 
@@ -487,6 +522,15 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     //   backgroundColor: this.configJSON.chartBackgrounds
     // }
 
+  }
+
+  SeriesColor(seriesName: string, defaultColor?: string): string {
+    if (!defaultColor) defaultColor = '#c0c0c0';
+    if (!this.configJSON) return defaultColor;
+    if (!this.configJSON.chartBackgroundsBySeries) return defaultColor;
+
+    const bg = this.configJSON.chartBackgroundsBySeries.find(clr => clr.series == seriesName);
+    return bg ? bg.color : defaultColor;
   }
 
   ProcessConfig(result: any) {

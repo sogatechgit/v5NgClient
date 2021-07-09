@@ -28,7 +28,20 @@
 		{
 			"series": "Closed",
 			"color": "#28a745"
+		},
+		{
+			"series": "Initialized",
+			"color": "#007bff"
+		},
+		{
+			"series": "Cancelled",
+			"color": "purple"
+		},
+		{
+			"series": "Extended",
+			"color": "#ffc107"
 		}
+
 	],
 	"filters": [
 		{

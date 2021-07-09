@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, HostListener, ViewChild, Input, AfterViewInit } from '@angular/core';
+import * as Chart from 'chart.js';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { BaseChartDirective, Label } from 'ng2-charts';
@@ -13,10 +14,40 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   @Input() name: string;
 
   private _data: any = {};
-  @Input() set data (value: string){
-    this._data = value;
+  @Input() set data(value: any) {
+    // expected entries
+    /**
+     * barChartLabels
+     * barChartData
+     * barChartLegend
+     * 
+     */
+    console.log("DATA VAlue: ", value)
+
+    for (const key in value) {
+      this._data[key] = value[key];
+    }
+
+    const { barChartTitle, barChartLabels, barChartData, barChartLegend } = this.data;
+
+    if (barChartData.length == 1) {
+      // no legend
+      // single dataset
+      // multiple value dataset
+      // barChartLabels taken from 
+      this.data.barChartLegend = false;
+    } else {
+      this.data.barChartLegend = true;
+    }
+
+    this.chartObject.options.title.text = barChartTitle;
+    this.chartObject.options.legend.display = this.data.barChartLegend;
+    this.chartObject.data.datasets = barChartData;
+    this.chartObject.data.labels = barChartLabels
+
+    this.update();
   }
-  get data(){
+  get data() {
     return this._data;
   }
 
@@ -96,9 +127,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             stepSize: 1,
           },
           gridLines: {
-            offsetGridLines: false
+            offsetGridLines: false,
           },
         }
+      ],
+      xAxes: [
+        { gridLines: { display: false } }
       ]
     },
     plugins: {
@@ -108,14 +142,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  public barChartLabels: Label[] = ['Performance'];
+  public barChartLabels: Label[] = ['Initialized', 'Approved', 'Extended'];
   public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
+  public barChartLegend = false;
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[] = [
-    { data: [4], label: 'Raised', backgroundColor: 'red' },
-    { data: [3], label: 'Closed', backgroundColor: 'green' }
+    { data: [2, 4, 2], backgroundColor: ['red', 'green', 'puple'] },
+    // { data: [25, 15], backgroundColor: 'green' }
   ];
 
   constructor(private elRef: ElementRef) { }
@@ -137,7 +171,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     //this.chart.chart.data.datasets[1].label = 'HELLO'
   }
 
+  get chartObject(): Chart {
+    return this.chart.chart
+  }
+
   update() {
-    this.chart.chart.update();
+    // this.chartObject.options.legend.labels.usePointStyle = false;
+    console.log("CAhrt Update: ", this.data, this.chartObject);
+    this.chartObject.update();
   }
 }

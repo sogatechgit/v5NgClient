@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, HostListener, AfterViewInit } from '@angular/core';
+import * as Chart from 'chart.js';
 import { ChartType, ChartOptions, PositionType } from 'chart.js';
 import { Color } from 'chartjs-plugin-datalabels/types/options';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, BaseChartDirective } from 'ng2-charts';
@@ -117,8 +118,9 @@ export class PieChartComponent implements OnInit, AfterViewInit {
       labels: {
         fontColor: this.textColor,
         fontFamily: this.fontFamily,
-        fontSize: this.legendSize
+        fontSize: this.legendSize,
       },
+      
       position: this.legendPosition,
 
     },
@@ -154,12 +156,20 @@ export class PieChartComponent implements OnInit, AfterViewInit {
     this.handleResize(null);
   }
 
+  get chartObject():Chart{
+    if (!this.chart) return null;
+    return this.chart.chart;
+  }
+
   update() {
-    if (!this.chart) return;
+    if (!this.chartObject) return;
     // this.chart.options.title.text = this.pieChartOptions.title.text;
     // console.log("CHART OOBJECT: " ,this.chart.chart);
-    this.chart.chart.options.title.text =  this.pieChartOptions.title.text;
-    this.chart.chart.update()
+    this.chartObject.options.title.text =  this.pieChartOptions.title.text;
+
+    this.chartObject.options.legend.labels.usePointStyle = true;
+    
+    this.chartObject.update()
   }
 
 }
