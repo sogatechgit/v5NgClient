@@ -20,7 +20,7 @@ export class DatasetBase extends AppCommonMethods {
     public http: HttpClient,
     public apiCommon: AppCommonMethodsService,
     public dialog: any,
-    public data?:any
+    public data?: any
   ) {
     super();
   }
@@ -109,9 +109,8 @@ export class DatasetBase extends AppCommonMethods {
       // set format ....
       const gmt = 0 - tm.getTimezoneOffset() / 60;
       this.oldServerTime = csi.serverCurrentStamp;
-      this.oldServerTimeFmt = `${p(tm.getHours())}:${p(tm.getMinutes())}:${p(tm.getSeconds())} GMT${
-        gmt < 0 ? gmt : ('+' + gmt)
-      }`;
+      this.oldServerTimeFmt = `${p(tm.getHours())}:${p(tm.getMinutes())}:${p(tm.getSeconds())} GMT${gmt < 0 ? gmt : ('+' + gmt)
+        }`;
     }
 
     return this.oldServerTimeFmt;
@@ -129,9 +128,8 @@ export class DatasetBase extends AppCommonMethods {
       this.oldServerTime == csi.serverCurrentStamp;
       this.oldServerDateTimeFmt = `${p(tm.getDate())} ${this.apiCommon.MonthStr(
         tm.getMonth()
-      )} ${tm.getFullYear()} ${p(tm.getHours())}:${p(tm.getMinutes())}:${p(tm.getSeconds())} GMT${
-        gmt < 0 ? gmt : ('+' + gmt)
-      }`;
+      )} ${tm.getFullYear()} ${p(tm.getHours())}:${p(tm.getMinutes())}:${p(tm.getSeconds())} GMT${gmt < 0 ? gmt : ('+' + gmt)
+        }`;
     }
 
     return this.oldServerDateTimeFmt;
@@ -147,7 +145,7 @@ export class DatasetBase extends AppCommonMethods {
     this._apiUrl = value;
   }
 
-  public get referenceRoot():string{
+  public get referenceRoot(): string {
     return this.data.referenceRoot;
   }
 
@@ -251,13 +249,13 @@ export class DatasetBase extends AppCommonMethods {
     return this._SpecialTables[tableRole];
   }
 
-  extractFirstText(str):string{
+  extractFirstText(str): string {
     const matches = str.match(/"(.*?)"/);
     return matches
       ? matches[1]
       : str;
   }
-  
+
 
   get PostHeaderInfo64(): string {
     return btoa(JSON.stringify(this.PostHeaderInfo));
@@ -311,7 +309,7 @@ export class DatasetBase extends AppCommonMethods {
 
   Get(
     reqParams: Array<RequestParams>,
-    args?: { onSuccess?: Function; onError?: Function; usePOST?: boolean }
+    args?: { onSuccess?: Function; onError?: Function; usePOST?: boolean; configData?: any }
   ): Subscription {
     // get table data based on base64 encoded json parameters
 
@@ -472,6 +470,7 @@ export class DatasetBase extends AppCommonMethods {
               }
 
               config.clientStamp = new Date();
+              config.configData = args.configData ? args.configData : {};
 
               if ((data ? data.length : false) && config) {
                 const retParams = data[0].returnDataParams;

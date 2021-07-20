@@ -100,7 +100,8 @@
 					"items": [
 						{
 							"type": "filter",
-							"name": "year"
+							"name": "year",
+							"defFirst": true
 						}
 					]
 				},
@@ -113,7 +114,8 @@
 						},
 						{
 							"type": "filter",
-							"name": "status"
+							"name": "status",
+							"defFirst": true
 						}
 					]
 				}
@@ -148,6 +150,7 @@
 					"name": "perf_pie",
 					"title": "Deviation Performance in Percentage",
 					"titleExpression": "Deviation Performance as per ${year} in Percentage",
+
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
 					"series": "RSCLSTAT",
@@ -157,6 +160,7 @@
 							"field": "RAISEDYEAR"
 						}
 					],
+
 					"seriesFixedTitles": [
 						"Raised",
 						"Closed"
@@ -171,7 +175,12 @@
 				{
 					"name": "perf_bar",
 					"type": "bar",
+					"dataType": "MDSV",
 					"wrapStyle": {},
+					"title": "Deviation Performance",
+					"titleExpression": "Deviation Performance as per ${year}",
+					"xAxisTitle":"Performance",
+					"dataRefObjectName":"perf_pie",
 					"filters": [
 						{
 							"name": "year",
@@ -255,6 +264,8 @@
 				{
 					"name": "prog_bar",
 					"type": "bar",
+					"dataType": "MDMV",
+					"dataRefObjectName":"dev_prog_list",
 					"wrapStyle": {},
 					"filters": [
 						{
