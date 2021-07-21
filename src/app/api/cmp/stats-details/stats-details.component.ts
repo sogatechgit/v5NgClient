@@ -442,49 +442,122 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
       // loop through all bar chart definitions to build collection of
       // request parameters
 
-      const { aggregate, series, tableCode, name, dataRefObjectName } = ch;
+      const { aggregate, series, tableCode, name, dataRefObjectName, seriesGroup, seriesData } = ch;
 
+      if (dataRefObjectName) return;  // if chart is not borrowing data from anothe chart definition
+
+      let fields = seriesGroup ? seriesGroup : '';
       let title = ch.title;
       let filters: any[] = [];
       let fltExpr: string[] = [];
 
-      if (ch.filters) {
+      if (seriesData) {
+        // eg. sum(ISCOMPLETE)@COMP|Completed`sum(ISONPROGRESS)@PROG|On Progress
+        // aggregate@alias|label
+        const fldsArr = seriesData.split('`');  // split field defs
+        fldsArr.forEach(fld => {
+          fields += (fields ? '`' : '') + fld.split('|')[0];
+        })
 
       }
 
 
-      // const chObj = this.barCharts.find(bar => bar.name == ch.name);
+      if (ch.filters) {
 
-      // chObj.data = {
-      //   barChartTitle: 'Multi Dataset Multi Value Bar Chart',
-      //   barChartLabels: ['2019', '2020', '2021'],
-      //   barChartData: [
-      //     { data: [2, 6, 5], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
-      //     { data: [5, 8, 7], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
-      //   ]
-      // }
 
-      // chObj.data = {
-      //   barChartTitle: 'Multi Dataset Single Value Bar Chart',
-      //   barChartLabels: ['Performance'],
-      //   barChartData: [
-      //     { data: [2], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
-      //     { data: [5], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
-      //   ]
-      // }
 
-      // chObj.data = {
-      //   barChartTitle: 'Single Dataset Bar Chart',
-      //   barChartLabels: ['Initialized', 'Cancelled', 'Extended'],
-      //   barChartData: [{
-      //     data: [3, 5, 2], backgroundColor: [
-      //       this.SeriesColor('Initialized', 'lime'),
-      //       this.SeriesColor('Cancelled'),
-      //       this.SeriesColor('Extended')]
-      //   }]
-      // }
+        // if filter(s) is specified, change title to filter selected value
 
-      // ch.update();
+        ch.filters.forEach(cflt => {
+          const { name, field } = cflt;
+          const nameArr = name.split(':');  // split filter to filter name and filter value index
+          const fltName = nameArr[0];
+          const valIdx = nameArr.length >= 2 ? nameArr[1] : -1;
+
+          const fltCtrlName = tabName + '_' + fltName;
+          const fltCtrl = this.formGroup.get(fltCtrlName);
+
+          if (fltCtrl) {
+            // filter control exists
+            if (fltCtrl.value != "0") {
+              // if filter value is not All
+              const fltValue = valIdx != -1 ? fltCtrl.value.split(',')[valIdx] : fltCtrl.value
+              filters.push({ name: fltName, value: fltValue });
+              fltExpr.push(`{${field}|in|${fltValue}}`)
+            }
+          }
+
+
+        })
+
+      }
+
+      ch.titleSubstitutions = [];
+
+      if (fltExpr.length != 0) {
+        if (ch.titleExpression) title = ch.titleExpression;
+        filters.forEach(flt => {
+          const placeholder = `$\{${flt.name}\}`
+          ch.titleSubstitutions.push({ fromText: placeholder, toText: flt.value });
+          title = title.replace(placeholder, this.EnumString(flt.value));
+          // check if any of the other charts are using data from the current chart
+
+        })
+      }
+
+      const reqParam: RequestParams = {
+        code: tableCode,
+        includedFields: fields,
+        filter: fltExpr.length ? `(${fltExpr.join('^')})` : '',
+        sortFields: seriesGroup,
+        snapshot: true
+      }
+
+      // set chart's visibleTitle and cascade title subtitution to other charts
+      ch.visibleTitle = title;
+      this.CascadeTitle(ch);
+
+      // set parameter index in configData
+      paramConfigData[ch.name] = reqParams.length;
+
+      // append request param to common reqPrams array
+      reqParams.push(reqParam);
+
+      if (false) {
+
+        // const chObj = this.barCharts.find(bar => bar.name == ch.name);
+
+        // chObj.data = {
+        //   barChartTitle: 'Multi Dataset Multi Value Bar Chart',
+        //   barChartLabels: ['2019', '2020', '2021'],
+        //   barChartData: [
+        //     { data: [2, 6, 5], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
+        //     { data: [5, 8, 7], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
+        //   ]
+        // }
+
+        // chObj.data = {
+        //   barChartTitle: 'Multi Dataset Single Value Bar Chart',
+        //   barChartLabels: ['Performance'],
+        //   barChartData: [
+        //     { data: [2], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
+        //     { data: [5], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
+        //   ]
+        // }
+
+        // chObj.data = {
+        //   barChartTitle: 'Single Dataset Bar Chart',
+        //   barChartLabels: ['Initialized', 'Cancelled', 'Extended'],
+        //   barChartData: [{
+        //     data: [3, 5, 2], backgroundColor: [
+        //       this.SeriesColor('Initialized', 'lime'),
+        //       this.SeriesColor('Cancelled'),
+        //       this.SeriesColor('Extended')]
+        //   }]
+        // }
+
+        // ch.update();
+      }
 
     }) // bar chart iteration
 
@@ -497,8 +570,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         configData: paramConfigData,
         onSuccess: data => {
 
-          console.log("CHARTS DATA: ", data);
-
           // iterate through pieCharts and update
           pie.forEach(ch => {
             const { dataRefObjectName } = ch;
@@ -508,8 +579,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
             let seriesTitles = ch.seriesFixedTitles ? ch.seriesFixedTitles : []
             let seriesValues = [];
-
-            console.log("PIE IT: ", ch.name, datIdx, chObj, chData)
 
             if (seriesTitles.length) {
               // if fixed titles are specified
@@ -552,40 +621,70 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
           })
 
           bar.forEach(ch => {
-            const { dataRefObjectName } = ch;
+            const { dataRefObjectName, seriesData, seriesGroup } = ch;
             const datIdx = paramConfigData[!dataRefObjectName ? ch.name : dataRefObjectName];
             const chData = data.processed.data[datIdx];
             const chObj = this.barCharts.find(bar => bar.name == ch.name);
+            const xAxisLabels: string[] = []
 
 
-            console.log("BAR IT: ", ch.name, datIdx, chObj, chData)
-
-            // MDSV
-            // chObj.data = {
-            //   barChartTitle: 'Multi Dataset Single Value Bar Chart',
-            //   barChartLabels: ['Performance'],
-            //   barChartData: [
-            //     { data: [2], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
-            //     { data: [5], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
-            //   ]
-            // }
-
+            let verticalGrid: boolean = false;
 
             // form data collection
             const datasets: any[] = [];
+
             if (ch.dataType == BarDataType.MultiDatasetSingleValue) {
               chData.forEach(row => {
                 const { SERIES, DATA } = row.XTRA;
                 datasets.push({ data: [DATA], label: SERIES, backgroundColor: this.SeriesColor(SERIES) })
               })
-            }else if(ch.dataType == BarDataType.MultiDatasetMultiValue){
+            } else if (ch.dataType == BarDataType.MultiDatasetMultiValue) {
+
+              // example
+              // chObj.data = {
+              //   barChartTitle: 'Multi Dataset Multi Value Bar Chart',
+              //   barChartLabels: ['2019', '2020', '2021'],
+              //   barChartData: [
+              //     { data: [2, 6, 5], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
+              //     { data: [5, 8, 7], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
+              //   ]
+              // }              
+
+              const data = {};
+              const fldsArr = seriesData.split('`');
+              fldsArr.forEach(fld => {
+                const fldArr = fld.split('|');
+                const fldDataArr = fldArr[0].split('@');
+                const fldRef = fldDataArr[fldDataArr.length - 1];
+                const fldLabel = fldArr.length == 1 ? fldRef : fldArr[fldArr.length - 1];
+
+                datasets.push({
+                  data: [], label: fldLabel, fldRef: fldRef,
+                  backgroundColor: this.SeriesColor(fldLabel)
+                })
+              });
+
+
+              chData.forEach(row => {
+                xAxisLabels.push(row[seriesGroup]);
+
+                datasets.forEach(ds => {
+                  const dataValue = row.XTRA[ds.fldRef];
+                  ds.data.push(dataValue == undefined ? 0 : dataValue)
+                })
+              })
+
+              verticalGrid = true;
+
+              console.log("BAR IT: ", ch, ch.name, datIdx, chObj, chData, "\nDatasets: ", datasets)
 
             }
 
             chObj.data = {
               barChartTitle: ch.visibleTitle,
-              barChartLabels: [ch.xAxisTitle ? ch.xAxisTitle : 'X-Label'],
-              barChartData: datasets
+              barChartLabels: xAxisLabels.length ? xAxisLabels : [ch.xAxisTitle ? ch.xAxisTitle : 'X-Label'],
+              barChartData: datasets,
+              verticalGrid: verticalGrid
             }
 
 
@@ -614,9 +713,17 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     return bg ? bg.color : defaultColor;
   }
 
+  EnumString(str: string, replacementText?: string): string {
+    if (!replacementText) replacementText = "&";
+    const strArr = str.split(',');
+    if (strArr.length < 2) return str;
+    const lastElem = strArr[strArr.length - 1];
+    strArr.pop();
+    return `${strArr.join(', ')} ${replacementText} ${lastElem}`;
+  }
+
   ProcessConfig(result: any) {
     this._configJSON = result;
-    console.log("table configs: ", this._configJSON.tabs);
 
     // set filter parameters
     /* sample filter configuration
@@ -668,7 +775,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     // create filter form controls for all tabs
     const processedControls: any = {};
     this.configJSON.tabs.forEach(tab => {
-      // console.log('TAB: ',tab.name, tab.label,tab.tables, tab.charts, tab.headers)
       // process filter controls from headers
 
       if (tab.headers) {
@@ -697,7 +803,6 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     // process charts data
 
 
-    // console.log("filter reqParams: ", reqParams)
 
     this.ds.Get(reqParams, {
       onSuccess: (data) => {

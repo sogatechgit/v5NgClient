@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 7/16/2021 12:21:59 PM
+* Automatically generated on 7/21/2021 7:39:45 AM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2868,6 +2868,9 @@ export class QryDevMain extends TableBase {
 	this.columns.push(new ColumnInfo('DSTSTATUS', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('STATUSCODE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('RSCLSTAT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('PRCOSTAT', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ISCOMPLETE', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('ISONPROGRESS', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('RAISEDYEAR', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('STATUS', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('RAISEDATE', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
@@ -2908,6 +2911,9 @@ export class QryDevMainRow extends TableRowBase{
 		public DSTSTATUS?:string, 
 		public STATUSCODE?:string, 
 		public RSCLSTAT?:string, 
+		public PRCOSTAT?:string, 
+		public ISCOMPLETE?:number, 
+		public ISONPROGRESS?:number, 
 		public RAISEDYEAR?:number, 
 		public STATUS?:string, 
 		public RAISEDATE?:Date, 

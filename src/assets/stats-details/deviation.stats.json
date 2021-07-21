@@ -30,6 +30,14 @@
 			"color": "#28a745"
 		},
 		{
+			"series": "On Progress",
+			"color": "#dc3545"
+		},
+		{
+			"series": "Complete",
+			"color": "#28a745"
+		},
+		{
 			"series": "Initialized",
 			"color": "#007bff"
 		},
@@ -265,25 +273,29 @@
 					"name": "prog_bar",
 					"type": "bar",
 					"dataType": "MDMV",
-					"dataRefObjectName":"dev_prog_list",
+					"title": "Deviation Progress ${biyear}",
+					"tableCode": "devmain",
+					"dataRefObjectName":"",
+					"seriesData":"sum(ISCOMPLETE)@COMP|Complete`sum(ISONPROGRESS)@PROG|On Progress",
+					"seriesGroup":"RAISEDYEAR",
 					"wrapStyle": {},
 					"filters": [
 						{
-							"name": "year",
-							"field": ""
+							"name": "biyear",
+							"field": "RAISEDYEAR"
 						}
 					],
 					"bg": "cyan"
 				},
 				{
 					"name": "prog_pie1",
-					"title": "Deviation Performance as per ${biyear} in Percentage",
+					"title": "Deviation Progress ${biyear} in Percentage",
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
-					"series": "RSCLSTAT",
+					"series": "PRCOSTAT",
 					"seriesFixedTitles": [
-						"Raised",
-						"Closed"
+						"On Progress",
+						"Complete"
 					],
 					"seriesTitles": [],
 					"seriesData": [],
@@ -294,18 +306,17 @@
 							"name": "biyear:0",
 							"field": "RAISEDYEAR"
 						}
-					],
-					"bg": "magenta"
+					]
 				},
 				{
 					"name": "prog_pie2",
-					"title": "Deviation Performance as per ${biyear} in Percentage",
+					"title": "Deviation Progress ${biyear} in Percentage",
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
-					"series": "RSCLSTAT",
+					"series": "PRCOSTAT",
 					"seriesFixedTitles": [
-						"Raised",
-						"Closed"
+						"On Progress",
+						"Complete"
 					],
 					"seriesTitles": [],
 					"seriesData": [],
@@ -316,8 +327,7 @@
 							"name": "biyear:1",
 							"field": "RAISEDYEAR"
 						}
-					],
-					"bg": "magenta"
+					]
 				}
 			],
 			"style": {

@@ -28,7 +28,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       this._data[key] = value[key];
     }
 
-    const { barChartTitle, barChartLabels, barChartData, barChartLegend } = this.data;
+    const { barChartTitle, barChartLabels, barChartData, barChartLegend, verticalGrid } = this.data;
 
     if (barChartData.length == 1) {
       // no legend
@@ -43,7 +43,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.chartObject.options.title.text = barChartTitle;
     this.chartObject.options.legend.display = this.data.barChartLegend;
     this.chartObject.data.datasets = barChartData;
-    this.chartObject.data.labels = barChartLabels
+    this.chartObject.data.labels = barChartLabels;
+
+    this.chartObject.options.scales.xAxes[0].gridLines.display = verticalGrid ? true : false;
 
     this.update();
   }
