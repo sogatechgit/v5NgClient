@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 7/21/2021 7:39:45 AM
+* Automatically generated on 7/22/2021 1:01:14 PM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2877,6 +2877,9 @@ export class QryDevMain extends TableBase {
 	this.columns.push(new ColumnInfo('APPROVED', 'Date', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('CLOSED', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 	this.columns.push(new ColumnInfo('RESPONSIBLE', 'string', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CNT_EXTEND', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('CNT_APPROVE', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
+	this.columns.push(new ColumnInfo('IS_WIDTHRAW', 'number', '', '', '', -1, -1, -1, -1, -1, false, false, false, this));
 
     this.InitializeTable();
 
@@ -2919,7 +2922,10 @@ export class QryDevMainRow extends TableRowBase{
 		public RAISEDATE?:Date, 
 		public APPROVED?:Date, 
 		public CLOSED?:string, 
-		public RESPONSIBLE?:string){
+		public RESPONSIBLE?:string, 
+		public CNT_EXTEND?:number, 
+		public CNT_APPROVE?:number, 
+		public IS_WIDTHRAW?:number){
     super();
 
   }

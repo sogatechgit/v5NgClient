@@ -1,6 +1,7 @@
 @import "../../../appcssvars.scss";
 
 $separator_color: #dfdfdf;
+$blur_filter: blur(4px);
 
 :host {
   // background-color: lime;
@@ -22,6 +23,8 @@ $separator_color: #dfdfdf;
     align-items: stretch;
     background: white;
     font-family: $form_body_font-family;
+
+    filter: $blur_filter;
 
     #nav-logo {
       // background:yellow;
@@ -153,24 +156,24 @@ $separator_color: #dfdfdf;
     flex: 1 1 0;
     display: flex;
     overflow: hidden;
-    .ver_sep1{
-      $wd:2px;
+    .ver_sep1 {
+      $wd: 2px;
       background-color: $separator_color;
       font-size: 1px;
-      min-width:$wd;
-      max-width:$wd;
-
+      min-width: $wd;
+      max-width: $wd;
     }
     #sidenav {
       background: white;
       overflow: hidden;
+      filter: $blur_filter;
     }
     #details {
       // background-color: lime;
       display: flex;
       flex-direction: column;
-      flex:1 1 0;
-      overflow:hidden;
+      flex: 1 1 0;
+      overflow: hidden;
       #modules {
         flex: 1 1 0;
         display: flex;
@@ -190,15 +193,18 @@ $separator_color: #dfdfdf;
     }
   }
   #footer {
-    cursor:default;
-    border-top:1px solid #c0c0c0;
+    cursor: default;
+    border-top: 1px solid #c0c0c0;
     height: 20px;
-    font-size:0.8em;
-    font-family:$form_body_font-family;
+    font-size: 0.8em;
+    font-family: $form_body_font-family;
     background: $separator_color;
     display: flex;
-    span:nth-child(2){
-      flex:1 1 0;
+
+    filter: $blur_filter;
+
+    span:nth-child(2) {
+      flex: 1 1 0;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

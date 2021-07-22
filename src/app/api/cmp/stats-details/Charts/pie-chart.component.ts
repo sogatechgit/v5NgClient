@@ -120,7 +120,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
         fontFamily: this.fontFamily,
         fontSize: this.legendSize,
       },
-      
+
       position: this.legendPosition,
 
     },
@@ -156,19 +156,27 @@ export class PieChartComponent implements OnInit, AfterViewInit {
     this.handleResize(null);
   }
 
-  get chartObject():Chart{
+  get chartObject(): Chart {
     if (!this.chart) return null;
     return this.chart.chart;
   }
 
   update() {
     if (!this.chartObject) return;
+
+    const { legendPosition } = this._data;
+
     // this.chart.options.title.text = this.pieChartOptions.title.text;
     // console.log("CHART OOBJECT: " ,this.chart.chart);
-    this.chartObject.options.title.text =  this.pieChartOptions.title.text;
+    this.chartObject.options.title.text = this.pieChartOptions.title.text;
+    this.chartObject.options.title.fontSize = 12;
+
+    this.chartObject.options.legend.labels.fontSize = 12;
 
     this.chartObject.options.legend.labels.usePointStyle = true;
-    
+
+    if (legendPosition) this.chartObject.options.legend.position = legendPosition;
+
     this.chartObject.update()
   }
 

@@ -28,7 +28,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       this._data[key] = value[key];
     }
 
-    const { barChartTitle, barChartLabels, barChartData, barChartLegend, verticalGrid } = this.data;
+    const { barChartTitle, barChartLabels, barChartData, barChartLegend, verticalGrid, yAxisTitle, legendPosition } = this.data;
 
     if (barChartData.length == 1) {
       // no legend
@@ -41,11 +41,28 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
 
     this.chartObject.options.title.text = barChartTitle;
+    this.chartObject.options.title.fontSize = 12;
+
+    this.chartObject.options.legend.labels.fontSize = 10;
+
     this.chartObject.options.legend.display = this.data.barChartLegend;
     this.chartObject.data.datasets = barChartData;
     this.chartObject.data.labels = barChartLabels;
 
+    if(legendPosition)this.chartObject.options.legend.position = legendPosition;
+
+    //this.chartObject.options.scales[1].title = 'hello title'
+    // console.log("this.chartObject.options: ", this.chartObject.options);
+
     this.chartObject.options.scales.xAxes[0].gridLines.display = verticalGrid ? true : false;
+
+    if (yAxisTitle) {
+      this.chartObject.options.scales.yAxes[0].scaleLabel.display = true;
+      this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = yAxisTitle
+      this.chartObject.options.scales.yAxes[0].scaleLabel.fontSize = 10;
+    } else {
+      this.chartObject.options.scales.yAxes[0].scaleLabel.display = false;
+    }
 
     this.update();
   }
@@ -76,6 +93,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       const ctx = this.canvas.nativeElement.getContext("2d");
       const width = parElem.clientWidth;
       const height = parElem.clientHeight;
+
+      // parElem.style.backgroundColor = 'olive';
 
       if (window.devicePixelRatio) {
 
@@ -144,13 +163,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  public barChartLabels: Label[] = ['Initialized', 'Approved', 'Extended'];
+  public barChartLabels: Label[] = ['series 1', 'series 2', 'series 3'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = false;
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[] = [
-    { data: [2, 4, 2], backgroundColor: ['red', 'green', 'puple'] },
+    // { data: [0, 0, 0], backgroundColor: ['red', 'green', 'puple'] },
+    { data: [4, 12, 8], backgroundColor: ['#c0c0c0', '#c0c0c0', '#c0c0c0'] },
     // { data: [25, 15], backgroundColor: 'green' }
   ];
 

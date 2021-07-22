@@ -12,6 +12,7 @@ import { BarChartComponent } from './Charts/bar-chart.component';
 import { DataTab, DataTabsComponent } from '../data-tabs/data-tabs.component';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Console } from 'node:console';
+import { select } from 'd3-selection';
 //import { AppMainServiceService } from './../../svc/app-main-service.service';
 
 
@@ -352,14 +353,31 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
       chto.visibleTitle = title;
 
-      console.log("chto: ", chto);
-
     })
+  }
+
+  GetFilterOperator(operator: string, noPipe?: boolean): string {
+    if (!operator ? true : operator == '=') return '';    // empty string or eq is same as equal
+    if (!noPipe) noPipe = false;
+    switch (operator) {
+      case '<':
+        return 'lt' + (noPipe ? '' : '|');
+      case '>':
+        return 'gt' + (noPipe ? '' : '|');
+      case '>=':
+        return 'gte' + (noPipe ? '' : '|');
+      case '<=':
+        return 'lte' + (noPipe ? '' : '|');
+      case '<>':
+        return 'neq' + (noPipe ? '' : '|');
+      default:
+        return operator + (noPipe ? '' : '|');;
+
+    }
   }
 
   UpdateActiveTab() {
     if (!this.activeTab) return;
-    // console.log("ACTIVE TAB: ", this.activeTab, ", Config:", this.configJSON);
 
     const reqParams: Array<RequestParams> = [];
     const tabName = this.activeTab.name;
@@ -382,7 +400,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         // if filter(s) is specified, change title to filter selected value
 
         ch.filters.forEach(cflt => {
-          const { name, field } = cflt;
+          const { name, field, operator } = cflt;
           const nameArr = name.split(':');
           const fltName = nameArr[0];
           const valIdx = nameArr.length >= 2 ? nameArr[1] : -1;
@@ -394,7 +412,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             if (fltCtrl.value != "0") {
               const fltValue = valIdx != -1 ? fltCtrl.value.split(',')[valIdx] : fltCtrl.value
               filters.push({ name: fltName, value: fltValue });
-              fltExpr.push(`{${field}|${fltValue}}`)
+              fltExpr.push(`{${field}|${this.GetFilterOperator(operator)}${fltValue}}`)
             }
           }
 
@@ -469,7 +487,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         // if filter(s) is specified, change title to filter selected value
 
         ch.filters.forEach(cflt => {
-          const { name, field } = cflt;
+          const { name, field, operator } = cflt;
           const nameArr = name.split(':');  // split filter to filter name and filter value index
           const fltName = nameArr[0];
           const valIdx = nameArr.length >= 2 ? nameArr[1] : -1;
@@ -482,8 +500,11 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             if (fltCtrl.value != "0") {
               // if filter value is not All
               const fltValue = valIdx != -1 ? fltCtrl.value.split(',')[valIdx] : fltCtrl.value
+              
               filters.push({ name: fltName, value: fltValue });
-              fltExpr.push(`{${field}|in|${fltValue}}`)
+              fltExpr.push(`{${field}|${this.GetFilterOperator(operator)}${fltValue}}`);
+
+              console.log("${this.GetFilterOperator(operator): ",this.GetFilterOperator(operator),", operator: ",operator);
             }
           }
 
@@ -512,6 +533,8 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         sortFields: seriesGroup,
         snapshot: true
       }
+
+      console.log("BAR reqParam: ",reqParam)
 
       // set chart's visibleTitle and cascade title subtitution to other charts
       ch.visibleTitle = title;
@@ -676,15 +699,17 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
               verticalGrid = true;
 
-              console.log("BAR IT: ", ch, ch.name, datIdx, chObj, chData, "\nDatasets: ", datasets)
+              // console.log("BAR IT: ", ch, ch.name, datIdx, chObj, chData, "\nDatasets: ", datasets)
 
             }
 
             chObj.data = {
               barChartTitle: ch.visibleTitle,
+              legendPosition: ch.legendPosition,
               barChartLabels: xAxisLabels.length ? xAxisLabels : [ch.xAxisTitle ? ch.xAxisTitle : 'X-Label'],
               barChartData: datasets,
-              verticalGrid: verticalGrid
+              verticalGrid: verticalGrid,
+              yAxisTitle: ch.yAxisTitle
             }
 
 
