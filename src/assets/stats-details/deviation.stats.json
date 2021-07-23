@@ -49,7 +49,6 @@
 			"series": "Extended",
 			"color": "#ffc107"
 		}
-
 	],
 	"filters": [
 		{
@@ -160,7 +159,6 @@
 					"name": "perf_pie",
 					"title": "Deviation Performance in Percentage",
 					"titleExpression": "Deviation Performance as per ${year} in Percentage",
-
 					"tableCode": "devmain",
 					"aggregate": "count(DEVID)",
 					"series": "RSCLSTAT",
@@ -168,10 +166,9 @@
 						{
 							"name": "year",
 							"field": "RAISEDYEAR",
-							"operator":"="
+							"operator": "="
 						}
 					],
-
 					"seriesFixedTitles": [
 						"Raised",
 						"Closed"
@@ -186,25 +183,25 @@
 				{
 					"name": "perf_bar",
 					"type": "bar",
+					"active": true,
 					"dataType": "MDSV",
 					"wrapStyle": {},
 					"title": "Deviation Performance",
 					"titleExpression": "Deviation Performance as per ${year}",
-					"xAxisTitle":"Performance",
-					"yAxisTitle":"Total",
-					"legendPosition":"right",
-					
-					"dataRefObjectName":"perf_pie",
-
-					"seriesTitles": [
-						"Raised",
-						"Closed"
-					],
-					"seriesData": [
-						123,
-						456
-					],
-					"bg": "cyan"
+					"xAxisTitle": "Performance",
+					"yAxisTitle": "Total",
+					"legendPosition": "right",
+					"dataRefObjectName": "",
+					"tableCode": "devmain",
+					"seriesData": "sum(ISCOMPLETE)@CL|Closed`sum(ISONPROGRESS)@RS|Raised",
+					"seriesGroup": "",
+					"filters": [
+						{
+							"name": "year",
+							"field": "RAISEDYEAR",
+							"operator": "="
+						}
+					]
 				}
 			],
 			"style": {
@@ -273,22 +270,21 @@
 					"type": "bar",
 					"dataType": "MDMV",
 					"title": "Deviation Progress ${biyear}",
+					"dataRefObjectName": "",
 					"tableCode": "devmain",
-					"dataRefObjectName":"",
-					"seriesData":"sum(ISCOMPLETE)@COMP|Complete`sum(ISONPROGRESS)@PROG|On Progress",
-					"seriesGroup":"RAISEDYEAR",
-					"yAxisTitle":"Total",
-					"xAxisTitle":"Year",
-					"legendPosition":"right",
+					"seriesData": "sum(ISCOMPLETE)@COMP|Complete`sum(ISONPROGRESS)@PROG|On Progress",
+					"seriesGroup": "RAISEDYEAR",
+					"yAxisTitle": "Total",
+					"xAxisTitle": "Raised Year",
+					"legendPosition": "right",
 					"wrapStyle": {},
 					"filters": [
 						{
 							"name": "biyear",
 							"field": "RAISEDYEAR",
-							"operator":"in"
+							"operator": "in"
 						}
 					]
-					
 				},
 				{
 					"name": "prog_pie1",

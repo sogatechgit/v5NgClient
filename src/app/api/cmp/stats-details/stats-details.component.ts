@@ -479,10 +479,14 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
       }
 
+      if (name == 'perf_bar') {
+        console.log(
+          "PERFORMANCE BAR FILTER: ", ch.filters
+        )
+      }
+
 
       if (ch.filters) {
-
-
 
         // if filter(s) is specified, change title to filter selected value
 
@@ -500,11 +504,11 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             if (fltCtrl.value != "0") {
               // if filter value is not All
               const fltValue = valIdx != -1 ? fltCtrl.value.split(',')[valIdx] : fltCtrl.value
-              
+
               filters.push({ name: fltName, value: fltValue });
               fltExpr.push(`{${field}|${this.GetFilterOperator(operator)}${fltValue}}`);
 
-              console.log("${this.GetFilterOperator(operator): ",this.GetFilterOperator(operator),", operator: ",operator);
+              console.log("${this.GetFilterOperator(operator): ", this.GetFilterOperator(operator), ", operator: ", operator);
             }
           }
 
@@ -534,7 +538,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         snapshot: true
       }
 
-      console.log("BAR reqParam: ",reqParam)
+      console.log("BAR reqParam: ", reqParam)
 
       // set chart's visibleTitle and cascade title subtitution to other charts
       ch.visibleTitle = title;
@@ -593,9 +597,13 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
         configData: paramConfigData,
         onSuccess: data => {
 
+          console.log("CHART DATA: ", data)
+
           // iterate through pieCharts and update
           pie.forEach(ch => {
-            const { dataRefObjectName } = ch;
+
+            const { dataRefObjectName, active, name } = ch;
+
             const datIdx = paramConfigData[!dataRefObjectName ? ch.name : dataRefObjectName];
             const chData = data.processed.data[datIdx];
             const chObj = this.pieCharts.find(pie => pie.name == ch.name);
@@ -644,11 +652,21 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
           })
 
           bar.forEach(ch => {
-            const { dataRefObjectName, seriesData, seriesGroup } = ch;
+
+            const { dataRefObjectName, seriesData, seriesGroup, active, name, xAxisTitle, yAxisTitle } = ch;
+
             const datIdx = paramConfigData[!dataRefObjectName ? ch.name : dataRefObjectName];
             const chData = data.processed.data[datIdx];
             const chObj = this.barCharts.find(bar => bar.name == ch.name);
             const xAxisLabels: string[] = []
+
+            if (active != undefined ? !active : false) {
+
+              console.log("INACTIVE CHART DATA: ", chData, reqParams[datIdx])
+              return;
+
+            }
+
 
 
             let verticalGrid: boolean = false;
@@ -656,12 +674,12 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             // form data collection
             const datasets: any[] = [];
 
-            if (ch.dataType == BarDataType.MultiDatasetSingleValue) {
+            if (ch.dataType == BarDataType.MultiDatasetSingleValue && false) {
               chData.forEach(row => {
                 const { SERIES, DATA } = row.XTRA;
                 datasets.push({ data: [DATA], label: SERIES, backgroundColor: this.SeriesColor(SERIES) })
               })
-            } else if (ch.dataType == BarDataType.MultiDatasetMultiValue) {
+            } else if (ch.dataType == BarDataType.MultiDatasetMultiValue || ch.dataType == BarDataType.MultiDatasetSingleValue) {
 
               // example
               // chObj.data = {
@@ -689,7 +707,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
 
               chData.forEach(row => {
-                xAxisLabels.push(row[seriesGroup]);
+                if (seriesGroup) xAxisLabels.push(row[seriesGroup]);
 
                 datasets.forEach(ds => {
                   const dataValue = row.XTRA[ds.fldRef];
@@ -706,10 +724,11 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             chObj.data = {
               barChartTitle: ch.visibleTitle,
               legendPosition: ch.legendPosition,
-              barChartLabels: xAxisLabels.length ? xAxisLabels : [ch.xAxisTitle ? ch.xAxisTitle : 'X-Label'],
+              barChartLabels: xAxisLabels.length ? xAxisLabels : null,
               barChartData: datasets,
               verticalGrid: verticalGrid,
-              yAxisTitle: ch.yAxisTitle
+              yAxisTitle: ch.yAxisTitle,
+              xAxisTitle: ch.xAxisTitle
             }
 
 
@@ -739,6 +758,9 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   EnumString(str: string, replacementText?: string): string {
+    if (!str) return '';
+    if (!str.split) return '';
+
     if (!replacementText) replacementText = "&";
     const strArr = str.split(',');
     if (strArr.length < 2) return str;

@@ -54,7 +54,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     this.chartObject.options.legend.display = this.data.barChartLegend;
     this.chartObject.data.datasets = barChartData;
-    this.chartObject.data.labels = barChartLabels;
+
+    const withXLabels = (barChartLabels && barChartLabels.length);
+
+    this.chartObject.data.labels = withXLabels ? barChartLabels : [];
+    this.chartObject.options.scales.xAxes[0].ticks.display = withXLabels;
 
     if (legendPosition) this.chartObject.options.legend.position = legendPosition;
 
@@ -174,7 +178,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             beginAtZero: true,
             // min: 0,
             // max: 6,
-            fontFamily: 'Futura-Book',
             fontSize: 10,
             stepSize: 1,
           },
@@ -184,7 +187,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         }
       ],
       xAxes: [
-        { gridLines: { display: false } }
+        { 
+          gridLines: { display: false },
+          ticks:{
+            fontSize: 10,
+            padding:0
+          }
+
+        }
       ]
     },
     plugins: {
