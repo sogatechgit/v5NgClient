@@ -28,7 +28,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       this._data[key] = value[key];
     }
 
-    const { barChartTitle, barChartLabels, barChartData, barChartLegend, verticalGrid, yAxisTitle, legendPosition } = this.data;
+    const { barChartTitle,
+      barChartLabels, 
+      barChartData, 
+      barChartLegend, 
+      verticalGrid, 
+      yAxisTitle, 
+      xAxisTitle, 
+      legendPosition } = this.data;
 
     if (barChartData.length == 1) {
       // no legend
@@ -49,7 +56,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.chartObject.data.datasets = barChartData;
     this.chartObject.data.labels = barChartLabels;
 
-    if(legendPosition)this.chartObject.options.legend.position = legendPosition;
+    if (legendPosition) this.chartObject.options.legend.position = legendPosition;
 
     //this.chartObject.options.scales[1].title = 'hello title'
     // console.log("this.chartObject.options: ", this.chartObject.options);
@@ -63,6 +70,29 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     } else {
       this.chartObject.options.scales.yAxes[0].scaleLabel.display = false;
     }
+    if (xAxisTitle) {
+      this.chartObject.options.scales.xAxes[0].scaleLabel.display = true;
+      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = xAxisTitle
+      this.chartObject.options.scales.xAxes[0].scaleLabel.fontSize = 10;
+    } else {
+      this.chartObject.options.scales.xAxes[0].scaleLabel.display = false;
+    }
+
+
+    // this.chartObject.options.plugins = {
+    //   datalabels: {
+    //     // backgroundColor: function(context) {
+    //     //   return context.dataset.backgroundColor;
+    //     // },
+    //     borderRadius: 4,
+    //     color: 'white',
+    //     font: {
+    //       weight: 'bold'
+    //     },
+    //     formatter: Math.round,
+    //     padding: 6
+    //   }
+    // }
 
     this.update();
   }
@@ -159,15 +189,35 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     },
     plugins: {
       datalabels: {
-        anchor: 'end',
-        align: 'end',
+        anchor: 'center',
+        align: 'center',
+        color:'white',
+        padding:1,
+        textShadowBlur:15,
+        textShadowColor:'black'
+        // textShadowBlur:function(context){
+        //   const index = context.dataIndex;
+        //   const value = context.dataset.data[index];
+        //   return 12;
+        // },
+        // textShadowColor:function(context){
+        //   const index = context.dataIndex;
+        //   const value = context.dataset.data[index];
+        //   return 'black';
+        // },
+        // backgroundColor: function (context) {
+        //   const index = context.dataIndex;
+        //   const value = context.dataset.data[index];
+
+        //   return value ? null : 'black';
+        // }
       }
     }
   };
   public barChartLabels: Label[] = ['series 1', 'series 2', 'series 3'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = false;
-  public barChartPlugins = [];
+  public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
     // { data: [0, 0, 0], backgroundColor: ['red', 'green', 'puple'] },

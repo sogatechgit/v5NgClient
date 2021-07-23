@@ -193,6 +193,7 @@
 					"xAxisTitle":"Performance",
 					"yAxisTitle":"Total",
 					"legendPosition":"right",
+					
 					"dataRefObjectName":"perf_pie",
 
 					"seriesTitles": [

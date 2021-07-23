@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, HostListener, AfterViewInit } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ChartType, ChartOptions, PositionType } from 'chart.js';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Color } from 'chartjs-plugin-datalabels/types/options';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, BaseChartDirective } from 'ng2-charts';
 
@@ -132,6 +133,31 @@ export class PieChartComponent implements OnInit, AfterViewInit {
       position: 'top',
       text: 'Pie Chart Title'
 
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'center',
+        align: 'center',
+        color: 'white',
+        padding:1,
+        textShadowBlur:15,
+        textShadowColor:'blue'
+
+        // backgroundColor: function (context) {
+        //   const index = context.dataIndex;
+        //   const value = context.dataset.data[index];
+
+        //   return value ? '' : 'black';
+        // }
+        // color: function (context) {
+
+        //   var index = context.dataIndex;
+        //   var value = context.dataset.data[index];
+        //   return value < 0 ? 'red' :  // draw negative values in red
+        //     index % 2 ? 'blue' :      // else, alternate values in blue and green
+        //       'green';
+        // }
+      }
     }
   };
   // for multi-line legends, supply array of strings for each data sector
@@ -140,8 +166,13 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
-  public pieChartPlugins = [];
-  public pieColors: Color[] = []
+  public pieChartPlugins = [pluginDataLabels];
+  public pieColors: Color[] = [];
+
+  GetColor(): string {
+
+    return 'red'
+  }
 
   constructor(private elRef: ElementRef) {
     monkeyPatchChartJsTooltip();
