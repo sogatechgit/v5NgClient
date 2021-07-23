@@ -1,7 +1,8 @@
 @import "../../../appcssvars.scss";
 
 $separator_color: #dfdfdf;
-$blur_filter: blur(4px);
+// $blur_filter: blur(4px);
+$blur_filter:none;
 
 :host {
   // background-color: lime;

@@ -1,9 +1,5 @@
 @import "../../../../appcssvars.scss";
 $test_col_with: 400px;
-$alt_background: #525252;
-$alt_foreground: white;
-
-$alt_font-family: "Arial";
 
 
 #grid-wrapper, #grid-wrapper.alt-a {
@@ -513,8 +509,8 @@ $alt_font-family: "Arial";
           button.page-link,
           a.page-link {
             font-family: $grid_footer_font-family;
-            //color: $bs_info;
-            color: $alt_foreground;
+            color: $bs_info;
+            //color: $alt_foreground;
             font-size: 0.8em;
             padding: 2px 5px !important;
             // min-width:30px;
@@ -530,8 +526,8 @@ $alt_font-family: "Arial";
           a.page-active {
             //color: $bs_danger;
 
-            color: $alt_foreground;
-            // color: $fore_color_light;
+            // color: $alt_foreground;
+            color: $fore_color_light;
             text-decoration: underline;
             cursor: default;
           }

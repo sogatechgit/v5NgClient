@@ -124,6 +124,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   public barChartOptions: ChartOptions = {
+    // animation:ChartAnimationOptions
     maintainAspectRatio: false,
     responsive: true,
     title: {
