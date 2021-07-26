@@ -1,6 +1,16 @@
 @import "../../../../appcssvars.scss";
 $test_col_with: 400px;
 
+:host{
+  color-adjust: exact !important;
+}
+
+#grid-wrapper-print{
+  background-color: lime;
+  @media screen {
+    display: none;
+  }
+}
 
 #grid-wrapper, #grid-wrapper.alt-a {
   display: flex;
@@ -8,6 +18,9 @@ $test_col_with: 400px;
   margin: 0px;
   height: 100%;
 
+  @media print {
+    display: none !important;
+  }
 
   div.row-header {
     height: 100%;
@@ -255,7 +268,7 @@ $test_col_with: 400px;
     }
   }
   #grid-view-port {
-    .grid-row:first-child {
+   .grid-row:first-child {
       //border-top:1px solid $grid_header_border_color;
     }
     .grid-row.alt-a {
@@ -550,6 +563,7 @@ $test_col_with: 400px;
     } // end of nav
   }
   #grid-footer.alt-a {
+
     $grid_footer_font-family: $alt_font-family;
 
     box-sizing: border-box;
@@ -635,6 +649,7 @@ $test_col_with: 400px;
       }
     } // end of nav
   }
+
 }
 
 .grid-head {

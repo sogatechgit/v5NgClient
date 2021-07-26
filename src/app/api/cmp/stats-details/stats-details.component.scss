@@ -1,9 +1,18 @@
 :host {
-    background-color: lime;
     width: 100%;
+    @media print {
+        // background-color: yellow;
+        color-adjust: exact !important;
+    }
 }
 
 $line_color: #c0c0c0;
+
+#wrapper_print {
+    @media screen {
+        display: none;
+    }
+}
 
 // #tab_wrapper,
 // #wrapper_no_data {
@@ -20,9 +29,15 @@ $line_color: #c0c0c0;
 // }
 #wrapper {
     display: grid;
-
-    height: 100%;
     width: 100%;
+
+    @media screen {
+        height: 100%;
+    }
+
+    @media print {
+        height: auto;
+    }
 
     // background-color: orange;
 
@@ -53,14 +68,30 @@ $line_color: #c0c0c0;
         select:focus {
             outline: none;
         }
+
+        @media print {
+            display: none !important;
+        }
+
     }
     div#details {
         display: grid;
-        grid-template: 1fr / 1fr;
-        // border:2px solid cyan;
-        overflow: hidden;
         position: relative;
+
+        @media screen {
+            grid-template: 1fr / 1fr;
+            overflow: hidden;
+        }
+
+        @media print {
+            grid-template: auto / 1fr;
+        }
+
         app-data-tabs {
+            @media print {
+                display: none;
+            }
+
             grid-column: 1 / -1;
             grid-row: 1 / -1;
             position: absolute; // needed to fit container and become responsive when container height is changed
@@ -68,6 +99,12 @@ $line_color: #c0c0c0;
             height: 100%;
             // align-self: stretch;
             justify-self: stretch;
+        }
+    }
+
+    div#details_print{
+        @media screen {
+            display: none;
         }
     }
 }
@@ -111,10 +148,13 @@ $line_color: #c0c0c0;
         justify-content: flex-end;
         // background-color: red;
 
+        @media print {
+            display: none;
+        }
 
         > div.filter {
             // background-color: yellow;
-            padding:0px;
+            padding: 0px;
             label {
                 line-height: 0.9em;
                 margin-left: 5px;

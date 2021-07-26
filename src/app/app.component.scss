@@ -8,3 +8,15 @@
 // // background-color: mediumslateblue !important;
 //   }
 // }
+
+app-main-frameset{
+    @media print{
+        display: none;
+    }
+}
+
+app-stats-details{
+    @media screen{
+        display: none;
+    }
+}

@@ -13,14 +13,15 @@
   flex: 1 1 0;
   height: 100%;
   overflow: hidden;
-  
 
-  position: absolute;width:100%;
+  position: absolute;
+  width: 100%;
   // width:100%;
-  // background-color: magenta;
-
-  // border: 3px dashed red;
-
+  @media print {
+    background-color: cyan;
+    border: 5px dashed red;
+    color-adjust: exact !important;
+  }
 }
 .toolbar {
   // background-color: $back_color_very_light_blue;
@@ -29,15 +30,15 @@
   height: $form_subgrid_header_height;
   // margin-top:3px;
   padding: 0px;
-  padding-top:2px;
+  padding-top: 2px;
   display: flex;
   > div.spacer {
     flex: 1 1 0;
   }
-  >span#title{
-    margin-left:10px;
+  > span#title {
+    margin-left: 10px;
     font-style: italic;
-    font-size:1em;
+    font-size: 1em;
     // font-weight:bold;
   }
   // button {
@@ -55,12 +56,24 @@
   //   }
   // }
 }
+
+#main_wrapper_print {
+  background-color: yellow;
+  border: 1px solid red;
+  height:400px;
+  
+  @media screen {
+    display: none;
+  }
+}
+
 #main_wrapper {
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
-  font-family:$form_body_font-family;
+  font-family: $form_body_font-family;
   overflow: hidden;
+
 }
 #grid_container {
   flex: 1 1 0;
@@ -128,6 +141,11 @@
   position: relative;
   // background-color: green;
   z-index: 2;
+
+  @media print {
+    display: none;
+    // height:auto !important;
+  }
   .mask {
     z-index: 3;
     position: absolute;
@@ -150,3 +168,4 @@
     }
   }
 }
+

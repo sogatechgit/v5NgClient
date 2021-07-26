@@ -116,12 +116,12 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() SelectedIds: Array<number> = [];
   @Input() allowSelect: boolean = false;
 
-  private _gridParams:GridParams=null;
-  @Input() set gridParams(value:GridParams){
+  private _gridParams: GridParams = null;
+  @Input() set gridParams(value: GridParams) {
     this._gridParams = value;
-    this._gridParams.grid  = this;
+    this._gridParams.grid = this;
   }
-  get gridParams():GridParams{
+  get gridParams(): GridParams {
     return this._gridParams;
   }
 
@@ -203,7 +203,7 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get options(): DataGridOption {
-    if(!this._options && this.gridParams){
+    if (!this._options && this.gridParams) {
       this._options = this.gridParams.options;
     }
     return this._options;
@@ -258,7 +258,7 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public cellTip: string = null;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) { }
 
   private _changeValuesNow: boolean = false;
   public form: FormGroup = new FormGroup({});
@@ -285,8 +285,8 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._fbound ? this._fbound : { x: 0, y: 0, height: 0, width: 0 };
   }
 
-  get currentPageSize():number{
-    if(!this.pageSizeSelect) return -1;
+  get currentPageSize(): number {
+    if (!this.pageSizeSelect) return -1;
     return this.pageSizeSelect.nativeElement.value;
   }
 
@@ -322,7 +322,7 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
     return;
     this.gridViewPort.elementRef.nativeElement.removeEventListener(
       'scroll',
-      () => {}
+      () => { }
     );
   }
 
@@ -1264,8 +1264,8 @@ export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
               ? this.dateTimeFormat
               : c.dateFormat
             : isDefault
-            ? this.dateFormat
-            : c.dateFormat;
+              ? this.dateFormat
+              : c.dateFormat;
 
         value = moment(dt).format(fmt);
         recordValue = true;
@@ -1935,10 +1935,10 @@ export class DataGridOption extends DataOption {
 }
 
 
-export class GridParams{
-  constructor(public name:string, public dataSet:AppDataset){
+export class GridParams {
+  constructor(public name: string, public dataSet: AppDataset) {
     this.options = new DataGridOption([])
   }
-  public grid:DataGridComponent
+  public grid: DataGridComponent
   public options: DataGridOption
 }

@@ -2,7 +2,12 @@
 [style.grid-template-columns]="'1fr repeat(2, 250px)'"
 
   -->
-  <!-- <p *ngIf="!filtersReady">Not Ready!</p> -->
+<!-- <p *ngIf="!filtersReady">Not Ready!</p> -->
+
+<!-- <div id="wrapper_print" [formGroup]="formGroup">
+    <p>hello print</p>
+</div> -->
+
 <div id="wrapper" [formGroup]="formGroup" [style.grid-template-rows]="configJSON.headerHeight + ' 1fr'">
     <!-- <div id="wrapper_no_data" *ngIf="!configJSON"> -->
     <!-- <span>Configuration object not available!</span> -->
@@ -18,7 +23,11 @@
     <div id="details">
         <app-data-tabs #t activeBackground="white" [fluidIds]="fluidTabs" tabClass="alt-a" *ngIf="tabLabels"
             [tabLabels]="tabLabels" [tabTags]="configJSON.tabs" (tabClicked)="TabClicked($event)">
+
+            <!-- <ng-container *ngTemplateOutlet="statsDetails2"></ng-container> -->
+
             <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
+            <!-- <ng-container *ngIf="false"> -->
                 <!-- whem mo charts or tables defined -->
                 <div class="tab_details" *ngIf="t.a(idx) && (tab.tables.length==0 && tab.charts.length==0)">
                     {{tab.label + (tab.charts.length || tab.tables.length ? '' : ': no status element defined!')}}
@@ -29,8 +38,7 @@
                     *ngIf="t.a(idx) && (tab.tables.length!=0 || tab.charts.length!=0)">
                     <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" style="position: relative;">
 
-                        <app-data-grid-b
-                            [name]="tab.name + '_' + tbl.name" #grid
+                        <app-data-grid-b [name]="tab.name + '_' + tbl.name" #grid
                             style="top:0px;margin-top:-3px;padding:0px;border:none;" [RowHeight]="26"
                             [RowHeaderHeight]="30" [RowHeaderWidth]="0" [noBarMenu]="true" [dataSet]="ds"
                             [pageSizes]="tbl.pageSizes"
@@ -41,8 +49,7 @@
                         </app-data-grid-b>
 
                     </div>
-                    <div *ngFor="let ch of tab.charts" 
-                        [style.grid-area]="ch.name" [ngStyle]="ch.wrapStyle">
+                    <div *ngFor="let ch of tab.charts" [style.grid-area]="ch.name" [ngStyle]="ch.wrapStyle">
 
                         <!-- <app-bar-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-bar-chart> -->
                         <app-line-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-line-chart>
@@ -58,8 +65,8 @@
                             <!-- {{JSON.stringify(item)}} -->
                             <div class="filter" *ngIf="item.type=='filter' && HeaderItem(item)">
                                 <label for="">{{HeaderItem(item).label}}</label>
-                                <select [formControlName]="tab.name + '_' + item.name"
-                                    [name]="HeaderItem(item).name" [id]="activeTab ? activeTab.name + '_' + HeaderItem(item).name: ''"
+                                <select [formControlName]="tab.name + '_' + item.name" [name]="HeaderItem(item).name"
+                                    [id]="activeTab ? activeTab.name + '_' + HeaderItem(item).name: ''"
                                     (change)="FilterSelect($event, item)">
                                     <option value="0" *ngIf="!item.noAll">All</option>
                                     <option *ngFor="let opt of HeaderItem(item).data" [value]="opt.value">
@@ -71,15 +78,81 @@
                 </div>
             </ng-container>
 
+
+
             <!-- <div *ngIf="t.a(0)">General Information</div>
         <div *ngIf="t.a(1)">Assessment</div>
         <div *ngIf="t.a(2)">Recommendations</div>
         <div *ngIf="t.a(3)">Risk Ranking</div> -->
         </app-data-tabs>
-
+        <p id="details_print">Hello Details</p>
     </div>
 
 </div>
+
+<!--details content start -->
+<ng-template #statsDetails>
+    <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
+        <!-- whem no charts or tables defined -->
+        <div class="tab_details" *ngIf="t.a(idx) && (tab.tables.length==0 && tab.charts.length==0)">
+            {{tab.label + (tab.charts.length || tab.tables.length ? '' : ': no status element defined!')}}
+        </div>
+
+        <!-- whem at least one chart or table is defined -->
+        <div class="tab_details" [ngStyle]="tab.style"
+            *ngIf="t.a(idx) && (tab.tables.length!=0 || tab.charts.length!=0)">
+            <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" style="position: relative;">
+
+                <app-data-grid-b [name]="tab.name + '_' + tbl.name" #grid
+                    style="top:0px;margin-top:-3px;padding:0px;border:none;" [RowHeight]="26" [RowHeaderHeight]="30"
+                    [RowHeaderWidth]="0" [noBarMenu]="true" [dataSet]="ds" [pageSizes]="tbl.pageSizes"
+                    [activeFiltering]="tbl.allowFilter!=undefined ? tbl.allowFilter : false" gridHeaderClassName="alt-a"
+                    [tableCode]="tbl.tableCode" autoGrid="true" [noFooter]="tbl.noFooter" fontFactor="0.95"
+                    noBarMenu="true" noToolbar="true" (rowClick)="RowClick($event)">
+                </app-data-grid-b>
+
+            </div>
+            <div *ngFor="let ch of tab.charts" [style.grid-area]="ch.name" [ngStyle]="ch.wrapStyle">
+
+                <!-- <app-bar-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-bar-chart> -->
+                <app-line-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-line-chart>
+
+                <app-pie-chart *ngIf="ch.type=='pie'" [name]="ch.name" [title]="ch.title"></app-pie-chart>
+            </div>
+            <div class="header" *ngFor="let hdr of tab.headers" [style.grid-area]="hdr.name">
+                <!-- <span>{{hdr.name}}</span> -->
+                <!-- <app-header-a></app-header-a> -->
+                <!-- {{HeaderItem(hdr.items[0])}} -->
+                <!-- <app-number-nav></app-number-nav> -->
+                <ng-container *ngFor="let item of hdr.items">
+                    <!-- {{JSON.stringify(item)}} -->
+                    <div class="filter" *ngIf="item.type=='filter' && HeaderItem(item)">
+                        <label for="">{{HeaderItem(item).label}}</label>
+                        <select [formControlName]="tab.name + '_' + item.name" [name]="HeaderItem(item).name"
+                            [id]="activeTab ? activeTab.name + '_' + HeaderItem(item).name: ''"
+                            (change)="FilterSelect($event, item)">
+                            <option value="0" *ngIf="!item.noAll">All</option>
+                            <option *ngFor="let opt of HeaderItem(item).data" [value]="opt.value">
+                                {{opt.display}}</option>
+                        </select>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #statsDetails2>
+    <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
+        <!-- whem no charts or tables defined -->
+        <div class="tab_details">
+            {{tab.label + (tab.charts.length || tab.tables.length ? '' : ': no status element defined!')}}
+        </div>
+    </ng-container>
+</ng-template>
+<!-- details content end -->
+
+
 <div id="wrapperX" *ngIf="configJSON && false">
     <div id="tab_wrapper" [ngStyle]="activeTabDef.style">
         <div *ngFor="let tbl of activeTabDef.tables" [style.grid-area]="tbl.name" [style.background-color]="tbl.bg">

@@ -25,6 +25,10 @@ $blur_filter:none;
     background: white;
     font-family: $form_body_font-family;
 
+    @media print {
+      display: none;
+    }
+
     filter: $blur_filter;
 
     #nav-logo {
@@ -168,6 +172,10 @@ $blur_filter:none;
       background: white;
       overflow: hidden;
       filter: $blur_filter;
+
+      @media print {
+        display: none;
+      }
     }
     #details {
       // background-color: lime;
@@ -203,6 +211,10 @@ $blur_filter:none;
     display: flex;
 
     filter: $blur_filter;
+
+    @media print {
+      display: none;
+    }
 
     span:nth-child(2) {
       flex: 1 1 0;
