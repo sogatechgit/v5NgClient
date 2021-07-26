@@ -61,6 +61,10 @@
   flex-direction: column;
   font-family:$form_body_font-family;
   overflow: hidden;
+
+  @media print {
+    display: none;
+  }
 }
 #grid_container {
   flex: 1 1 0;

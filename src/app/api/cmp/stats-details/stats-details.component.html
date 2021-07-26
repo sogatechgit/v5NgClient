@@ -3,7 +3,7 @@
 
   -->
   <!-- <p *ngIf="!filtersReady">Not Ready!</p> -->
-<div id="wrapper"  [formGroup]="formGroup" [style.grid-template-rows]="configJSON.headerHeight + ' 1fr'">
+<div id="wrapper" [formGroup]="formGroup" [style.grid-template-rows]="configJSON.headerHeight + ' 1fr'">
     <!-- <div id="wrapper_no_data" *ngIf="!configJSON"> -->
     <!-- <span>Configuration object not available!</span> -->
     <div id="header" [ngStyle]="configJSON.headerStyle">
@@ -54,11 +54,10 @@
                         <!-- <app-header-a></app-header-a> -->
                         <!-- {{HeaderItem(hdr.items[0])}} -->
                         <!-- <app-number-nav></app-number-nav> -->
-                        <p>Header Filters {{headerFilters.year ? headerFilters.year.length : 'no year '}}</p>
                         <ng-container *ngFor="let item of hdr.items">
                             <!-- {{JSON.stringify(item)}} -->
-                            <div class="filter" *ngIf="item.type=='filter'">
-                                <label for="">{{HeaderItem(item).label}}-{{FilterOptions.year ? FilterOptions.year.length : 'null'}}</label>
+                            <div class="filter" *ngIf="item.type=='filter' && HeaderItem(item)">
+                                <label for="">{{HeaderItem(item).label}}</label>
                                 <select [formControlName]="tab.name + '_' + item.name"
                                     [name]="HeaderItem(item).name" [id]="activeTab ? activeTab.name + '_' + HeaderItem(item).name: ''"
                                     (change)="FilterSelect($event, item)">

@@ -25,11 +25,11 @@ $blur_filter:none;
     background: white;
     font-family: $form_body_font-family;
 
+    filter: $blur_filter;
+
     @media print {
       display: none;
     }
-
-    filter: $blur_filter;
 
     #nav-logo {
       // background:yellow;
@@ -168,6 +168,11 @@ $blur_filter:none;
       min-width: $wd;
       max-width: $wd;
     }
+    #sep_tree_body{
+      @media print {
+        display: none;
+      }
+    }
     #sidenav {
       background: white;
       overflow: hidden;
@@ -210,11 +215,11 @@ $blur_filter:none;
     background: $separator_color;
     display: flex;
 
-    filter: $blur_filter;
-
     @media print {
       display: none;
     }
+
+    filter: $blur_filter;
 
     span:nth-child(2) {
       flex: 1 1 0;

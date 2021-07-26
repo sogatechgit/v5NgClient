@@ -111,6 +111,10 @@ $line_color: #c0c0c0;
         justify-content: flex-end;
         // background-color: red;
 
+        @media print {
+            display: none;
+        }
+
 
         > div.filter {
             // background-color: yellow;
