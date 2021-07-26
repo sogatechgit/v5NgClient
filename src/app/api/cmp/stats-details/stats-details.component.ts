@@ -377,6 +377,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   UpdateActiveTab() {
+    console.log("UpdateActiveTab: " , this.headerFilters);
     if (!this.activeTab) return;
 
     const reqParams: Array<RequestParams> = [];
@@ -721,14 +722,16 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
             }
 
-            chObj.data = {
-              barChartTitle: ch.visibleTitle,
-              legendPosition: ch.legendPosition,
-              barChartLabels: xAxisLabels.length ? xAxisLabels : null,
-              barChartData: datasets,
-              verticalGrid: verticalGrid,
-              yAxisTitle: ch.yAxisTitle,
-              xAxisTitle: ch.xAxisTitle
+            if (chObj) {
+              chObj.data = {
+                barChartTitle: ch.visibleTitle,
+                legendPosition: ch.legendPosition,
+                barChartLabels: xAxisLabels.length ? xAxisLabels : null,
+                barChartData: datasets,
+                verticalGrid: verticalGrid,
+                yAxisTitle: ch.yAxisTitle,
+                xAxisTitle: ch.xAxisTitle
+              }
             }
 
 
@@ -887,7 +890,13 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
             flt.firstValue = opts.length ? opts[0].value : "0";
             flt.lastValue = opts.length ? opts[opts.length - 1].value : "0";
+
+            // assign option data to filter object
             flt.data = opts;
+            
+            // set filter data dictionary
+            this.headerFilters[flt.name] = opts;
+            
 
             const withOpts = (opts.length != 0);
 
@@ -931,6 +940,12 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
       }
     })
+  }
+
+  public headerFilters:any={};
+  FilterOptions(filterName:string){
+    if(!this.headerFilters[filterName]) return [];
+    return this.headerFilters[filterName];
   }
 
 }

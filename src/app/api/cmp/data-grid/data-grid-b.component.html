@@ -1,11 +1,3 @@
-<div id="main_wrapper_print">
-    <table>
-      <tr *ngFor="let row of DummyTable(10,22)">
-        <td *ngFor="let hdr of DummyTableHeader;let idx=index;">{{row['v'+(idx+1)]}}</td>
-      </tr>
-    </table>
-</div>
-
 <div #GRID_WRAPPER id="main_wrapper" class="container-fluid p-0 m-0">
 
   <!--toolbar start -->
@@ -37,14 +29,16 @@
       [inProgress]="isLoadingRecords  || (reqInfo ? (reqInfo.totalRecords ? reqInfo.totalRecords == 0 : true) :true)">
       {{labelExcel}}</app-toolbar-button>
 
-    <app-toolbar-button (buttonClick)="ReportClicked($event)" [rights]="GetRights('allowReport')" [withDropdown]="true"
-      icon="fa fa-print text-info" tooltip="Report" [inProgress]="isLoadingRecords" iconRight="fas fa-caret-right px-1"
-      [rightIconMenuTrigger]="menu">
-      {{labelReport}}
-
-      <!-- (toggleDropDownState)="C" -->
-      <!-- [matMenuTriggerFor]="menu" -->
-      <!-- <i class="fas fa-caret-right text-grey px-1" aria-hidden="true" [matMenuTriggerFor]="menu"
+      <app-toolbar-button (buttonClick)="ReportClicked($event)" [rights]="GetRights('allowReport')" [withDropdown]="true" 
+      icon="fa fa-print text-info" tooltip="Report" [inProgress]="isLoadingRecords"
+       iconRight="fas fa-caret-right px-1"
+      [rightIconMenuTrigger]="menu"
+      >
+       {{labelReport}} 
+      
+       <!-- (toggleDropDownState)="C" -->
+       <!-- [matMenuTriggerFor]="menu" -->
+       <!-- <i class="fas fa-caret-right text-grey px-1" aria-hidden="true" [matMenuTriggerFor]="menu"
                   style="cursor:pointer;"></i> -->
     </app-toolbar-button>
 
@@ -93,24 +87,25 @@
 
     <div *ngIf="_ReportMode">
       <app-report-viewer #reportViewer [Reload]="QryStr"></app-report-viewer>
-    </div>
-
-    <div #GRID_CONTAINER id="grid_container" >
+    </div> 
+    
+    <div #GRID_CONTAINER id="grid_container">
       <app-progress-mask #mask *ngIf="isLoadingRecords" [message]="maskMessage"></app-progress-mask>
 
       <div [style.height.px]="gridHeightCalc">
         <!-- <input type="hidden" [value]="TreeLocationFinal"> -->
 
-        <app-data-grid #grid [options]="options" [gridHeaderClassName]="gridHeaderClassName" [noBarMenu]="noBarMenu"
-          [pageNumber]="reqInfo.pageNumber" [pageSize]="reqInfo.pageSize" [totalPages]="reqInfo.totalPages"
-          [totalRecords]="reqInfo.totalRecords" [sourceRows]="sourceRows" [sourceTable]="sourceTable"
-          [gridPortHeight]="1080" [fontFactor]="fontFactor" (pageClick)="PageClick($event)"
-          (pageSizeChange)="PageSizeChange($event)" (rowClick)="RowClick($event)" [dataSet]="dataSet"
-          (applyFilter)="ApplyFilter($event)" [pageSizes]="pageSizes" [allowSelect]="SelectMode"
+        <app-data-grid #grid [options]="options" 
+          [gridHeaderClassName]="gridHeaderClassName"
+          [noBarMenu]="noBarMenu" [pageNumber]="reqInfo.pageNumber"
+          [pageSize]="reqInfo.pageSize" [totalPages]="reqInfo.totalPages" [totalRecords]="reqInfo.totalRecords"
+          [sourceRows]="sourceRows" [sourceTable]="sourceTable" [gridPortHeight]="1080" [fontFactor]="fontFactor"
+          (pageClick)="PageClick($event)" (pageSizeChange)="PageSizeChange($event)" (rowClick)="RowClick($event)"
+          [dataSet]="dataSet" (applyFilter)="ApplyFilter($event)" [pageSizes]="pageSizes" [allowSelect]="SelectMode"
           (onSelectChange)="OnSelectChange($event)" [activeFiltering]="activeFiltering">
         </app-data-grid>
       </div>
-    </div> <!-- GRID_CONTAINER - END -->
+    </div>
     <div id="details_container" *ngIf="!_ReportMode">
 
 
@@ -119,8 +114,7 @@
   </div>
   <app-filter-list #filterList *ngIf="btnFilter ? btnFilter.dropDownState : false" [style.top.px]="popTop"
     [style.left.px]="popLeft"></app-filter-list>
-</div> <!-- main_wrapper-end -->
-
+</div>
 
 <mat-menu #menu="matMenu" class="customize">
   <button (click)="reportSelected(rpt)" mat-menu-item

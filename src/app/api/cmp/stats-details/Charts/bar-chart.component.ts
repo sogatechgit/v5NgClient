@@ -83,6 +83,21 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
 
 
+    // this.chartObject.options.plugins = {
+    //   datalabels: {
+    //     // backgroundColor: function(context) {
+    //     //   return context.dataset.backgroundColor;
+    //     // },
+    //     borderRadius: 4,
+    //     color: 'white',
+    //     font: {
+    //       weight: 'bold'
+    //     },
+    //     formatter: Math.round,
+    //     padding: 6
+    //   }
+    // }
+
     this.update();
   }
   get data() {

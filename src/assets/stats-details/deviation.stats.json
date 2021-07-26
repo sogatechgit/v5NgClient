@@ -7,7 +7,7 @@
 		"grid-template": "1fr / 1fr",
 		"justify-items": "end",
 		"align-items": "center",
-		"background-color": "red"
+		"background-color": "auto"
 	},
 	"chartBackgrounds": [
 		"#dc3545",

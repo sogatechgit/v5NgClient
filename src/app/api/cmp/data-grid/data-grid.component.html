@@ -3,8 +3,6 @@
 </button> -->
 
 
-
-
 <div #wrapper id="grid-wrapper" *ngIf="isReady" [style.font-size.em]="fontFactor" [class]="'alt-a'">
 
   <mat-menu #menu="matMenu" style="overflow: hidden;">
@@ -31,6 +29,8 @@
       (mouseout)="headerMouse($event)" [style.cursor]="headerMaskCursor" [style.margin-left.px]="leftScrollOffset"
       [style.padding-left.px]="RowHeaderWidth" style="position:relative;" [style.min-height.px]="rowHeaderHeight"
       [style.max-height.px]="rowHeaderHeight">
+
+
 
       <!-- generate row header cell - data grid access to settings and other actions -->
       <div #rowHeader class="row-header" [style.max-width.px]="RowHeaderWidth"

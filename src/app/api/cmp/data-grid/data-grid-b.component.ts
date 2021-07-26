@@ -216,19 +216,6 @@ export class DataGridBComponent
     //   this.gridHeight = newGridHeight - 40;
     // }
   }
-  @HostListener('window:beforeprint', ['$event']) handleBeforePrint(event: any) {
-    console.log('handleBeforePrint ....')
-  }
-  @HostListener('window:afterprint', ['$event']) handleAfterPrint(event: any) {
-    console.log('handleAfterPrint ....')
-  }
-
-//   window.onbeforeprint = function () { 
-//     hideEl.style.display = 'none';
-// }
-// window.onafterprint = function () {
-//     hideEl.style.display = '';
-// }
 
   @ViewChild('GRID_WRAPPER') GRID_WRAPPER: ElementRef;
   @ViewChild('GRID_CONTAINER') GRID_CONTAINER: ElementRef;
@@ -487,7 +474,6 @@ export class DataGridBComponent
   private _gridHeightCalc: number = 200;
   get gridHeightCalc(): number {
     if (!this._ready) return this._gridHeightCalc;
-
     if (this.GRID_CONTAINER)
       return this.GRID_CONTAINER.nativeElement.offsetHeight - 3;
     // return this.GRID_CONTAINER.nativeElement.offsetHeight - 400;
@@ -503,37 +489,7 @@ export class DataGridBComponent
     //   return 200;
     // }
 
-
     return this._gridHeightCalc;
-  }
-
-  private _DummyTableHeader: Array<string> = [];
-  get DummyTableHeader(): Array<string> {
-    return this._DummyTableHeader;
-  }
-
-  private _DummyTable: Array<any> = null;
-  DummyTable(cols: number, rows: number): Array<any> {
-    const data = []
-    if (!this._DummyTable) {
-
-      this._DummyTableHeader = [];
-      for (let col = 1; col <= cols; col++) {
-        this._DummyTableHeader.push(`Header${col}`);
-      }
-
-      for (let row = 1; row <= rows; row++) {
-        const rowData: any = {};
-        for (let col = 1; col <= cols; col++) {
-          rowData[`v${col}`] = `R${row}C${col}`;
-        }
-        data.push(rowData);
-      }
-
-      this._DummyTable = data;
-    }
-
-    return !this._DummyTable ? [] : this._DummyTable;
   }
 
   private _form: AppFormAComponent = null;
