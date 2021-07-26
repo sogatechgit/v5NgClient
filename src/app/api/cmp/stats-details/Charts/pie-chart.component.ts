@@ -139,24 +139,22 @@ export class PieChartComponent implements OnInit, AfterViewInit {
         anchor: 'center',
         align: 'center',
         color: 'white',
-        padding:1,
+        padding:function(context){
+          const index = context.dataIndex;
+          const value = context.dataset.data[index];
+          return value ? 1 : 3;
+        },
         textShadowBlur:15,
-        textShadowColor:'blue'
+        textShadowColor:'black',
+        backgroundColor: function (context) {
+          const index = context.dataIndex;
+          const value = context.dataset.data[index];
+          //const bg = context.dataset.backgroundColor[index];
 
-        // backgroundColor: function (context) {
-        //   const index = context.dataIndex;
-        //   const value = context.dataset.data[index];
+          //if(!value)console.log("PIE DATASET: " , context.dataset)
 
-        //   return value ? '' : 'black';
-        // }
-        // color: function (context) {
-
-        //   var index = context.dataIndex;
-        //   var value = context.dataset.data[index];
-        //   return value < 0 ? 'red' :  // draw negative values in red
-        //     index % 2 ? 'blue' :      // else, alternate values in blue and green
-        //       'green';
-        // }
+          return value ? null : 'gray';
+        }
       }
     }
   };

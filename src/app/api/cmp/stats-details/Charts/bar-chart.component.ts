@@ -83,21 +83,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
 
 
-    // this.chartObject.options.plugins = {
-    //   datalabels: {
-    //     // backgroundColor: function(context) {
-    //     //   return context.dataset.backgroundColor;
-    //     // },
-    //     borderRadius: 4,
-    //     color: 'white',
-    //     font: {
-    //       weight: 'bold'
-    //     },
-    //     formatter: Math.round,
-    //     padding: 6
-    //   }
-    // }
-
     this.update();
   }
   get data() {
@@ -202,25 +187,20 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         anchor: 'center',
         align: 'center',
         color:'white',
-        padding:1,
+        padding:function(context){
+          const index = context.dataIndex;
+          const value = context.dataset.data[index];
+          return value ? 1 : 3;
+        },
         textShadowBlur:15,
-        textShadowColor:'black'
-        // textShadowBlur:function(context){
-        //   const index = context.dataIndex;
-        //   const value = context.dataset.data[index];
-        //   return 12;
-        // },
-        // textShadowColor:function(context){
-        //   const index = context.dataIndex;
-        //   const value = context.dataset.data[index];
-        //   return 'black';
-        // },
-        // backgroundColor: function (context) {
-        //   const index = context.dataIndex;
-        //   const value = context.dataset.data[index];
+        textShadowColor:'black',
+        backgroundColor: function (context) {
+          const index = context.dataIndex;
+          const value = context.dataset.data[index];
+          // const bg = String(context.dataset.backgroundColor);
 
-        //   return value ? null : 'black';
-        // }
+          return value ? null : 'gray';
+        }
       }
     }
   };
