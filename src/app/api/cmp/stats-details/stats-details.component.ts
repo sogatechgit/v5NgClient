@@ -651,90 +651,82 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
           })
 
-          bar.forEach(ch => {
+          bar.forEach(
+            ch => {
 
-            const { dataRefObjectName, seriesData, seriesGroup, active, name, xAxisTitle, yAxisTitle } = ch;
+              const { dataRefObjectName, seriesData, seriesGroup, active, name, xAxisTitle, yAxisTitle } = ch;
 
-            const datIdx = paramConfigData[!dataRefObjectName ? ch.name : dataRefObjectName];
-            const chData = data.processed.data[datIdx];
-            const chObj = this.barCharts.find(bar => bar.name == ch.name);
-            const xAxisLabels: string[] = []
+              const datIdx = paramConfigData[!dataRefObjectName ? ch.name : dataRefObjectName];
+              const chData = data.processed.data[datIdx];
+              const chObj = this.barCharts.find(bar => bar.name == ch.name);
+              const xAxisLabels: string[] = []
 
-            if (active != undefined ? !active : false) {
+              if (active != undefined ? !active : false) {
+                console.log("INACTIVE CHART DATA: ", chData, reqParams[datIdx])
+                return;
+              }
 
-              console.log("INACTIVE CHART DATA: ", chData, reqParams[datIdx])
-              return;
+              let verticalGrid: boolean = false;
 
-            }
+              // form data collection
+              const datasets: any[] = [];
+
+              //if (ch.dataType == BarDataType.MultiDatasetMultiValue || ch.dataType == BarDataType.MultiDatasetSingleValue) {
+              if (true) {
+
+                // example
+                // chObj.data = {
+                //   barChartTitle: 'Multi Dataset Multi Value Bar Chart',
+                //   barChartLabels: ['2019', '2020', '2021'],
+                //   barChartData: [
+                //     { data: [2, 6, 5], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
+                //     { data: [5, 8, 7], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
+                //   ]
+                // }              
+
+                const data = {};
+                const fldsArr = seriesData.split('`');
+                fldsArr.forEach(fld => {
+                  const fldArr = fld.split('|');
+                  const fldDataArr = fldArr[0].split('@');
+                  const fldRef = fldDataArr[fldDataArr.length - 1];
+                  const fldLabel = fldArr.length == 1 ? fldRef : fldArr[fldArr.length - 1];
+
+                  datasets.push({
+                    data: [], label: fldLabel, fldRef: fldRef,
+                    backgroundColor: this.SeriesColor(fldLabel)
+                  })
+                });
 
 
+                chData.forEach(row => {
+                  if (seriesGroup) xAxisLabels.push(row[seriesGroup]);
 
-            let verticalGrid: boolean = false;
-
-            // form data collection
-            const datasets: any[] = [];
-
-            if (ch.dataType == BarDataType.MultiDatasetSingleValue && false) {
-              chData.forEach(row => {
-                const { SERIES, DATA } = row.XTRA;
-                datasets.push({ data: [DATA], label: SERIES, backgroundColor: this.SeriesColor(SERIES) })
-              })
-            } else if (ch.dataType == BarDataType.MultiDatasetMultiValue || ch.dataType == BarDataType.MultiDatasetSingleValue) {
-
-              // example
-              // chObj.data = {
-              //   barChartTitle: 'Multi Dataset Multi Value Bar Chart',
-              //   barChartLabels: ['2019', '2020', '2021'],
-              //   barChartData: [
-              //     { data: [2, 6, 5], label: 'Raised', backgroundColor: this.SeriesColor('Raised') },
-              //     { data: [5, 8, 7], label: 'Closed', backgroundColor: this.SeriesColor('Closed') }
-              //   ]
-              // }              
-
-              const data = {};
-              const fldsArr = seriesData.split('`');
-              fldsArr.forEach(fld => {
-                const fldArr = fld.split('|');
-                const fldDataArr = fldArr[0].split('@');
-                const fldRef = fldDataArr[fldDataArr.length - 1];
-                const fldLabel = fldArr.length == 1 ? fldRef : fldArr[fldArr.length - 1];
-
-                datasets.push({
-                  data: [], label: fldLabel, fldRef: fldRef,
-                  backgroundColor: this.SeriesColor(fldLabel)
+                  datasets.forEach(ds => {
+                    const dataValue = row.XTRA[ds.fldRef];
+                    ds.data.push(dataValue == undefined ? 0 : dataValue)
+                  })
                 })
-              });
+
+                verticalGrid = true;
 
 
-              chData.forEach(row => {
-                if (seriesGroup) xAxisLabels.push(row[seriesGroup]);
+              }  // end of bar chart type selection
 
-                datasets.forEach(ds => {
-                  const dataValue = row.XTRA[ds.fldRef];
-                  ds.data.push(dataValue == undefined ? 0 : dataValue)
-                })
-              })
-
-              verticalGrid = true;
-
-              // console.log("BAR IT: ", ch, ch.name, datIdx, chObj, chData, "\nDatasets: ", datasets)
-
-            }
-
-            chObj.data = {
-              barChartTitle: ch.visibleTitle,
-              legendPosition: ch.legendPosition,
-              barChartLabels: xAxisLabels.length ? xAxisLabels : null,
-              barChartData: datasets,
-              verticalGrid: verticalGrid,
-              yAxisTitle: ch.yAxisTitle,
-              xAxisTitle: ch.xAxisTitle
-            }
+              chObj.data = {
+                barChartTitle: ch.visibleTitle,
+                legendPosition: ch.legendPosition,
+                barChartLabels: xAxisLabels.length ? xAxisLabels : null,
+                barChartData: datasets,
+                verticalGrid: verticalGrid,
+                yAxisTitle: ch.yAxisTitle,
+                xAxisTitle: ch.xAxisTitle
+              }
 
 
-          })
+            } // end of forEach bar chart function 
 
-
+          )  // end of forEach bar chart loop
 
         }
       })

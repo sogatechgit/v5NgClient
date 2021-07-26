@@ -44,8 +44,8 @@
                     <div *ngFor="let ch of tab.charts" 
                         [style.grid-area]="ch.name" [ngStyle]="ch.wrapStyle">
 
-                        <!-- <app-bar-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-bar-chart> -->
-                        <app-line-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-line-chart>
+                        <app-bar-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-bar-chart>
+                        <!-- <app-line-chart *ngIf="ch.type=='bar'" [name]="ch.name" [title]="ch.title"></app-line-chart> -->
 
                         <app-pie-chart *ngIf="ch.type=='pie'" [name]="ch.name" [title]="ch.title"></app-pie-chart>
                     </div>
