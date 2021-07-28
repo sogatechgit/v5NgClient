@@ -306,9 +306,9 @@ export class MainFramesetComponent implements OnInit, AfterViewInit {
 
     }
 
-    this.KeepAlive((data) => {
-      this.SecondsUpdate();
-    });
+    // this.KeepAlive((data) => {
+    //   this.SecondsUpdate();
+    // });
 
 
   }
@@ -342,46 +342,45 @@ export class MainFramesetComponent implements OnInit, AfterViewInit {
     // return "(Alpha 1.2.0-20200528)"
   }
 
-  private _KeepAlive: any;
-  KeepAlive(onSuccess?: Function, runOnce?: boolean) {
-    // console.log("KeepAlive: ",new Date())
-    this.ds.Get(
-      [
-        {
-          code: 'chgTrack',
-          key: '0',
-          keyField: 'TRK_ID',
-          forceRequest: true,
-        },
-      ],
-      {
-        onSuccess: (data) => {
-          //console.log('\nSuccess on keeping alive! ', this.ds.csInfo, data);
-          if (onSuccess) onSuccess(data);
-        },
-        onError: (err) => {
-          console.log(
-            '\nError on keeping alive! ' + this.ds.dateStampString,
-            err
-          );
-        },
-      }
-    );
+  // KeepAlive(onSuccess?: Function, runOnce?: boolean) {
+  //   // console.log("KeepAlive: ",new Date())
+  //   this.ds.Get(
+  //     [
+  //       {
+  //         code: 'chgTrack',
+  //         key: '0',
+  //         keyField: 'TRK_ID',
+  //         forceRequest: true,
+  //       },
+  //     ],
+  //     {
+  //       onSuccess: (data) => {
+  //         //console.log('\nSuccess on keeping alive! ', this.ds.csInfo, data);
+  //         if (onSuccess) onSuccess(data);
+  //       },
+  //       onError: (err) => {
+  //         console.log(
+  //           '\nError on keeping alive! ' + this.ds.dateStampString,
+  //           err
+  //         );
+  //       },
+  //     }
+  //   );
 
     // set interval of 10 mins to keep api component running
-    if (!runOnce) {
-      const minSecs = 60 * 1000;
-      const mins = 5;
-      setTimeout(() => {
-        this.KeepAlive();
-      }, mins * minSecs);
-    }
-  }
+//     if (!runOnce) {
+//       const minSecs = 60 * 1000;
+//       const mins = 5;
+//       setTimeout(() => {
+//         this.KeepAlive();
+//       }, mins * minSecs);
+//     }
+//   }
 
-  SecondsUpdate() {
-    setTimeout(() => {
-      this.ds.SetCurrentServerTime();
-      this.SecondsUpdate();
-    }, 1000);
-  }
+  // SecondsUpdate() {
+  //   setTimeout(() => {
+  //     this.ds.SetCurrentServerTime();
+  //     this.SecondsUpdate();
+  //   }, 1000);
+  // }
 }

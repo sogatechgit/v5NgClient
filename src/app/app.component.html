@@ -1,5 +1,7 @@
 <!-- <app-main-frameset></app-main-frameset> -->
-<app-stats-details configFile="deviation.stats.json"></app-stats-details>
+<div id="stat_wrapper" [style.width]="statWidth">
+    <app-stats-details configFile="deviation.stats.json"></app-stats-details>
+</div>
 
 <!-- WARNING: rendering stats on this template will cause charts component on staus page to erratically behave -->
 <!-- <app-stats-details configFile="deviation.stats.json"></app-stats-details> -->

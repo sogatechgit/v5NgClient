@@ -69,7 +69,7 @@
 				"source": "devmain",
 				"value": "RAISEDYEAR",
 				"minmax": true,
-				"step": 1
+				"step": 4
 			},
 			"data": []
 		},
@@ -101,6 +101,13 @@
 			"name": "perf",
 			"label": "Performance",
 			"nopad": true,
+			"reportTitle": "Deviation Performance",
+			"style": {
+				"grid-template-columns": "1fr 1fr",
+				"grid-template-rows": "auto 1fr auto 1fr",
+				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
+				"gap": "3px"
+			},
 			"headers": [
 				{
 					"name": "hdr_charts",
@@ -150,8 +157,7 @@
 							"name": "year",
 							"field": "RAISEDYEAR"
 						}
-					],
-					"bg": "yellow"
+					]
 				}
 			],
 			"charts": [
@@ -177,7 +183,12 @@
 					"seriesTitles": [],
 					"seriesData": [],
 					"type": "pie",
-					"wrapStyle": {},
+					"wrapStyle": {
+						"display": "grid",
+						"grid-template": "1fr / 1fr",
+						"place-items": "center",
+						"background-color": "beige"
+					},
 					"bg": "magenta"
 				},
 				{
@@ -203,13 +214,7 @@
 						}
 					]
 				}
-			],
-			"style": {
-				"grid-template-columns": "1fr 1fr",
-				"grid-template-rows": "auto 250px auto 1fr",
-				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
-				"gap": "3px"
-			}
+			]
 		},
 		{
 			"name": "topProg",
@@ -267,7 +272,7 @@
 			"charts": [
 				{
 					"name": "prog_bar",
-					"type": "bar",
+					"type": "line",
 					"dataType": "MDMV",
 					"title": "Deviation Progress ${biyear}",
 					"dataRefObjectName": "",
@@ -277,7 +282,12 @@
 					"yAxisTitle": "Total",
 					"xAxisTitle": "Raised Year",
 					"legendPosition": "right",
-					"wrapStyle": {},
+					"wrapStyle": {
+						"background-color": "auto",
+						"border": "1px solid red",
+						"display": "grid",
+						"grid-template": "1fr / 1fr"
+					},
 					"filters": [
 						{
 							"name": "biyear",
@@ -331,7 +341,7 @@
 			],
 			"style": {
 				"grid-template-columns": "1fr 1fr",
-				"grid-template-rows": "auto 150px 150px auto 1fr",
+				"grid-template-rows": "auto 1fr 1fr auto 2fr",
 				"grid-template-areas": "\"hdr_prog_charts hdr_prog_charts\" \"prog_bar prog_pie1\" \"prog_bar prog_pie2\" \"hdr_prog_list hdr_prog_list\" \"dev_prog_list dev_prog_list\""
 			}
 		},

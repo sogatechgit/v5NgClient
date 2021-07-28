@@ -153,6 +153,48 @@ export class DatasetBase extends AppCommonMethods {
     return this.apiUrl.substr(0, this.apiUrl.indexOf('/api') + 4);
   }
 
+  KeepAlive(onSuccess?: Function, runOnce?: boolean) {
+    // console.log("KeepAlive: ",new Date())
+    this.Get(
+      [
+        {
+          code: 'chgTrack',
+          key: '0',
+          keyField: 'TRK_ID',
+          forceRequest: true,
+        },
+      ],
+      {
+        onSuccess: (data) => {
+          //console.log('\nSuccess on keeping alive! ', this.ds.csInfo, data);
+          if (onSuccess) onSuccess(data);
+        },
+        onError: (err) => {
+          console.log(
+            '\nError on keeping alive! ' + this.dateStampString,
+            err
+          );
+        },
+      }
+    );
+
+    // set interval of 10 mins to keep api component running
+    if (!runOnce) {
+      const minSecs = 60 * 1000;
+      const mins = 5;
+      setTimeout(() => {
+        this.KeepAlive();
+      }, mins * minSecs);
+    }
+  }
+
+  SecondsUpdate() {
+    setTimeout(() => {
+      this.SetCurrentServerTime();
+      this.SecondsUpdate();
+    }, 1000);
+  }
+
   public toPostData(table: any): any {
     let ret: Array<any> = [];
 

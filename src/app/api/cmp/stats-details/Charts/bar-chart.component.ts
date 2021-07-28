@@ -12,6 +12,7 @@ import { BaseChartDirective, Label } from 'ng2-charts';
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
   @Input() name: string;
+  @Input() maxYStep: number = 8;
 
   private _data: any = {};
   @Input() set data(value: any) {
@@ -22,69 +23,103 @@ export class BarChartComponent implements OnInit, AfterViewInit {
      * barChartLegend
      * 
      */
-    console.log("DATA VAlue: ", value)
+    console.log("Bar chart data: ",value)
+
 
     for (const key in value) {
       this._data[key] = value[key];
     }
 
-    const { barChartTitle,
-      barChartLabels, 
-      barChartData, 
-      barChartLegend, 
-      verticalGrid, 
-      yAxisTitle, 
-      xAxisTitle, 
+    const opts: ChartOptions = this.chartObject.options;
+
+    const { chartTitle,
+      chartLabels,
+      chartData,
+      chartLegend,
+      verticalGrid,
+      yAxisTitle,
+      xAxisTitle,
       legendPosition } = this.data;
 
-    if (barChartData.length == 1) {
+    if (chartData.length == 1) {
       // no legend
       // single dataset
       // multiple value dataset
       // barChartLabels taken from 
-      this.data.barChartLegend = false;
+      this.data.chartLegend = false;
     } else {
-      this.data.barChartLegend = true;
+      this.data.chartLegend = true;
     }
 
-    this.chartObject.options.title.text = barChartTitle;
-    this.chartObject.options.title.fontSize = 12;
+    opts.title.display = chartTitle ? true : false;
+    opts.title.text = chartTitle;
+    opts.title.fontSize = 12;
 
-    this.chartObject.options.legend.labels.fontSize = 10;
+    opts.legend.labels.fontSize = 10;
 
-    this.chartObject.options.legend.display = this.data.barChartLegend;
-    this.chartObject.data.datasets = barChartData;
+    opts.legend.display = this.data.chartLegend;
+    this.chartObject.data.datasets = chartData;
 
-    const withXLabels = (barChartLabels && barChartLabels.length);
+    this._maxData = 0;
+    chartData.forEach(dset => {
+      dset.data.forEach(dat => {
+        if (dat > this._maxData) this._maxData = dat;
+      })
+    })
 
-    this.chartObject.data.labels = withXLabels ? barChartLabels : [];
-    this.chartObject.options.scales.xAxes[0].ticks.display = withXLabels;
+    const withXLabels = (chartLabels && chartLabels.length);
 
-    if (legendPosition) this.chartObject.options.legend.position = legendPosition;
+    this.chartObject.data.labels = withXLabels ? chartLabels : [];
 
-    //this.chartObject.options.scales[1].title = 'hello title'
-    // console.log("this.chartObject.options: ", this.chartObject.options);
+    const { scales, legend } = opts;
+    opts.scales.xAxes[0].ticks.display = withXLabels;
 
-    this.chartObject.options.scales.xAxes[0].gridLines.display = verticalGrid ? true : false;
+    if (legendPosition) opts.legend.position = legendPosition;
+
+    scales.xAxes[0].gridLines.display = verticalGrid ? true : false;
 
     if (yAxisTitle) {
-      this.chartObject.options.scales.yAxes[0].scaleLabel.display = true;
-      this.chartObject.options.scales.yAxes[0].scaleLabel.labelString = yAxisTitle
-      this.chartObject.options.scales.yAxes[0].scaleLabel.fontSize = 10;
+      scales.yAxes[0].scaleLabel.display = true;
+      scales.yAxes[0].scaleLabel.labelString = yAxisTitle
+      scales.yAxes[0].scaleLabel.fontSize = 10;
     } else {
-      this.chartObject.options.scales.yAxes[0].scaleLabel.display = false;
+      opts.scales.yAxes[0].scaleLabel.display = false;
     }
     if (xAxisTitle) {
-      this.chartObject.options.scales.xAxes[0].scaleLabel.display = true;
-      this.chartObject.options.scales.xAxes[0].scaleLabel.labelString = xAxisTitle
-      this.chartObject.options.scales.xAxes[0].scaleLabel.fontSize = 10;
+      scales.xAxes[0].scaleLabel.display = true;
+      scales.xAxes[0].scaleLabel.labelString = xAxisTitle
+      scales.xAxes[0].scaleLabel.fontSize = 10;
     } else {
-      this.chartObject.options.scales.xAxes[0].scaleLabel.display = false;
+      scales.xAxes[0].scaleLabel.display = false;
+    }
+
+
+    legend.labels.usePointStyle = true;
+
+    //console.log("maxData: ", this.maxData)
+    // change y axis step
+    const steps = this.maxYStep;
+    const maxData = this.maxData;
+    const yA = scales.yAxes[0];
+
+    const rem = maxData % steps;
+    const intVal = (maxData - rem) / steps;
+
+    if (intVal) {
+      yA.ticks.stepSize = intVal + ((rem / steps) < 0.5 ? 0 : 1);
+    } else {
+      yA.ticks.stepSize = 1;
     }
 
 
     this.update();
   }
+
+  private _maxData: number = 0;
+  get maxData(): number {
+    return this._maxData;
+  }
+
   get data() {
     return this._data;
   }
@@ -163,8 +198,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             beginAtZero: true,
             // min: 0,
             // max: 6,
-            fontSize: 10,
-            stepSize: 1,
+            fontSize: 9,
+            stepSize: 2,
           },
           gridLines: {
             offsetGridLines: false,
@@ -175,7 +210,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         { 
           gridLines: { display: false },
           ticks:{
-            fontSize: 10,
+            fontSize: 9,
             padding:0
           }
 
@@ -187,11 +222,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         anchor: 'center',
         align: 'center',
         color:'white',
-        padding:function(context){
-          const index = context.dataIndex;
-          const value = context.dataset.data[index];
-          return value ? 1 : 3;
-        },
+        // padding:function(context){
+        //   const index = context.dataIndex;
+        //   const value = context.dataset.data[index];
+        //   return value ? 1 : 3;
+        // },
         textShadowBlur:15,
         textShadowColor:'black',
         backgroundColor: function (context) {
@@ -222,16 +257,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.handleResize(null);
-
-    // this.chart.chart.data = {
-    //   labels:['Raised','Closed'],
-    //   datasets:[{
-    //     label:
-    //   }]
-
-    // }
-    //this.chart.chart.data.datasets[1].label = 'HELLO'
+    setTimeout(()=>this.handleResize(null));
   }
 
   get chartObject(): Chart {

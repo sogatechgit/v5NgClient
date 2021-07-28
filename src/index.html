@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
@@ -9,8 +10,27 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+
+
+  <!-- you cannot set this in javascript, you have to do this with html/css -->
+  <style type="text/css" media="print">
+    @page {
+      background-color: lime;
+      size: landscape;
+      size: A4;
+      margin: 0px 0px 0px 0px;
+    }
+
+    body {
+      /* transform: rotate(90deg); */
+      width: 1240px;
+    }
+  </style>
+
 </head>
+
 <body class="mat-typography" style="overflow:hidden;">
   <app-root></app-root>
 </body>
+
 </html>
