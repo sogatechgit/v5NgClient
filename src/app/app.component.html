@@ -1,7 +1,13 @@
 <!-- <app-main-frameset></app-main-frameset> -->
-<div id="stat_wrapper" [style.width]="statWidth">
+<!-- <div #statWrapper id="stat_wrapper" [style.width]="statWidth">
     <app-stats-details configFile="deviation.stats.json"></app-stats-details>
-</div>
+</div> -->
+
+<app-stats-details [printerFriendly]="false" configFile="deviation.stats.json"></app-stats-details>
+<!-- <app-stats-details configFile="deviation.stats.json"></app-stats-details> -->
+
+
+<!-- <app-stats-details configFile="deviation.stats.json"></app-stats-details> -->
 
 <!-- WARNING: rendering stats on this template will cause charts component on staus page to erratically behave -->
 <!-- <app-stats-details configFile="deviation.stats.json"></app-stats-details> -->

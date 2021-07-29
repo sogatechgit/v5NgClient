@@ -1,6 +1,9 @@
 :host {
+    color-adjust: exact;
     background-color: lime;
+    // border: 1px solid red;
     width: 100%;
+
 }
 
 $line_color: #c0c0c0;
@@ -18,6 +21,19 @@ $line_color: #c0c0c0;
 //         place-items: center;
 //     }
 // }
+
+#wrapper_print{
+    display: grid;
+    gap: 8px;
+    
+    div.header{
+        display: flex;
+        @media print {
+            display: none;
+        }
+    }
+}
+
 #wrapper {
     display: grid;
 
@@ -71,14 +87,16 @@ $line_color: #c0c0c0;
         }
     }
 }
-
+.tab_details_border{
+    border: 1px solid olive;
+}
 .tab_details {
     display: grid;
 
     height: 100%;
     width: 100%;
-    background-color: white;
-    // border: 1px solid red;
+    // background-color: red;
+    border: 1px solid red;
 
     padding: 8px;
 
@@ -87,7 +105,7 @@ $line_color: #c0c0c0;
         display: grid;
         grid-template: 1fr / 1fr;
         place-items: center;
-        // border:2px dashed orange;
+        border:2px dashed orange;
         // border: 1px solid #c0c0c0;
 
         box-sizing: border-box;
@@ -102,7 +120,7 @@ $line_color: #c0c0c0;
             grid-column: 1 / span 1;
         }
     }
-    > div.header {
+    > div.header{
         // padding-left: 4px;
         // padding-right: 4px;
         // border: 1px solid olive;
@@ -110,11 +128,6 @@ $line_color: #c0c0c0;
         flex-direction: row;
         justify-content: flex-end;
         // background-color: red;
-
-        @media print {
-            display: none;
-        }
-
 
         > div.filter {
             // background-color: yellow;

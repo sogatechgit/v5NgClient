@@ -1,11 +1,8 @@
 :host{
-    border:1px dashed blue;
+    // border:1px dashed blue;
     overflow: hidden;
     display: grid;
+    justify-items: center;
+    align-items: center;
 }
 
-canvas{
-    // background-color: yellow;
-    // width:100% !important;
-    //height:100% !important;
-}

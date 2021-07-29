@@ -1,12 +1,6 @@
-<!-- <div style="display: block;border:2px solid lime;height:100%;width:100%;overflow: hidden;">
-
-</div> -->
-<canvas style="width:100%;height:100%;display: block;" #canvas baseChart
-[datasets]="lineChartData"
-[labels]="lineChartLabels"
-[options]="lineChartOptions"
-[colors]="lineChartColors"
-[legend]="lineChartLegend"
-[chartType]="lineChartType"
-[plugins]="lineChartPlugins">
-</canvas>
+<div #canvasContainer style="display: block;overflow: hidden;">
+  <canvas #canvas baseChart [datasets]="lineChartData"
+    [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+    [chartType]="lineChartType" [plugins]="lineChartPlugins">
+  </canvas>
+</div>

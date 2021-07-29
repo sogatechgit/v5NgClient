@@ -27,10 +27,6 @@ $blur_filter:none;
 
     filter: $blur_filter;
 
-    @media print {
-      display: none;
-    }
-
     #nav-logo {
       // background:yellow;
       padding: 0px 10px;
@@ -169,18 +165,14 @@ $blur_filter:none;
       max-width: $wd;
     }
     #sep_tree_body{
-      @media print {
-        display: none;
-      }
+
     }
     #sidenav {
       background: white;
       overflow: hidden;
       filter: $blur_filter;
 
-      @media print {
-        display: none;
-      }
+
     }
     #details {
       // background-color: lime;
@@ -215,9 +207,6 @@ $blur_filter:none;
     background: $separator_color;
     display: flex;
 
-    @media print {
-      display: none;
-    }
 
     filter: $blur_filter;
 

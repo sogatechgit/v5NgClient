@@ -257,7 +257,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(()=>this.handleResize(null));
+    setTimeout(()=>this.handleResize(null),10);
   }
 
   get chartObject(): Chart {

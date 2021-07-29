@@ -108,6 +108,23 @@
 				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
 				"gap": "3px"
 			},
+			"stylePrint": {
+				"border":"3px dashed blue",
+				"background-color":"auto",
+				"grid-template-columns": "1fr 1fr",
+				"grid-template-rows": "auto 1fr auto auto",
+				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
+				"gap": "3px"
+			},
+			"stylePrintX": {
+				"width": "1200px",
+				"height": "100%",
+				"grid-template-columns": "1fr 1fr",
+				"grid-template-rows": "1fr",
+				"grid-template-areas": " \"perf_bar perf_pie\"",
+				"justify-items": "center",
+				"gap": "3px"
+			},
 			"headers": [
 				{
 					"name": "hdr_charts",
@@ -220,6 +237,28 @@
 			"name": "topProg",
 			"label": "Top Progress",
 			"nopad": true,
+			"style": {
+				"width": "100%",
+				"grid-template-columns": "1fr 1fr",
+				"grid-template-rows": "auto 1fr 1fr auto 2fr",
+				"grid-template-areas": "\"hdr_prog_charts hdr_prog_charts\" \"prog_bar prog_pie1\" \"prog_bar prog_pie2\" \"hdr_prog_list hdr_prog_list\" \"dev_prog_list dev_prog_list\"",
+				"gap": "3px"
+			},
+			"stylePrint": {
+				"border":"3px dashed red",
+				"grid-template-columns": "1fr 1fr",
+				"grid-template-rows": "auto 1fr 1fr auto auto",
+				"grid-template-areas": "\"hdr_prog_charts hdr_prog_charts\" \"prog_bar prog_pie1\" \"prog_bar prog_pie2\" \"hdr_prog_list hdr_prog_list\" \"dev_prog_list dev_prog_list\"",
+				"gap": "3px"
+			},
+			"stylePrintX": {
+				"width": "1200px",
+				"place-items": "center",
+				"grid-template-columns": "1fr",
+				"grid-template-rows": "200px 200px 200px",
+				"grid-template-areas": "\"hdr_prog_charts\" \"prog_pie1\" \"prog_pie2\"",
+				"gap": "8px"
+			},
 			"headers": [
 				{
 					"name": "hdr_prog_charts",
@@ -282,12 +321,7 @@
 					"yAxisTitle": "Total",
 					"xAxisTitle": "Raised Year",
 					"legendPosition": "right",
-					"wrapStyle": {
-						"background-color": "auto",
-						"border": "1px solid red",
-						"display": "grid",
-						"grid-template": "1fr / 1fr"
-					},
+					"wrapStyle": {},
 					"filters": [
 						{
 							"name": "biyear",
@@ -338,12 +372,7 @@
 						}
 					]
 				}
-			],
-			"style": {
-				"grid-template-columns": "1fr 1fr",
-				"grid-template-rows": "auto 1fr 1fr auto 2fr",
-				"grid-template-areas": "\"hdr_prog_charts hdr_prog_charts\" \"prog_bar prog_pie1\" \"prog_bar prog_pie2\" \"hdr_prog_list hdr_prog_list\" \"dev_prog_list dev_prog_list\""
-			}
+			]
 		},
 		{
 			"name": "devStatus",

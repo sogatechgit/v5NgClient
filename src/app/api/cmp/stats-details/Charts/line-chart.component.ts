@@ -15,11 +15,47 @@ export class LineChartComponent implements OnInit, AfterViewInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   @ViewChild('canvas') canvas: ElementRef;
-
+  @ViewChild('canvasContainer') canvasContainer: ElementRef;
 
   private _oldWidth: number;
   @HostListener('window:resize', ['$event']) handleResize(event: any) {
     // return;
+
+    if (!this.canvasContainer) {
+      console.log("canvasContainer not found!")
+      return;
+    }
+    const contParent = this.canvasContainer.nativeElement.parentElement;
+
+    const contParentRect = contParent.getBoundingClientRect();
+    const { width, height } = contParentRect;  // get parent container width and height
+
+    const contRect = this.canvasContainer.nativeElement.getBoundingClientRect();
+
+    const canvasRect = this.canvas.nativeElement.getBoundingClientRect();
+    const aspect = canvasRect.width / canvasRect.height;
+
+    let newHeight = width / aspect;
+
+    const newWidth = newHeight > height ? height * aspect : width;
+    if (newHeight > height) newHeight = height;
+
+    this.canvasContainer.nativeElement.style.width = newWidth + 'px';
+    this.canvasContainer.nativeElement.style.height = newHeight + 'px';
+
+    //console.log(`width:${width}, height:${height}, aspect:${aspect}, newHeight:${newHeight}`);
+
+
+
+    // const overflow = contRect.height < canvasRect.height;
+
+
+    // if(overflow){
+    //   const absWidth = aspect * contRect.height
+    //   console.log(canvasRect.height, contRect.height,contRect.height < canvasRect.height, aspect);
+    // }
+
+    return;
     // simply adding this event declaration, triggers recalculation of column widths
     // when the browser window is resized!
     // a method can also be called within this event handler...
@@ -213,6 +249,7 @@ export class LineChartComponent implements OnInit, AfterViewInit {
   public lineChartLabels: Label[] = ['2021', '2020', '2019'];
   public lineChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       yAxes: [{
         display: true,
@@ -256,7 +293,8 @@ export class LineChartComponent implements OnInit, AfterViewInit {
         textShadowBlur: 25,
         textShadowColor: 'white',
         textStrokeWidth: 0.25,
-        textStrokeColor: 'gray'
+        textStrokeColor: 'gray',
+        backgroundColor:'white'
         // ,
         // backgroundColor: function (context) {
         //   const index = context.dataIndex;
@@ -293,7 +331,11 @@ export class LineChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.handleResize(null);
+    //setTimeout(()=>{this.handleResize(null)},2000)
+    setTimeout(()=>{
+      this.handleResize(null);
+      // this.update();
+    },10)
   }
 
   get chartObject(): Chart {

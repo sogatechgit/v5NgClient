@@ -31,6 +31,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   @HostListener('window:resize', ['$event']) handleResize(event: any) {
+    return;
     // simply adding this event declaration, triggers recalculation of column widths
     // when the browser window is resized!
     // a method can also be called within this event handler...
@@ -182,7 +183,9 @@ export class PieChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.handleResize(null);
+    setTimeout(()=>{
+      this.handleResize(null);
+    },10)
   }
 
   get chartObject(): Chart {

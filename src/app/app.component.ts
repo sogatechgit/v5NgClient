@@ -1,7 +1,8 @@
 import { FormGroup } from '@angular/forms';
 import { AppMainServiceService } from './svc/app-main-service.service';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { AppDataset } from './svc/app-dataset.service';
+import { StatsDetailsComponent } from './api/cmp/stats-details/stats-details.component';
 
 @Component({
   selector: 'app-root',
@@ -24,23 +25,32 @@ export class AppComponent {
 
   }
 
+  @ViewChild(StatsDetailsComponent) stats:StatsDetailsComponent;
+
+  @HostListener('window:resize')
+  onResize(event){
+
+  }
+
   public printMode:boolean = false;
   @HostListener('window:beforeprint')
   onbeforeprint() {
     this.printMode = true;
-    console.log("statWidth: ", this.statWidth,this.printMode)
+    // console.log("statWidth: ", this.statWidth,this.printMode)
   }
 
   @HostListener('window:afterprint')
   onafterprint() {
     this.printMode = false;
-
-    console.log("statWidth: ", this.statWidth,this.printMode)
+    // if(this.stats) this.stats.Refresh();
+    // console.log("statWidth: ", this.statWidth,this.printMode)
   }
 
 
 
   get statWidth():string{
+    // return  '1200px'
+    // return '100%';
     return this.printMode ? '1200px' :  '100%';
   }
 

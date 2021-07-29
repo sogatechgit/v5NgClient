@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewChildren, QueryList, AfterViewInit, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppMainServiceService } from './../../../svc/app-main-service.service';
 import { AppDataset } from 'src/app/svc/app-dataset.service';
@@ -32,12 +32,15 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   @ViewChildren(PieChartComponent) pieCharts: QueryList<PieChartComponent>;
   @ViewChildren(BarChartComponent) barCharts: QueryList<BarChartComponent>;
   @ViewChildren(LineChartComponent) lineCharts: QueryList<LineChartComponent>;
-  @ViewChildren(DataGridBComponent) tables: QueryList<DataGridBComponent>;
+  @ViewChildren(DataGridBComponent) dataGrids: QueryList<DataGridBComponent>;
+
   @ViewChild('t') tabs: DataTabsComponent;
 
 
 
   @Input() configFile: string;
+
+  @Input() printerFriendly:boolean = false;
 
   public formGroup: FormGroup = new FormGroup({});
   public filtersReady: boolean = false;
@@ -55,6 +58,24 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     if (!this.dataSource) return null;
     return this.dataSource.ActiveSource.appDataset;
   }
+
+  public printMode: boolean = false;
+  @HostListener('window:beforeprint')
+  onbeforeprint() {
+    this.printMode = true;
+setTimeout(()=>{})
+    for (let x = 0; x < 10000000; x++) { }
+    //console.log("statWidth: ", this.statWidth,this.printMode)
+  }
+
+  @HostListener('window:afterprint')
+  onafterprint() {
+    this.printMode = false;
+    setTimeout(() => { this.Refresh(); }, 1000);
+    //if(this.stats) this.stats.Refresh();
+    //console.log("statWidth: ", this.statWidth,this.printMode)
+  }
+
 
   ngOnInit(): void {
     if (!this.ds) return;
@@ -271,7 +292,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
       // iterate through all the tables in the tab
       const tableName = tbl.name;
-      const tableObject = this.tables.find(tbl => tbl.name == tabPrefix + tableName)
+      const tableObject = this.dataGrids.find(tbl => tbl.name == tabPrefix + tableName)
 
       if (tableObject) {
 
@@ -621,7 +642,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
         verticalGrid = true;
 
-        if (chObj )
+        if (chObj)
           chObj.data = {
             chartTitle: ch.visibleTitle,
             legendPosition: ch.legendPosition,
@@ -877,6 +898,16 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
       }
     })
+  }
+
+  Refresh() {
+
+    if (this.dataGrids) this.dataGrids.forEach(grid => grid.RefreshClick(null))
+
+    if (this.pieCharts) this.pieCharts.forEach(ch => ch.handleResize(null));
+    if (this.barCharts) this.barCharts.forEach(ch => ch.handleResize(null));
+    if (this.lineCharts) this.lineCharts.forEach(ch => ch.handleResize(null));
+
   }
 
 }

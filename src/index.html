@@ -13,17 +13,23 @@
 
 
   <!-- you cannot set this in javascript, you have to do this with html/css -->
-  <style type="text/css" media="print">
+  <style type="text/css" media="screen">
     @page {
+      color-adjust: exact;
       background-color: lime;
-      size: landscape;
-      size: A4;
+      size: A4 landscape;
       margin: 0px 0px 0px 0px;
     }
 
     body {
+
       /* transform: rotate(90deg); */
-      width: 1240px;
+      /* width: 1240px; */
+      color-adjust: exact;
+      background-color: brown;
+      padding:2px;
+      color: white;
+      /* display: none; */
     }
   </style>
 
