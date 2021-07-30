@@ -92,13 +92,9 @@ $line_color: #c0c0c0;
 }
 .tab_details {
     display: grid;
-
-    height: 100%;
     width: 100%;
-    grid-template:1fr / 1fr;
-    // background-color: red;
-    border: 1px dashed red;
 
+    // border: 1px dashed red;
     padding: 8px;
 
     > div {
@@ -106,7 +102,7 @@ $line_color: #c0c0c0;
         display: grid;
         grid-template: 1fr / 1fr;
         place-items: center;
-        border:2px dashed orange;
+        // border:2px dashed orange;
         // border: 1px solid #c0c0c0;
 
         box-sizing: border-box;
