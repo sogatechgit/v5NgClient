@@ -2,6 +2,10 @@
 [style.grid-template-columns]="'1fr repeat(2, 250px)'"
 
   -->
+
+<app-progress-mask #mask *ngIf="isLoadingRecords" [message]="maskMessage" maskOpacity="0.2" maskColor="white" ></app-progress-mask>
+
+
 <div id="wrapper_print" *ngIf="printerFriendly && configJSON" [formGroup]="formGroup">
     <ng-container *ngFor="let tab of configJSON.tabs;let idx=index;">
         <div *ngIf="tab.charts && tab.charts.length" [ngStyle]="tab.stylePrint ? tab.stylePrint : tab.style"
@@ -52,7 +56,7 @@
 </div>
 
 <!-- <p *ngIf="!filtersReady">Not Ready!</p> -->
-<div id="wrapper" *ngIf="!printerFriendly" [formGroup]="formGroup"
+<div id="wrapper" *ngIf="!printerFriendly && configJSON" [formGroup]="formGroup"
     [style.grid-template-rows]="configJSON.headerHeight + ' 1fr'">
     <!-- <div id="wrapper_no_data" *ngIf="!configJSON"> -->
     <!-- <span>Configuration object not available!</span> -->
@@ -130,6 +134,8 @@
     </div>
 
 </div>
+
+
 <div id="wrapperX" *ngIf="configJSON && false">
     <div id="tab_wrapper" [ngStyle]="activeTabDef.style">
         <div *ngFor="let tbl of activeTabDef.tables" [style.grid-area]="tbl.name" [style.background-color]="tbl.bg">

@@ -266,7 +266,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   update() {
     // this.chartObject.options.legend.labels.usePointStyle = false;
-    console.log("CAhrt Update: ", this.data, this.chartObject);
     this.chartObject.update();
   }
 }

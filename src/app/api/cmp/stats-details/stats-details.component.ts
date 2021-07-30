@@ -36,11 +36,20 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
   @ViewChild('t') tabs: DataTabsComponent;
 
+  public isLoadingRecords: boolean = false;
+  public maskMessage: string = "Updating. Please wait..."
 
+  private _name: string = "";
+  @Input() set name(value: string) {
+    this._name = `status_details_${value}`;
+  }
+  get name(): string {
+    return this._name ? this._name : "status_details"
+  }
 
   @Input() configFile: string;
 
-  @Input() printerFriendly:boolean = false;
+  @Input() printerFriendly: boolean = false;
 
   public formGroup: FormGroup = new FormGroup({});
   public filtersReady: boolean = false;
@@ -63,7 +72,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   @HostListener('window:beforeprint')
   onbeforeprint() {
     this.printMode = true;
-setTimeout(()=>{})
+    setTimeout(() => { })
     for (let x = 0; x < 10000000; x++) { }
     //console.log("statWidth: ", this.statWidth,this.printMode)
   }
@@ -150,6 +159,11 @@ setTimeout(()=>{})
 
     if (!this.configFile) return;
 
+    if (!this.printerFriendly) {
+      // reset all localStorage related to statsDetails component
+      this.localSettings = null;
+    }
+
     return new Promise<void>((resolve, reject) => {
       ////do your initialisation stuff here
       const subs = this.http.get(path).subscribe(
@@ -172,23 +186,23 @@ setTimeout(()=>{})
           subs.unsubscribe();
 
 
-          // get Actual Data....
-          const params: Array<RequestParams> = [{
-            code: '',
-            filter: ``,
-            includedFields: '',
-            sortFields: '',
-            snapshot: true
-          }]
+          // // get Actual Data....
+          // const params: Array<RequestParams> = [{
+          //   code: '',
+          //   filter: ``,
+          //   includedFields: '',
+          //   sortFields: '',
+          //   snapshot: true
+          // }]
 
 
-          const sdata = this.ds.Get(params, {
-            onSuccess: (data) => {
-            },
-            onError: (err) => {
+          // const sdata = this.ds.Get(params, {
+          //   onSuccess: (data) => {
+          //   },
+          //   onError: (err) => {
 
-            }
-          })
+          //   }
+          // })
 
 
         },
@@ -202,6 +216,10 @@ setTimeout(()=>{})
     }).catch((err) => {
       console.log('\nERROR RESULT err', err);
     });
+  }
+
+  SetLocalStorage(itemName: string, value: any) {
+
   }
 
   @Input() RowHeaderHeight: number;
@@ -274,14 +292,55 @@ setTimeout(()=>{})
     return tab.tag;
   }
 
+  get localSettings(): any {
+    if (!localStorage[this.name]) localStorage[this.name] = "{}";
+    return JSON.parse(localStorage[this.name]);
+  }
+
+  set localSettings(value: any) {
+    // accepts JSON object
+    if (value) {
+      const localSettings = this.localSettings;
+      for (let key in value) {
+        // console.log("@@@@@ KEY: ", key)
+        localSettings[key] = value[key];
+      }
+
+      // console.log("##### localSettings: ", this.name, " - ", localSettings);
+      localStorage[this.name] = JSON.stringify(localSettings);
+    } else {
+      localStorage[this.name] = "{}";
+    }
+  }
+
+  KeyValuePair(key: string, value: any, convertToString?: boolean): any {
+    if (convertToString == undefined) convertToString = true;
+    const newObj = {};
+    newObj[key] = convertToString ? String(value) : value;
+    return newObj;
+  }
+
   FilterSelect(event: any, item: any) {
 
+    if (this.printerFriendly) return;
     if (item.type != 'filter') return;
 
     const ctrlName = event.srcElement.id;
     const value = this.formGroup.get(ctrlName).value
     const tables = this.activeTab.tables;
     const tabPrefix = this.activeTab.name + '_';
+
+    const localSettings = this.localSettings;
+
+    console.log("localSettings: ", this.localSettings);
+    console.log(`Control name: ${ctrlName}, NewValue: ${value}, OldValue: ${localSettings[ctrlName]}`)
+
+    this.localSettings = this.KeyValuePair(ctrlName, value);
+
+    this.UpdateAllTabs();
+
+    return;
+
 
     // apply external filters to referencing table(s)
     tables.forEach(tbl => {
@@ -402,8 +461,38 @@ setTimeout(()=>{})
   UpdateActiveTab() {
     if (!this.activeTab) return;
 
-    const reqParams: Array<RequestParams> = [];
     const tabName = this.activeTab.name;
+
+    this.UpdateTab(tabName);
+
+  }
+
+  UpdateAllTabs() {
+    this.maskMessage = "Updating charts and tables. Please wait..."
+    this.isLoadingRecords = true;
+
+    setTimeout(() => {
+
+      // for(let idx=0;idx<this.configJSON.tabs.length;idx++){
+      //   const tab = this.configJSON.tabs[idx];
+      //   this.UpdateTab(tab.name);
+      // }
+
+      const chtb = this.configJSON.tabs.filter(tab => (tab.charts.length != 0 || tab.tables.length != 0));
+
+      let idx = 1;
+      chtb.forEach(tab => {
+        this.UpdateTab(tab.name, (idx == chtb.length));
+        idx++;
+      });
+    }, 10)
+  }
+
+
+  UpdateTab(tabName: string, isLastTab?: boolean) {
+    if(isLastTab == undefined) isLastTab = true;
+
+    const reqParams: Array<RequestParams> = [];
     const paramConfigData: any = {}
 
     this.CollectPieParams(tabName, reqParams, paramConfigData);
@@ -418,23 +507,35 @@ setTimeout(()=>{})
         configData: paramConfigData,
         onSuccess: data => {
 
-          console.log("CHART DATA: ", data)
+          this.UpdatePieCharts(tabName, data, paramConfigData);
+          this.UpdateCharts(tabName, data, paramConfigData, 'bar');
+          this.UpdateCharts(tabName, data, paramConfigData, 'line');
 
-          this.UpdatePieCharts(data, paramConfigData);
-          this.UpdateCharts(data, paramConfigData, 'bar');
-          this.UpdateCharts(data, paramConfigData, 'line');
+          if (isLastTab) this.isLoadingRecords = false;
 
         }
       })
-    }  // if reqParams has elements ...
+    }
 
+    this.UpdateTables(tabName);
+
+  }
+
+  UpdateTables(tabName) {
+    if (this.dataGrids) {
+      this.dataGrids.forEach(grd => console.log("UpdateTables, DataGrid:", grd.name))
+    } else {
+      console.log("No data grids defined");
+    }
   }
 
 
 
   CollectChartParams(tabName: string, params: Array<RequestParams>, paramConfigData: any, chartType?: string) {
     if (!chartType) chartType = 'bar';
-    const charts = this.activeTab.charts.filter(ch => ch.type == chartType);
+
+    const tab = this.configJSON.tabs.find(tab => tab.name == tabName);
+    const charts = tab.charts.filter(ch => ch.type == chartType);
     charts.forEach(ch => {
 
       // loop through all bar chart definitions to build collection of
@@ -521,7 +622,9 @@ setTimeout(()=>{})
   }
 
   CollectPieParams(tabName: string, params: Array<RequestParams>, paramConfigData: any) {
-    const charts = this.activeTab.charts.filter(ch => ch.type == 'pie');
+    const tab = this.configJSON.tabs.find(tab => tab.name == tabName);
+
+    const charts = tab.charts.filter(ch => ch.type == 'pie');
 
     charts.forEach(ch => {
 
@@ -593,13 +696,14 @@ setTimeout(()=>{})
 
   }
 
-  UpdateCharts(source: any, paramConfigData: any, chartType?: string) {
+  UpdateCharts(tabName: string, source: any, paramConfigData: any, chartType?: string) {
     if (!chartType) chartType = 'bar';
 
 
     const noBackground = (chartType == 'line');
 
-    const charts = this.activeTab.charts.filter(ch => ch.type == chartType);
+    const tab = this.configJSON.tabs.find(tab => tab.name == tabName);
+    const charts = tab.charts.filter(ch => ch.type == chartType);
     charts.forEach(
       ch => {
 
@@ -661,8 +765,10 @@ setTimeout(()=>{})
 
   }
 
-  UpdatePieCharts(souece: any, paramConfigData: any) {
-    const charts = this.activeTab.charts.filter(ch => ch.type == 'pie');
+  UpdatePieCharts(tabName: string, souece: any, paramConfigData: any) {
+
+    const tab = this.configJSON.tabs.find(tab => tab.name == tabName);
+    const charts = tab.charts.filter(ch => ch.type == 'pie');
     charts.forEach(ch => {
 
       const { dataRefObjectName, active, name } = ch;
@@ -705,11 +811,13 @@ setTimeout(()=>{})
         })
       }
 
-      chObj.title = ch.visibleTitle;
-      chObj.data = {
-        values: seriesValues,
-        titles: seriesTitles,
-        backgroundColor: backColors
+      if (chObj) {
+        chObj.title = ch.visibleTitle;
+        chObj.data = {
+          values: seriesValues,
+          titles: seriesTitles,
+          backgroundColor: backColors
+        }
       }
 
     })
@@ -816,8 +924,6 @@ setTimeout(()=>{})
 
     // process charts data
 
-
-
     this.ds.Get(reqParams, {
       onSuccess: (data) => {
 
@@ -892,7 +998,9 @@ setTimeout(()=>{})
         } // processedFilters loop
 
 
-        this.UpdateActiveTab();
+        //this.UpdateActiveTab();
+
+        this.UpdateAllTabs();
 
         this.filtersReady = true
 
