@@ -41,7 +41,6 @@ import { Data } from '@angular/router';
 export class DataGridComponent implements OnInit, AfterViewInit, OnDestroy {
   private _HostListenerTimeout: any;
   @HostListener('window:resize', ['$event']) handleResize(event: any) {
-    return;
     // simply adding this event declaration, triggers recalculation of column widths
     // when the browser window is resized!
     // a method can also be called within this event handler...

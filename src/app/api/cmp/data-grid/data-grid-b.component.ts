@@ -66,7 +66,6 @@ export class DataGridBComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   //
   @Input() reportPageSize: number = 50;
-  @Input() flatTable:boolean = false;
 
   @Input() gridHeaderClassName: string;
 

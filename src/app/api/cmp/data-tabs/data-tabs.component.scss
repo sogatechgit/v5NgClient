@@ -1,10 +1,5 @@
 @import "../../../../appcssvars.scss";
 
-:host{
-  color-adjust: exact;
-  // background-color: khaki
-}
-
 .tab-wrapper {
   display: flex;
   flex-direction: column;
@@ -39,7 +34,6 @@
     overflow: hidden;
     border-bottom: none;
     // border: 1px solid red !important;
-
 
     li.alt-a:first-child{
       button{
@@ -171,8 +165,6 @@
     border-left: 1px solid $form_tab_pane_border_color;
     border-bottom: 1px solid $form_tab_pane_border_color;
     display: flex;
-
-  
 
     // border:2px solid blue;
     //box-sizing: content-box;

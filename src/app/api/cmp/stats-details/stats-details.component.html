@@ -79,7 +79,7 @@
                     [ngStyle]="printMode ? (tab.stylePrint ? tab.stylePrint : tab.style) : tab.style"
                     *ngIf="t.a(idx) && (tab.tables.length!=0 || tab.charts.length!=0)">
                     <div *ngFor="let tbl of tab.tables" [style.grid-area]="tbl.name" 
-                    style="position: relative;height:200px;">
+                    style="position: relative;">
 
                         <app-data-grid-b [name]="tab.name + '_' + tbl.name" #grid [flatTable]="false"
                             style="top:0px;margin-top:-3px;padding:0px;border:none;" [RowHeight]="26"
