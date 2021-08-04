@@ -66,6 +66,7 @@ export class DataGridBComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   //
   @Input() reportPageSize: number = 50;
+  @Input() flatTable: boolean = false;
 
   @Input() gridHeaderClassName: string;
 
@@ -73,7 +74,7 @@ export class DataGridBComponent
   @Input() set extFilterExpression(value: string) {
     this._extFilterExpression = value;
     console.log("set extFilterExpression : ", value, ", this.ReqParam: ", this.ReqParam)
-    
+
   }
 
   get extFilterExpression(): string {
@@ -97,6 +98,9 @@ export class DataGridBComponent
   @Input() promptWidths: any = {};
 
   ngOnInit(): void {
+
+    if(this.flatTable) return;
+
     this._reqInfo.pageSize = this.DEFAULT_PAGE_SIZE;
 
     const treCfg: ITreeTableConfig = this.dataSet.TreeTableConfig;
@@ -196,7 +200,10 @@ export class DataGridBComponent
     if (!this.moduleExchangeInfo) {
       // list is used on its own and not embedden in a module
       if (this.autoQuery)
-        setTimeout(() => this.ExtractDataCall({ noMask: this.noMaskOnInit }));
+        setTimeout(() => {
+          this.ExtractDataCall({ noMask: this.noMaskOnInit })
+          console.log("###### ExtractDataCall !!!")
+        });
     }
   }
 
@@ -1949,6 +1956,7 @@ export class DataGridBComponent
   }
 
   resetColumnWidths() {
+    if(!this.grid) return;
     setTimeout(() => this.grid.resetColumnWidths(), 10);
   }
 

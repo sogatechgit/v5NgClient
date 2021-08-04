@@ -419,6 +419,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
     // if (!titleSubstitutions) return;
     // if (titleSubstitutions.length == 0) return;
 
+    if(!this.activeTab) return;
 
     const och = this.activeTab.charts.filter(cht => cht.dataRefObjectName == ch.name)
     och.forEach(chto => {
@@ -468,8 +469,11 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
   }
 
   UpdateAllTabs() {
-    this.maskMessage = "Updating charts and tables. Please wait..."
-    this.isLoadingRecords = true;
+
+    if (!this.printerFriendly) {
+      this.maskMessage = "Updating charts and tables. Please wait..."
+      this.isLoadingRecords = true;
+    }
 
     setTimeout(() => {
 
@@ -490,7 +494,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
 
   UpdateTab(tabName: string, isLastTab?: boolean) {
-    if(isLastTab == undefined) isLastTab = true;
+    if (isLastTab == undefined) isLastTab = true;
 
     const reqParams: Array<RequestParams> = [];
     const paramConfigData: any = {}

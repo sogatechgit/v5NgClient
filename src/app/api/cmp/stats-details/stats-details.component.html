@@ -23,11 +23,11 @@
                 style="position: relative;" [ngStyle]="tbl.wrapStyle">
 
                 <app-data-grid-b [flatTable]="true" [name]="tab.name + '_' + tbl.name" #grid
-                    style="top:0px;margin-top:-3px;padding:0px;border:none;position:relative;" [RowHeight]="26"
-                    [RowHeaderHeight]="30" [RowHeaderWidth]="0" [noBarMenu]="true" [dataSet]="ds"
-                    [pageSizes]="tbl.pageSizes" [activeFiltering]="tbl.allowFilter!=undefined ? tbl.allowFilter : false"
-                    gridHeaderClassName="alt-a" [tableCode]="tbl.tableCode" autoGrid="true" [noFooter]="tbl.noFooter"
-                    fontFactor="0.95" noBarMenu="true" noToolbar="true" (rowClick)="RowClick($event)">
+                    style="top:0px;margin-top:-3px;padding:0px;border:none;position:relative;" 
+                    [RowHeight]="26"
+                    [RowHeaderHeight]="30" [RowHeaderWidth]="0" [dataSet]="ds"
+                    gridHeaderClassName="alt-a" [tableCode]="tbl.tableCode" autoGrid="true"
+                    fontFactor="0.95" noBarMenu="true" noToolbar="true" >
                 </app-data-grid-b>
             </div>
 

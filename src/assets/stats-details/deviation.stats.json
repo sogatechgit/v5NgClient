@@ -107,6 +107,13 @@
 				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
 				"gap": "3px"
 			},
+			"stylePrint": {
+
+				"background-color":"khaki",
+				"grid-template": "auto 300px auto auto / 1fr 1fr",
+				"grid-template-areas": "\"hdr_charts hdr_charts\" \"perf_bar perf_pie\" \"hdr_list hdr_list\" \"dev_list dev_list\"",
+				"gap": "3px"
+			},
 			"headers": [
 				{
 					"name": "hdr_charts",
