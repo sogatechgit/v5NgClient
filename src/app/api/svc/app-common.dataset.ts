@@ -369,11 +369,17 @@ export class DatasetBase extends AppCommonMethods {
 
     let reqConfig: RequestParams = null;
 
+
+
     reqParams.forEach((p) => {
       // create string JSON to log to history.
       // historical request checking is very IMPORTANT !!!
       // in order to prevent same requests to be processed
       // multiple times ...
+
+      // EXCLUDE KEY_AUTONUMBER FROM THE INCLUDED FIELD IF
+      if(p.includedFields)if(p.includedFields.indexOf('KEY_AUTONUMBER`')!=-1) p.includedFields = p.includedFields.replace('KEY_AUTONUMBER`','');
+
       const jStr: string = JSON.stringify(p);
 
       // clear history if datatable will have different set of rows

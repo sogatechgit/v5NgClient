@@ -1,5 +1,5 @@
 /***********************************************************************
-* Automatically generated on 7/29/2021 7:03:26 AM
+* Automatically generated on 8/4/2021 3:25:50 PM
 ***********************************************************************/
 
 import { AppCommonMethodsService } from '../api/svc/app-common-methods.service';
@@ -2837,7 +2837,6 @@ export class QryDevMain extends TableBase {
 	private _links:Array<any> = [];
 	public clientConfig:any = {
   "roles": "",
-  "keyField": "DEVID",
   "gridColumns": [
     "REFNUM|cap=Ref.No.;center;wd=100",
     "DEVTITLE|cap=Title;mnw=120",
@@ -2848,6 +2847,10 @@ export class QryDevMain extends TableBase {
     "CLOSED|cap=Closed;center;wd=100",
     "STATUS|cap=Current Status;center;wd=110",
     "RESPONSIBLE|cap=Responsible;wd=110"
+  ],
+  "gridColumnsSummaryA": [
+    "DSTSTATUS|cap=Status;center;wd=200",
+    "count(DEVID)@TOTAL|cap=Total;wd=100"
   ]
 };
 

@@ -880,7 +880,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
         reqParams.push({
           code: source,
-          includedFields: `min(${value})@MIN\`max(${value})@MAX`,
+          includedFields: `min(${value})@MINVALUE\`max(${value})@MAXVALUE`,
           snapshot: true
         });
 
@@ -888,7 +888,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
         reqParams.push({
           code: source,
-          includedFields: `${value}@VALUE\`${display ? display : value}@DISPLAY`,
+          includedFields: `${value}@DATAVALUE\`${display ? display : value}@DISPLAY`,
           sortFields: sort,
           snapshot: true,
           distinct: true
@@ -941,9 +941,9 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
             if (rows) {
               if (minmax) {
                 const row = rows[0];
-                const { MIN, MAX } = row.XTRA;
+                const { MINVALUE, MAXVALUE } = row.XTRA;
 
-                for (let idx = MIN; idx <= (MAX - rangeStep); idx++) {
+                for (let idx = MINVALUE; idx <= (MAXVALUE - rangeStep); idx++) {
                   const years: string[] = [];
                   // build option values
                   for (let yr = idx; yr <= (idx + rangeStep); yr++) {
@@ -956,7 +956,7 @@ export class StatsDetailsComponent implements OnInit, AfterViewInit {
 
               } else {
                 rows.forEach(row => {
-                  opts.push({ value: row.XTRA.VALUE, display: row.XTRA.DISPLAY })
+                  opts.push({ value: row.XTRA.DATAVALUE, display: row.XTRA.DISPLAY })
                 })
               }
 

@@ -792,7 +792,12 @@ export class TableBase extends AppCommonMethods {
 
           if (col)
             // add column value to the new row when it is part of the columns definition of the table
-            row[col.name] = e[idx];
+            // if(col.name == 'KEY_AUTONUMBER'){
+            //   //row.KEY_AUTONUMBER = 1;
+            //   console.log("@@@@@@@ auto number @@@@@")
+            // }else{
+              row[col.name] = e[idx];
+            // }
           else {
             // add column value to xtra field property
             // XTRA fields are those requested ones that
@@ -1040,6 +1045,20 @@ export class TableBase extends AppCommonMethods {
 
   InitializeTable(): void {
     this.keyFields = this.KeyColumns('keyPosition');
+
+    if(this.keyFields.length == 0){
+      // add autid column an set it as the record id field
+      //this.columns.push(new ColumnInfo('AN_ID', 'number', '', '', '', 0, -1, -1, -1, -1, false, false, false, this));
+      //this.columns.push(new ColumnInfo('KEY_AUTONUMBER', 'number', '', '', '', 0, -1, -1, -1, -1, false, false, false, this));
+
+      // this.columns.push(new ColumnInfo('KEY_AUTONUMBER', 'number', '', '', '', 0, -1, -1, -1, -1, false, false, false, this));
+      // this.keyFields = this.KeyColumns('keyPosition');
+
+    }
+
+    if(this.tableCode=='devmain')
+      console.log("InitializeTable this.keyFields: ",this.keyFields);
+
     this.keyGroupFields = this.KeyColumns('groupPosition');
     this.keyUniqueFields = this.KeyColumns('uniquePosition');
     this.keySortFields = this.KeyColumns('sortPosition');

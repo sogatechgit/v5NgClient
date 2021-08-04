@@ -189,6 +189,7 @@ export class DataGridBComponent
         : tblCfg.gridColumns;
 
       if (gridCfg) gridCfg.forEach((gcol) => this.SetGridColumnDef(gcol));
+      
     } else {
       // grid column definition is done within the component controller
       console.log('\nDataGrid-B parent: ', this.parent);
