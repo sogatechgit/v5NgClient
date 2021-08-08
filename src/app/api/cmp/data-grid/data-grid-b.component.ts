@@ -99,7 +99,7 @@ export class DataGridBComponent
 
   ngOnInit(): void {
 
-    if(this.flatTable) return;
+    if (this.flatTable) return;
 
     this._reqInfo.pageSize = this.DEFAULT_PAGE_SIZE;
 
@@ -178,7 +178,6 @@ export class DataGridBComponent
       opt.BaseFilterDefineOff();
     }
 
-    console.log("this.autoGrid || this.customGrid : ", this.autoGrid, " ### ")
 
     if (this.autoGrid || this.customGrid) {
       // perform data grid columns definition using the
@@ -188,8 +187,17 @@ export class DataGridBComponent
         ? tbl.clientConfig[this.customGrid]
         : tblCfg.gridColumns;
 
-      if (gridCfg) gridCfg.forEach((gcol) => this.SetGridColumnDef(gcol));
+
+      const testGrid = tbl.clientConfig.gridColumnsStatsSummary;
+      console.log("@***CONFIG GRID: ", gridCfg, "\n@***TEST GRID: ", testGrid)
       
+
+      // process individual grid column!!!
+      if (gridCfg) 
+        gridCfg.forEach((gcol) => {
+          this.SetGridColumnDef(gcol)
+        });
+
     } else {
       // grid column definition is done within the component controller
       console.log('\nDataGrid-B parent: ', this.parent);
@@ -1298,14 +1306,6 @@ export class DataGridBComponent
     params.pageSize = 1000000;
     params.pageNumber = 1;
 
-    console.log(
-      '\nparams.includedFields: ',
-      isDate,
-      FilterDataType.DATE,
-      dataType,
-      params.includedFields
-    );
-
     // call get method..
 
     this.dataSet.Get([params], {
@@ -1771,11 +1771,13 @@ export class DataGridBComponent
     const { noMask, message, newKey, onSuccess, onError } = args;
     let reqParam: RequestParams = this.ReqParam;
 
+    console.log("@@@@ ### params: ", reqParam,"\nOptions: ",this.options,"\nFields: ", this.options.FieldList);
+
     if (!noMask) this.ShowMask(message);
 
     const subsb: Subscription = this.dataSet.Get([reqParam], {
       onSuccess: (data) => {
-        // console.log('\nDataGrid-B ExtractData:', data);
+        console.log('\nDataGrid-B ExtractData:', data, reqParam,"\nOptions: ", this.options);
         // use integrated lookup to display values on grid
         this.grid.sourceLookups = data.processed.lookups[0];
         // set sourceRows to the first element (Array of row data type) in the processed data
@@ -1949,6 +1951,8 @@ export class DataGridBComponent
       this._options = opt;
     }
 
+
+
     return this._options;
   }
 
@@ -1957,7 +1961,7 @@ export class DataGridBComponent
   }
 
   resetColumnWidths() {
-    if(!this.grid) return;
+    if (!this.grid) return;
     setTimeout(() => this.grid.resetColumnWidths(), 10);
   }
 

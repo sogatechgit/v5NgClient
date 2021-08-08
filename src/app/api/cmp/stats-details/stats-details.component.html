@@ -90,7 +90,9 @@
                             [RowHeaderHeight]="30" [RowHeaderWidth]="0" [noBarMenu]="true" [dataSet]="ds"
                             [pageSizes]="tbl.pageSizes"
                             [activeFiltering]="tbl.allowFilter!=undefined ? tbl.allowFilter : false"
-                            gridHeaderClassName="alt-a" [tableCode]="tbl.tableCode" autoGrid="true"
+                            gridHeaderClassName="alt-a" [tableCode]="tbl.tableCode" 
+                            [autoGrid]="tbl.gridColumnsDef ? false : true"
+                            [customGrid] = "tbl.gridColumnsDef ? tbl.gridColumnsDef : ''"
                             [noFooter]="tbl.noFooter" fontFactor="0.95" noBarMenu="true" noToolbar="true"
                             (rowClick)="RowClick($event)">
                         </app-data-grid-b>
